@@ -1,0 +1,725 @@
+/* design-system-generator.css */
+/* ===================================
+   极简设计系统 - 自动生成器
+   只需配置 5 个核心变量即可使用
+   =================================== */
+
+/* 核心配置变量 */
+:root {
+  /* 🎨 用户只需配置这 5 个变量 */
+  --brand-hue: 217;        /* 主色调 (0-360) */
+  --brand-saturation: 91%; /* 饱和度 (0-100%) */
+  --radius-scale: 1;       /* 圆角缩放 */
+  --spacing-scale: 1;      /* 间距缩放 */
+  --font-family: system-ui, -apple-system, sans-serif;
+  
+  /* ♿ 无障碍配置 */
+  --font-scale: 1;         /* 字体缩放 */
+  --contrast-mode: normal; /* 对比度模式 */
+  --reduce-motion: 0;      /* 减少动画 */
+}
+
+/* 应用字体缩放 */
+html {
+  font-size: calc(16px * var(--font-scale));
+}
+
+/* 自动生成的设计系统 */
+:root {
+  /* 色彩系统 - 品牌色 */
+  --brand-50: hsl(var(--brand-hue), var(--brand-saturation), 98%);
+  --brand-100: hsl(var(--brand-hue), var(--brand-saturation), 96%);
+  --brand-200: hsl(var(--brand-hue), var(--brand-saturation), 91%);
+  --brand-300: hsl(var(--brand-hue), var(--brand-saturation), 84%);
+  --brand-400: hsl(var(--brand-hue), var(--brand-saturation), 65%);
+  --brand-500: hsl(var(--brand-hue), var(--brand-saturation), 50%);
+  --brand-600: hsl(var(--brand-hue), var(--brand-saturation), 40%);
+  --brand-700: hsl(var(--brand-hue), var(--brand-saturation), 30%);
+  --brand-800: hsl(var(--brand-hue), var(--brand-saturation), 20%);
+  --brand-900: hsl(var(--brand-hue), var(--brand-saturation), 10%);
+  
+  /* 色彩系统 - 中性色 */
+  --gray-50: hsl(var(--brand-hue), 10%, 98%);
+  --gray-100: hsl(var(--brand-hue), 10%, 96%);
+  --gray-200: hsl(var(--brand-hue), 10%, 91%);
+  --gray-300: hsl(var(--brand-hue), 10%, 84%);
+  --gray-400: hsl(var(--brand-hue), 10%, 65%);
+  --gray-500: hsl(var(--brand-hue), 10%, 50%);
+  --gray-600: hsl(var(--brand-hue), 10%, 40%);
+  --gray-700: hsl(var(--brand-hue), 10%, 30%);
+  --gray-800: hsl(var(--brand-hue), 10%, 20%);
+  --gray-900: hsl(var(--brand-hue), 10%, 10%);
+  
+  /* 间距系统 */
+  --space-unit: calc(0.25rem * var(--spacing-scale));
+  --space-0: 0;
+  --space-1: calc(var(--space-unit) * 1);    /* 4px */
+  --space-2: calc(var(--space-unit) * 2);    /* 8px */
+  --space-3: calc(var(--space-unit) * 3);    /* 12px */
+  --space-4: calc(var(--space-unit) * 4);    /* 16px */
+  --space-5: calc(var(--space-unit) * 5);    /* 20px */
+  --space-6: calc(var(--space-unit) * 6);    /* 24px */
+  --space-8: calc(var(--space-unit) * 8);    /* 32px */
+  --space-10: calc(var(--space-unit) * 10);  /* 40px */
+  --space-12: calc(var(--space-unit) * 12);  /* 48px */
+  --space-16: calc(var(--space-unit) * 16);  /* 64px */
+  
+  /* 字体系统 */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  
+  /* 字重 */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* 圆角系统 */
+  --radius-base: calc(0.375rem * var(--radius-scale));
+  --radius-none: 0;
+  --radius-sm: calc(var(--radius-base) * 0.66);  /* ~4px */
+  --radius: var(--radius-base);                   /* ~6px */
+  --radius-md: calc(var(--radius-base) * 1.33);  /* ~8px */
+  --radius-lg: calc(var(--radius-base) * 2);     /* ~12px */
+  --radius-xl: calc(var(--radius-base) * 3);     /* ~18px */
+  --radius-full: 9999px;
+  
+  /* 阴影系统 */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* 🎨 高端渐变色系统 Premium Gradients - 精选6款 */
+  
+  /* 1. 强调渐变 - 从强调色到普通色（文字专用，左深右浅） */
+  --gradient-emphasis: linear-gradient(90deg, 
+    var(--gray-900) 0%,      /* 深黑强调 */
+    var(--gray-800) 30%,
+    var(--gray-600) 60%,
+    var(--gray-400) 100%);   /* 淡化为普通灰 */
+  
+  /* 2. 品牌渐变 - 基于主品牌色的动态渐变 */
+  --gradient-brand: linear-gradient(135deg, 
+    hsl(var(--brand-hue), var(--brand-saturation), 60%), 
+    hsl(calc(var(--brand-hue) + 30), var(--brand-saturation), 50%));
+  
+  /* 3. 极光渐变 - 紫蓝到粉紫高端视觉效果 */
+  --gradient-aurora: linear-gradient(135deg, 
+    #667eea 0%,      /* 紫蓝 */
+    #764ba2 50%,     /* 紫红 */
+    #f093fb 100%);   /* 粉紫 */
+  
+  /* 4. 火焰渐变 - 深红到金黄热情效果 */
+  --gradient-fire: linear-gradient(135deg,
+    #f12711 0%,      /* 深红 */
+    #f5af19 100%);   /* 金黄 */
+  
+  /* 5. 海洋渐变 - 深海蓝到青蓝清新效果 */
+  --gradient-ocean: linear-gradient(135deg,
+    #2E3192 0%,      /* 深海蓝 */
+    #1BFFFF 100%);   /* 青蓝 */
+  
+  /* 6. 落日渐变 - 橙色到品红温暖效果 */
+  --gradient-sunset: linear-gradient(135deg,
+    #ff6a00 0%,      /* 橙色 */
+    #ee0979 100%);   /* 品红 */
+  
+  /* 语义化强调渐变 - 用于特定场景的文字强调 */
+  --gradient-brand-emphasis: linear-gradient(90deg,
+    var(--brand-600) 0%,      /* 品牌色强调 */
+    var(--brand-500) 25%,
+    var(--brand-400) 50%,
+    var(--gray-400) 100%);    /* 淡化为浅灰 */
+  
+  --gradient-success-emphasis: linear-gradient(90deg,
+    #22c55e 0%,               /* 绿色强调 */
+    #34d399 25%,
+    #6ee7b7 50%,
+    var(--gray-400) 100%);    /* 淡化为浅灰 */
+  
+  --gradient-warning-emphasis: linear-gradient(90deg,
+    #f59e0b 0%,               /* 橙色强调 */
+    #fbbf24 25%,
+    #fcd34d 50%,
+    var(--gray-400) 100%);    /* 淡化为浅灰 */
+  
+  --gradient-danger-emphasis: linear-gradient(90deg,
+    #ef4444 0%,               /* 红色强调 */
+    #f87171 25%,
+    #fca5a5 50%,
+    var(--gray-400) 100%);    /* 淡化为浅灰 */
+  
+  /* 补充的装饰性渐变 - 用于特殊效果 */
+  --gradient-animated: linear-gradient(-45deg, 
+    #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  --gradient-animated-size: 400% 400%;
+  
+  --gradient-brand-subtle: linear-gradient(135deg,
+    var(--brand-100) 0%,
+    var(--brand-50) 100%);
+  
+  --gradient-glass: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%);
+  
+  --gradient-brand-radial: radial-gradient(circle at center,
+    var(--brand-400) 0%,
+    var(--brand-500) 50%,
+    var(--brand-600) 100%);
+  
+  /* 动画 */
+  --duration-fast: 150ms;
+  --duration: 200ms;
+  --duration-slow: 300ms;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease: var(--ease-in-out);
+  
+  /* 语义化颜色 - 亮色主题（默认） */
+  --color-background: #ffffff;
+  --color-foreground: var(--gray-900);
+  --color-card: #ffffff;
+  --color-primary: var(--brand-600);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--brand-100);
+  --color-secondary-foreground: var(--brand-700);
+  --color-muted: var(--gray-100);
+  --color-muted-foreground: var(--gray-600);
+  --color-accent: var(--gray-100);
+  --color-accent-foreground: var(--gray-900);
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --color-border: var(--gray-200);
+  --color-input: var(--gray-200);
+  --color-ring: hsla(var(--brand-hue), var(--brand-saturation), 50%, 0.3);
+  
+  /* 🎨 层级标题颜色系统 - Hierarchical Heading Colors */
+  --color-heading-1: var(--gray-900);  /* 主标题 - 最深色 */
+  --color-heading-2: var(--gray-800);  /* 二级标题 */
+  --color-heading-3: var(--gray-700);  /* 三级标题 */
+  --color-heading-4: var(--gray-600);  /* 四级标题 */
+  --color-heading-5: var(--gray-500);  /* 五级标题 */
+  --color-heading-6: var(--gray-400);  /* 六级标题 - 最浅色 */
+  
+  /* 特殊标题颜色 */
+  --color-heading-primary: var(--brand-600);     /* 品牌色标题 */
+  --color-heading-gradient: var(--gradient-brand); /* 渐变标题 */
+  --color-heading-muted: var(--gray-400);        /* 弱化标题 */
+  
+  /* 📝 层级描述文字系统 - Hierarchical Description Text */
+  --color-description-1: var(--gray-700);  /* 主要描述 - 较深 */
+  --color-description-2: var(--gray-600);  /* 次要描述 */
+  --color-description-3: var(--gray-500);  /* 辅助描述 */
+  --color-description-4: var(--gray-400);  /* 提示描述 - 较浅 */
+  
+  /* 特殊描述颜色 */
+  --color-description-primary: var(--brand-500);   /* 品牌色描述 */
+  --color-description-muted: var(--gray-400);      /* 弱化描述 */
+  --color-description-success: #22c55e;            /* 成功描述 */
+  --color-description-warning: #f59e0b;            /* 警告描述 */
+  --color-description-danger: #ef4444;             /* 危险描述 */
+  
+  /* 📊 层级数值系统 - Hierarchical Value/Data System */
+  --color-value-1: var(--gray-900);        /* 主要数值 - 最深 */
+  --color-value-2: var(--gray-800);        /* 重要数值 */
+  --color-value-3: var(--gray-700);        /* 一般数值 */
+  --color-value-4: var(--gray-600);        /* 次要数值 */
+  --color-value-5: var(--gray-500);        /* 辅助数值 */
+  --color-value-6: var(--gray-400);        /* 提示数值 - 最浅 */
+  
+  /* 特殊数值颜色 */
+  --color-value-primary: var(--brand-600);         /* 品牌色数值 */
+  --color-value-positive: #22c55e;                 /* 正值/增长 */
+  --color-value-negative: #ef4444;                 /* 负值/下降 */
+  --color-value-neutral: var(--gray-600);          /* 中性数值 */
+  --color-value-code: var(--gray-800);             /* 代码数值 */
+  
+  /* 🔤 等宽字体系统 - Monospace Font System */
+  --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Courier New', monospace;
+  --font-family-number: 'Tabular', var(--font-family-mono);  /* 数字专用等宽 */
+  
+  /* 📦 层级面板背景系统 - Hierarchical Panel Backgrounds */
+  --color-panel-0: var(--color-background);         /* 基础背景 - 纯白 */
+  --color-panel-1: hsl(var(--brand-hue), 10%, 98%); /* 一级面板 - 极浅灰 */
+  --color-panel-2: hsl(var(--brand-hue), 12%, 95%); /* 二级面板 - 浅灰 */
+  --color-panel-3: hsl(var(--brand-hue), 14%, 92%); /* 三级面板 - 中浅灰 */
+  --color-panel-4: hsl(var(--brand-hue), 16%, 88%); /* 四级面板 - 中灰 */
+  --color-panel-5: hsl(var(--brand-hue), 18%, 84%); /* 五级面板 - 深灰 */
+  
+  /* 特殊面板背景 */
+  --color-panel-elevated: #ffffff;                    /* 悬浮面板 */
+  --color-panel-sunken: var(--gray-50);              /* 下沉面板 */
+  --color-panel-accent: var(--brand-50);             /* 强调面板 */
+  --color-panel-muted: hsl(var(--brand-hue), 5%, 97%); /* 弱化面板 */
+  --color-panel-glass: rgba(255, 255, 255, 0.8);     /* 玻璃态面板 */
+  
+  /* 面板边框（随层级加深） */
+  --color-panel-border-1: var(--gray-100);
+  --color-panel-border-2: var(--gray-200);
+  --color-panel-border-3: var(--gray-300);
+  --color-panel-border-4: var(--gray-400);
+  --color-panel-border-5: var(--gray-500);
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --color-background: var(--gray-900);
+  --color-foreground: var(--gray-100);  /* 柔和白色，减少刺眼感 */
+  --color-card: var(--gray-800);
+  --color-primary: var(--brand-500);
+  --color-primary-foreground: var(--gray-900);
+  --color-secondary: var(--brand-900);
+  --color-secondary-foreground: var(--brand-200);
+  --color-muted: var(--gray-700);
+  --color-muted-foreground: var(--gray-400);
+  --color-accent: var(--gray-700);
+  --color-accent-foreground: var(--gray-100);  /* 柔和白色 */
+  --color-border: var(--gray-700);
+  --color-input: var(--gray-700);
+  
+  /* 暗色主题下，强调渐变自动转换为柔和白色系 */
+  --gradient-emphasis: linear-gradient(90deg,
+    var(--gray-100) 0%,      /* 柔和白色强调 */
+    var(--gray-200) 30%,
+    var(--gray-400) 60%,
+    var(--gray-500) 100%);   /* 淡化为普通灰 */
+  
+  --gradient-brand-emphasis: linear-gradient(90deg,
+    var(--brand-400) 0%,      /* 品牌色强调 */
+    var(--brand-500) 25%,
+    var(--brand-600) 50%,
+    var(--gray-500) 100%);    /* 淡化为暗灰 */
+  
+  --gradient-success-emphasis: linear-gradient(90deg,
+    #6ee7b7 0%,               /* 亮绿强调 */
+    #86efac 25%,
+    #bbf7d0 50%,
+    var(--gray-500) 100%);    /* 淡化为暗灰 */
+  
+  --gradient-warning-emphasis: linear-gradient(90deg,
+    #fcd34d 0%,               /* 亮橙强调 */
+    #fde047 25%,
+    #fef3c7 50%,
+    var(--gray-500) 100%);    /* 淡化为暗灰 */
+  
+  --gradient-danger-emphasis: linear-gradient(90deg,
+    #fca5a5 0%,               /* 亮红强调 */
+    #fecaca 25%,
+    #fee2e2 50%,
+    var(--gray-500) 100%);    /* 淡化为暗灰 */
+  
+  /* 暗色主题 - 装饰性渐变 */
+  --gradient-brand-subtle: linear-gradient(135deg,
+    var(--brand-900) 0%,
+    var(--brand-800) 100%);
+  
+  --gradient-glass: linear-gradient(135deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.05) 100%);
+  
+  --gradient-brand-radial: radial-gradient(circle at center,
+    var(--brand-600) 0%,
+    var(--brand-500) 50%,
+    var(--brand-400) 100%);
+  
+  /* 暗色主题 - 层级标题颜色（柔和对比度） */
+  --color-heading-1: var(--gray-100);  /* 主标题 - 柔和亮色 */
+  --color-heading-2: var(--gray-200);  /* 二级标题 */
+  --color-heading-3: var(--gray-300);  /* 三级标题 */
+  --color-heading-4: var(--gray-400);  /* 四级标题 */
+  --color-heading-5: var(--gray-500);  /* 五级标题 */
+  --color-heading-6: var(--gray-600);  /* 六级标题 - 较暗色 */
+  
+  --color-heading-primary: var(--brand-400);
+  --color-heading-muted: var(--gray-500);
+  
+  /* 暗色主题 - 层级描述文字 */
+  --color-description-1: var(--gray-300);  /* 主要描述 - 较亮 */
+  --color-description-2: var(--gray-400);  /* 次要描述 */
+  --color-description-3: var(--gray-500);  /* 辅助描述 */
+  --color-description-4: var(--gray-600);  /* 提示描述 - 较暗 */
+  
+  --color-description-primary: var(--brand-400);
+  --color-description-muted: var(--gray-600);
+  --color-description-success: #6ee7b7;
+  --color-description-warning: #fcd34d;
+  --color-description-danger: #fca5a5;
+  
+  /* 暗色主题 - 层级数值系统（柔和对比度） */
+  --color-value-1: var(--gray-100);        /* 主要数值 - 柔和亮色 */
+  --color-value-2: var(--gray-200);        /* 重要数值 */
+  --color-value-3: var(--gray-300);        /* 一般数值 */
+  --color-value-4: var(--gray-400);        /* 次要数值 */
+  --color-value-5: var(--gray-500);        /* 辅助数值 */
+  --color-value-6: var(--gray-600);        /* 提示数值 - 较暗 */
+  
+  --color-value-primary: var(--brand-400);
+  --color-value-positive: #86efac;         /* 柔和绿色 */
+  --color-value-negative: #fca5a5;         /* 柔和红色 */
+  --color-value-neutral: var(--gray-400);
+  --color-value-code: var(--gray-200);     /* 柔和代码色 */
+  
+  /* 暗色主题 - 层级面板背景 */
+  --color-panel-0: hsl(var(--brand-hue), 10%, 8%);     /* 基础背景 - 最深 */
+  --color-panel-1: hsl(var(--brand-hue), 10%, 11%);    /* 一级面板 */
+  --color-panel-2: hsl(var(--brand-hue), 10%, 14%);    /* 二级面板 */
+  --color-panel-3: hsl(var(--brand-hue), 10%, 17%);    /* 三级面板 */
+  --color-panel-4: hsl(var(--brand-hue), 10%, 20%);    /* 四级面板 */
+  --color-panel-5: hsl(var(--brand-hue), 10%, 24%);    /* 五级面板 - 最亮 */
+  
+  --color-panel-elevated: hsl(var(--brand-hue), 10%, 15%);
+  --color-panel-sunken: hsl(var(--brand-hue), 10%, 10%);
+  --color-panel-accent: hsl(var(--brand-hue), 30%, 15%);
+  --color-panel-muted: hsl(var(--brand-hue), 5%, 13%);
+  --color-panel-glass: rgba(30, 30, 30, 0.8);
+  
+  /* 暗色主题 - 面板边框 */
+  --color-panel-border-1: hsl(var(--brand-hue), 10%, 20%);
+  --color-panel-border-2: hsl(var(--brand-hue), 10%, 25%);
+  --color-panel-border-3: hsl(var(--brand-hue), 10%, 30%);
+  --color-panel-border-4: hsl(var(--brand-hue), 10%, 35%);
+  --color-panel-border-5: hsl(var(--brand-hue), 10%, 40%);
+}
+
+/* 高对比度模式 */
+[data-contrast="high"] {
+  --color-primary: var(--brand-700);
+  --color-muted-foreground: var(--gray-700);
+  --color-border: var(--gray-400);
+  font-weight: 500;
+}
+
+/* 超高对比度模式 */
+[data-contrast="ultra"] {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-primary: #000000;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #ffffff;
+  --color-secondary-foreground: #000000;
+  --color-border: #000000;
+  --color-muted: #f0f0f0;
+  --color-muted-foreground: #000000;
+}
+
+[data-contrast="ultra"] * {
+  font-weight: 600 !important;
+}
+
+[data-contrast="ultra"] button,
+[data-contrast="ultra"] input,
+[data-contrast="ultra"] select,
+[data-contrast="ultra"] textarea {
+  border-width: 2px !important;
+  border-color: #000000 !important;
+}
+
+[data-contrast="ultra"][data-theme="dark"] {
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+  --color-primary: #ffffff;
+  --color-primary-foreground: #000000;
+  --color-secondary: #000000;
+  --color-secondary-foreground: #ffffff;
+  --color-border: #ffffff;
+  --color-muted: #1a1a1a;
+  --color-muted-foreground: #ffffff;
+}
+
+[data-contrast="ultra"][data-theme="dark"] button,
+[data-contrast="ultra"][data-theme="dark"] input,
+[data-contrast="ultra"][data-theme="dark"] select,
+[data-contrast="ultra"][data-theme="dark"] textarea {
+  border-color: #ffffff !important;
+}
+
+/* 减少动画 */
+[data-reduce-motion="true"] * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 字间距 */
+[data-letter-spacing="wide"] {
+  letter-spacing: 0.05em;
+}
+
+[data-letter-spacing="wider"] {
+  letter-spacing: 0.1em;
+}
+
+/* 行高 */
+[data-line-height="relaxed"] {
+  line-height: 1.8;
+}
+
+[data-line-height="relaxed"] * {
+  line-height: 1.8 !important;
+}
+
+[data-line-height="loose"] {
+  line-height: 2.2;
+}
+
+[data-line-height="loose"] * {
+  line-height: 2.2 !important;
+}
+
+/* 字体大小预设 */
+[data-font-size="small"] {
+  --font-scale: 0.875;
+}
+
+[data-font-size="normal"] {
+  --font-scale: 1;
+}
+
+[data-font-size="large"] {
+  --font-scale: 1.125;
+}
+
+[data-font-size="x-large"] {
+  --font-scale: 1.25;
+}
+
+[data-font-size="xx-large"] {
+  --font-scale: 1.5;
+}
+
+/* 基础样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-foreground);
+  background: var(--color-background);
+  transition: color var(--duration) var(--ease), 
+              background-color var(--duration) var(--ease);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 聚焦增强 */
+*:focus-visible {
+  outline: 3px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* 响应用户偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --color-primary: var(--brand-700);
+    --color-border: var(--gray-400);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-background: var(--gray-900);
+    --color-foreground: var(--gray-100);  /* 柔和白色 */
+    --color-card: var(--gray-800);
+    --color-primary: var(--brand-500);
+    --color-primary-foreground: var(--gray-900);
+    --color-secondary: var(--brand-900);
+    --color-secondary-foreground: var(--brand-200);
+    --color-muted: var(--gray-700);
+    --color-muted-foreground: var(--gray-400);
+    --color-border: var(--gray-700);
+  }
+}
+
+/* 渐变动画类 */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes gradient-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* 渐变实用类 */
+.gradient-animated {
+  background: var(--gradient-animated);
+  background-size: var(--gradient-animated-size);
+  animation: gradient-shift 15s ease infinite;
+}
+
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+}
+
+.gradient-border {
+  position: relative;
+  background: var(--color-background);
+  border-radius: var(--radius-lg);
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-brand);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* 渐变卡片样式 */
+.gradient-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.gradient-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease);
+}
+
+.gradient-card:hover::before {
+  opacity: 1;
+}
+
+/* 玻璃态效果 */
+.glass-card {
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 光晕效果 */
+.glow-effect {
+  position: relative;
+}
+
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: var(--gradient-brand-radial);
+  filter: blur(40px);
+  opacity: 0.4;
+  z-index: -1;
+  transition: opacity var(--duration-slow) var(--ease);
+}
+
+.glow-effect:hover::after {
+  opacity: 0.6;
+}
+
+/* 渐变预览样式 */
+.gradient-preview {
+  width: 100%;
+  min-height: 60px;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: transform var(--duration) var(--ease);
+}
+
+.gradient-preview:hover {
+  transform: scale(1.02);
+}
+
+/* 🎨 层级标题样式类 */
+h1, .h1 { color: var(--color-heading-1); }
+h2, .h2 { color: var(--color-heading-2); }
+h3, .h3 { color: var(--color-heading-3); }
+h4, .h4 { color: var(--color-heading-4); }
+h5, .h5 { color: var(--color-heading-5); }
+h6, .h6 { color: var(--color-heading-6); }
+
+.heading-primary { color: var(--color-heading-primary); }
+.heading-muted { color: var(--color-heading-muted); }
+.heading-gradient {
+  background: var(--color-heading-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 📦 层级面板样式类 */
+.panel-0 { background: var(--color-panel-0); }
+.panel-1 { 
+  background: var(--color-panel-1);
+  border: 1px solid var(--color-panel-border-1);
+}
+.panel-2 { 
+  background: var(--color-panel-2);
+  border: 1px solid var(--color-panel-border-2);
+}
+.panel-3 { 
+  background: var(--color-panel-3);
+  border: 1px solid var(--color-panel-border-3);
+}
+.panel-4 { 
+  background: var(--color-panel-4);
+  border: 1px solid var(--color-panel-border-4);
+}
+.panel-5 { 
+  background: var(--color-panel-5);
+  border: 1px solid var(--color-panel-border-5);
+}
+
+.panel-elevated {
+  background: var(--color-panel-elevated);
+  box-shadow: var(--shadow-lg);
+}
+.panel-sunken {
+  background: var(--color-panel-sunken);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.panel-accent {
+  background: var(--color-panel-accent);
+  border: 1px solid var(--brand-100);
+}
+.panel-muted {
+  background: var(--color-panel-muted);
+}
+.panel-glass {
+  background: var(--color-panel-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
