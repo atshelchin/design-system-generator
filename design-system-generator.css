@@ -98,7 +98,7 @@ html {
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   
-  /* 🎨 高端渐变色系统 Premium Gradients - 精选6款 */
+  /* 🎨 高端渐变色系统 Premium Gradients - 精选 6 款 */
   
   /* 1. 强调渐变 - 从强调色到普通色（文字专用，左深右浅） */
   --gradient-emphasis: linear-gradient(90deg, 
@@ -276,8 +276,11 @@ html {
 
 /* 暗色主题 */
 [data-theme="dark"] {
+  /* 🎨 暗色模式文字亮度控制 - 调整此值即可改变所有文字亮度 */
+  --text-brightness: 0.95;  /* 0.7-1.0 值越小越暗，1.0 为正常亮度 */
+  
   --color-background: var(--gray-900);
-  --color-foreground: var(--gray-100);  /* 柔和白色，减少刺眼感 */
+  --color-foreground: rgba(243, 244, 246, var(--text-brightness));  /* gray-100 with dynamic opacity */
   --color-card: var(--gray-800);
   --color-primary: var(--brand-500);
   --color-primary-foreground: var(--gray-900);
@@ -518,6 +521,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 /* 聚焦增强 */
 *:focus-visible {
