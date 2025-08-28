@@ -1,6 +1,6 @@
 {
   "name": "@shelchin/design-system-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modern, customizable CSS design token system with built-in dark mode support",
   "license": "MIT",
   "repository": "github:atshelchin/design-system-generator",
