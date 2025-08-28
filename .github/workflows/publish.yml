@@ -1,0 +1,219 @@
+name: Publish to NPM
+
+on:
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      npm-tag:
+        description: 'NPM tag (latest, beta, dev)'
+        required: true
+        default: 'latest'
+        type: choice
+        options:
+          - latest
+          - beta
+          - dev
+  # Automatic trigger on push to main
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+      - 'design-system-generator.css'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      should-publish: ${{ steps.check.outputs.should-publish }}
+      version: ${{ steps.version.outputs.version }}
+      npm-tag: ${{ steps.version.outputs.npm-tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Need previous commit to compare
+
+      - name: Get version info
+        id: version
+        run: |
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          
+          # Manual trigger - use input tag
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION=$BASE_VERSION
+            NPM_TAG="${{ github.event.inputs.npm-tag }}"
+            
+            # Add suffix for non-latest tags
+            if [[ "$NPM_TAG" != "latest" ]]; then
+              # Check if version already has a suffix
+              if [[ ! "$VERSION" =~ -($NPM_TAG) ]]; then
+                # Add timestamp to make version unique
+                TIMESTAMP=$(date +%Y%m%d%H%M%S)
+                VERSION="${BASE_VERSION}-${NPM_TAG}.${TIMESTAMP}"
+              fi
+            fi
+            
+            echo "npm-tag=$NPM_TAG" >> $GITHUB_OUTPUT
+          else
+            # Auto trigger from push - publish as latest
+            VERSION=$BASE_VERSION
+            echo "npm-tag=latest" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Version to publish: $VERSION with tag: $(grep npm-tag $GITHUB_OUTPUT | cut -d= -f2)"
+
+      - name: Check if should publish
+        id: check
+        run: |
+          # Always publish on manual trigger
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "Manual trigger detected"
+            echo "should-publish=true" >> $GITHUB_OUTPUT
+          else
+            # Check if version changed for auto trigger
+            if git show HEAD~1:package.json > /dev/null 2>&1; then
+              PREV_VERSION=$(git show HEAD~1:package.json | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin', 'utf8')).version")
+              CURR_VERSION=$(node -p "require('./package.json').version")
+              
+              if [ "$PREV_VERSION" != "$CURR_VERSION" ]; then
+                echo "Version changed: $PREV_VERSION -> $CURR_VERSION"
+                echo "should-publish=true" >> $GITHUB_OUTPUT
+              else
+                echo "Version unchanged: $CURR_VERSION"
+                echo "should-publish=false" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "New package.json file"
+              echo "should-publish=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+  publish:
+    needs: check-version
+    if: needs.check-version.outputs.should-publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # For creating tags
+      id-token: write # For NPM provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Validate files exist
+        run: |
+          # Ensure all required files exist
+          for file in design-system-generator.css package.json README.md; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Required file missing: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All required files present"
+
+      - name: Update version for pre-release
+        if: needs.check-version.outputs.npm-tag != 'latest'
+        run: |
+          VERSION="${{ needs.check-version.outputs.version }}"
+          npm version $VERSION --no-git-tag-version --allow-same-version
+          echo "Updated package.json version to: $VERSION"
+
+      - name: Check if version exists on NPM
+        id: npm-check
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          VERSION="${{ needs.check-version.outputs.version }}"
+          
+          # Check if this exact version exists
+          if npm view ${PACKAGE_NAME}@${VERSION} version 2>/dev/null; then
+            echo "❌ Version ${VERSION} already exists on NPM"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Version ${VERSION} is new"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish to NPM
+        if: steps.npm-check.outputs.exists != 'true'
+        run: |
+          npm publish --tag ${{ needs.check-version.outputs.npm-tag }} --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git Tag (latest only)
+        if: needs.check-version.outputs.npm-tag == 'latest' && steps.npm-check.outputs.exists != 'true'
+        run: |
+          VERSION="${{ needs.check-version.outputs.version }}"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create and push tag
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+          git push origin "v${VERSION}"
+
+      - name: Create GitHub Release (latest only)
+        if: needs.check-version.outputs.npm-tag == 'latest' && steps.npm-check.outputs.exists != 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: v${{ needs.check-version.outputs.version }}
+          body: |
+            ## 🎉 @shelchin/design-system-generator v${{ needs.check-version.outputs.version }}
+            
+            ### Installation
+            ```bash
+            npm install @shelchin/design-system-generator@latest
+            ```
+            
+            ### Usage
+            ```css
+            @import '@shelchin/design-system-generator';
+            ```
+            
+            Or in HTML:
+            ```html
+            <link rel="stylesheet" href="node_modules/@shelchin/design-system-generator/design-system-generator.css">
+            ```
+            
+            ### NPM Package
+            https://www.npmjs.com/package/@shelchin/design-system-generator
+            
+            ### Demo
+            https://atshelchin.github.io/design-system-generator/
+          draft: false
+          prerelease: false
+
+  notify:
+    needs: [check-version, publish]
+    if: always() && needs.check-version.outputs.should-publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summary
+        run: |
+          if [[ "${{ needs.publish.result }}" == "success" ]]; then
+            echo "## ✅ Successfully Published" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Package:** @shelchin/design-system-generator" >> $GITHUB_STEP_SUMMARY
+            echo "- **Version:** ${{ needs.check-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Tag:** ${{ needs.check-version.outputs.npm-tag }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Install" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "npm install @shelchin/design-system-generator@${{ needs.check-version.outputs.npm-tag }}" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          elif [[ "${{ needs.publish.result }}" == "skipped" ]]; then
+            echo "## ⏭️ Publish Skipped" >> $GITHUB_STEP_SUMMARY
+            echo "Version already exists or no changes detected" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Publish Failed" >> $GITHUB_STEP_SUMMARY
+            echo "Check the logs for details" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
