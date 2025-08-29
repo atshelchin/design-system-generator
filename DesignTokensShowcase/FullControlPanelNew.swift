@@ -48,7 +48,7 @@ struct FullControlPanelNew: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
-            .background(Color(NSColor.controlBackgroundColor))
+            .background(DesignTokens.Colors.panel2)
             .overlay(
                 Rectangle()
                     .fill(Color(NSColor.separatorColor).opacity(0.3))
@@ -267,7 +267,7 @@ struct FullControlPanelNew: View {
             }
         }
         .frame(width: 340) // 固定宽度
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(DesignTokens.Colors.panel1)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
     }

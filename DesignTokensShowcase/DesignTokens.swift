@@ -140,6 +140,39 @@ public struct DesignTokens {
     public struct Colors {
         private static var config: DesignTokensConfig { DesignTokensConfig.shared }
         
+        // MARK: - 面板背景色 Panel Colors
+        public static var panel0: Color {
+            config.isDarkMode ? Color(NSColor(white: 0.11, alpha: 1)) : Color.white
+        }
+        
+        public static var panel1: Color {
+            let h = config.brandHue
+            if config.isDarkMode {
+                return hsl(h, 10, 15)
+            }
+            return hsl(h, 10, 98)
+        }
+        
+        public static var panel2: Color {
+            let h = config.brandHue
+            if config.isDarkMode {
+                return hsl(h, 12, 18)
+            }
+            return hsl(h, 12, 95)
+        }
+        
+        public static var panel3: Color {
+            let h = config.brandHue
+            if config.isDarkMode {
+                return hsl(h, 14, 22)
+            }
+            return hsl(h, 14, 92)
+        }
+        
+        public static var panelBorder: Color {
+            config.isDarkMode ? Color(NSColor(white: 0.2, alpha: 1)) : Color(NSColor(white: 0.9, alpha: 1))
+        }
+        
         // Helper to create HSL colors matching CSS hsl() function
         private static func hsl(_ hue: Double, _ saturation: Double, _ lightness: Double, opacity: Double = 1.0) -> Color {
             // Convert HSL to RGB for SwiftUI Color
@@ -233,7 +266,15 @@ public struct DesignTokens {
         
         // Semantic colors - Light Mode
         public static var primary: Color {
-            config.isDarkMode ? brand500 : brand600
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
+            // Handle high contrast mode
+            if config.contrast == .high {
+                return config.isDarkMode ? brand300 : brand700
+            }
+            return config.isDarkMode ? brand500 : brand600
         }
         public static var primaryForeground: Color {
             config.isDarkMode ? gray900 : Color.white
@@ -266,11 +307,33 @@ public struct DesignTokens {
             config.isDarkMode ? Color(hex: "#93c5fd") : Color(hex: "#3b82f6")
         }
         
+        // Additional semantic colors
+        public static var positive: Color {
+            config.isDarkMode ? Color(hex: "#86efac") : Color(hex: "#22c55e")
+        }
+        public static var negative: Color {
+            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+        }
+        public static var neutral: Color {
+            config.isDarkMode ? gray400 : gray600
+        }
+        public static var code: Color {
+            config.isDarkMode ? gray200 : gray800
+        }
+        
         // Functional colors
         public static var background: Color {
-            config.isDarkMode ? gray900 : Color.white
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.black : Color.white
+            }
+            return config.isDarkMode ? gray900 : Color.white
         }
         public static var foreground: Color {
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
             if config.isDarkMode {
                 return Color(white: 0.95) // Text brightness control
             }
@@ -295,7 +358,15 @@ public struct DesignTokens {
             config.isDarkMode ? gray900 : Color.white
         }
         public static var border: Color {
-            config.isDarkMode ? gray700 : gray200
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
+            // Handle high contrast mode
+            if config.contrast == .high {
+                return config.isDarkMode ? gray600 : gray400
+            }
+            return config.isDarkMode ? gray700 : gray200
         }
         public static var input: Color {
             config.isDarkMode ? gray700 : gray200
@@ -367,6 +438,159 @@ public struct DesignTokens {
         }
         public static var panelMuted: Color {
             config.isDarkMode ? hsl(config.brandHue, 5, 13) : hsl(config.brandHue, 5, 97)
+        }
+        
+        // Panel borders
+        public static func panelBorder(_ level: Int) -> Color {
+            if config.isDarkMode {
+                switch level {
+                case 1: return hsl(config.brandHue, 10, 20)
+                case 2: return hsl(config.brandHue, 10, 25)
+                case 3: return hsl(config.brandHue, 10, 30)
+                case 4: return hsl(config.brandHue, 10, 35)
+                case 5: return hsl(config.brandHue, 10, 40)
+                default: return border
+                }
+            } else {
+                switch level {
+                case 1: return gray100
+                case 2: return gray200
+                case 3: return gray300
+                case 4: return gray400
+                case 5: return gray500
+                default: return border
+                }
+            }
+        }
+        
+        // Heading hierarchy colors
+        public static func heading(_ level: Int) -> Color {
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
+            
+            if config.isDarkMode {
+                switch level {
+                case 1: return gray100
+                case 2: return gray200
+                case 3: return gray300
+                case 4: return gray400
+                case 5: return gray500
+                case 6: return gray600
+                default: return gray100
+                }
+            } else {
+                switch level {
+                case 1: return gray900
+                case 2: return gray800
+                case 3: return gray700
+                case 4: return gray600
+                case 5: return gray500
+                case 6: return gray400
+                default: return gray900
+                }
+            }
+        }
+        
+        // Semantic heading colors
+        public static var headingPrimary: Color {
+            config.isDarkMode ? brand400 : brand600
+        }
+        public static var headingMuted: Color {
+            config.isDarkMode ? gray500 : gray400
+        }
+        public static var headingSuccess: Color { success }
+        public static var headingDanger: Color { danger }
+        
+        // Description hierarchy colors
+        public static func description(_ level: Int) -> Color {
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
+            
+            if config.isDarkMode {
+                switch level {
+                case 1: return gray300
+                case 2: return gray400
+                case 3: return gray500
+                case 4: return gray600
+                default: return gray400
+                }
+            } else {
+                switch level {
+                case 1: return gray700
+                case 2: return gray600
+                case 3: return gray500
+                case 4: return gray400
+                default: return gray600
+                }
+            }
+        }
+        
+        // Semantic description colors
+        public static var descriptionPrimary: Color {
+            config.isDarkMode ? brand400 : brand500
+        }
+        public static var descriptionMuted: Color {
+            config.isDarkMode ? gray600 : gray400
+        }
+        public static var descriptionSuccess: Color {
+            config.isDarkMode ? Color(hex: "#6ee7b7") : Color(hex: "#22c55e")
+        }
+        public static var descriptionWarning: Color {
+            config.isDarkMode ? Color(hex: "#fcd34d") : Color(hex: "#f59e0b")
+        }
+        public static var descriptionDanger: Color {
+            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+        }
+        
+        // Value hierarchy colors
+        public static func value(_ level: Int) -> Color {
+            // Handle ultra contrast mode
+            if config.contrast == .ultra {
+                return config.isDarkMode ? Color.white : Color.black
+            }
+            
+            if config.isDarkMode {
+                switch level {
+                case 1: return gray100
+                case 2: return gray200
+                case 3: return gray300
+                case 4: return gray400
+                case 5: return gray500
+                case 6: return gray600
+                default: return gray100
+                }
+            } else {
+                switch level {
+                case 1: return gray900
+                case 2: return gray800
+                case 3: return gray700
+                case 4: return gray600
+                case 5: return gray500
+                case 6: return gray400
+                default: return gray900
+                }
+            }
+        }
+        
+        // Semantic value colors
+        public static var valuePrimary: Color {
+            config.isDarkMode ? brand400 : brand600
+        }
+        public static var valuePositive: Color {
+            config.isDarkMode ? Color(hex: "#86efac") : Color(hex: "#22c55e")
+        }
+        public static var valueNegative: Color {
+            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+        }
+        public static var valueNeutral: Color {
+            config.isDarkMode ? gray400 : gray600
+        }
+        public static var valueCode: Color {
+            config.isDarkMode ? gray200 : gray800
         }
     }
     

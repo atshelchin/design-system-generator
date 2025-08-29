@@ -5,7 +5,13 @@
       "Bash(sed:*)",
       "Bash(chmod:*)",
       "Bash(swift build)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(for var in 'color-disabled' 'color-button-primary' 'font-thin' 'font-extralight' 'font-black' 'text-6xl' 'space-unit' 'radius-base' 'color-panel-border-1')",
+      "Bash(do grep -q \"$var\" /Users/shelchin/ai-repo2025/design-token/showcase.html)",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(swift run:*)",
+      "WebFetch(domain:)"
     ],
     "deny": [],
     "ask": []

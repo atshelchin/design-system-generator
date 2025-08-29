@@ -108,24 +108,30 @@ struct CompleteColorSystemView: View {
     }
 }
 
-// 响应式色彩网格 - 10个色块一行紧凑排列
+// 响应式色彩网格 - 根据屏幕大小自适应列数
 struct ColorGrid: View {
     let colors: [(name: String, color: Color)]
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible(), spacing: 8 * config.spacingScale), count: 10),
-            spacing: 8 * config.spacingScale
-        ) {
-            ForEach(colors, id: \.name) { item in
-                ColorItem(
-                    name: item.name,
-                    color: item.color,
-                    config: config
-                )
+        GeometryReader { geometry in
+            let screenSize = ScreenSize.from(width: geometry.size.width)
+            let columnCount = AdaptiveColumns.colorGrid(for: screenSize)
+            
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 8 * config.spacingScale), count: columnCount),
+                spacing: 8 * config.spacingScale
+            ) {
+                ForEach(colors, id: \.name) { item in
+                    ColorItem(
+                        name: item.name,
+                        color: item.color,
+                        config: config
+                    )
+                }
             }
         }
+        .frame(minHeight: 120) // 设置最小高度避免GeometryReader塌陷
     }
 }
 
@@ -154,44 +160,70 @@ struct ColorItem: View {
     }
 }
 
-// 语义色网格 - 一行最多6个
+// 语义色网格 - 响应式布局
 struct SemanticColorGrid: View {
     let colors: [(String, String, Color)]
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible(), spacing: 10 * config.spacingScale), count: 6),
-            spacing: 10 * config.spacingScale
-        ) {
-            ForEach(colors, id: \.0) { item in
-                VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                    // 色块 - 更小更紧凑
-                    RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                        .fill(item.2)
-                        .frame(height: 50)
-                        .shadow(color: Color.black.opacity(0.05), radius: 1, y: 1)
-                    
-                    // 标签
-                    Text(item.0)
-                        .globalTextStyle(config, size: 10, weight: .medium)
-                    
-                    // CSS变量名
-                    Text(item.1)
-                        .secondaryTextStyle(config, size: 9)
+        GeometryReader { geometry in
+            let screenSize = ScreenSize.from(width: geometry.size.width)
+            let columnCount = AdaptiveColumns.semanticGrid(for: screenSize)
+            
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 10 * config.spacingScale), count: columnCount),
+                spacing: 10 * config.spacingScale
+            ) {
+                ForEach(colors, id: \.0) { item in
+                    VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
+                        // 色块 - 更小更紧凑
+                        RoundedRectangle(cornerRadius: 4 * config.radiusScale)
+                            .fill(item.2)
+                            .frame(height: 50)
+                            .shadow(color: Color.black.opacity(0.05), radius: 1, y: 1)
+                        
+                        // 标签
+                        Text(item.0)
+                            .globalTextStyle(config, size: 10, weight: .medium)
+                        
+                        // CSS变量名
+                        Text(item.1)
+                            .secondaryTextStyle(config, size: 9)
+                    }
                 }
             }
         }
+        .frame(minHeight: 200) // 设置最小高度
     }
 }
 
-// 功能色网格 - 完整3x3布局
+// 功能色网格 - 响应式3列布局
 struct FunctionalColorGrid: View {
     let language: String
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        HStack(alignment: .top, spacing: 24 * config.spacingScale) {
+        GeometryReader { geometry in
+            let screenSize = ScreenSize.from(width: geometry.size.width)
+            let useVertical = screenSize == .compact
+            
+            Group {
+                if useVertical {
+                    VStack(alignment: .leading, spacing: 24 * config.spacingScale) {
+                        functionalContent
+                    }
+                } else {
+                    HStack(alignment: .top, spacing: 24 * config.spacingScale) {
+                        functionalContent
+                    }
+                }
+            }
+        }
+        .frame(minHeight: 200)
+    }
+    
+    @ViewBuilder
+    var functionalContent: some View {
             // 第一列：背景
             VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
                 Text(language == "zh" ? "背景" : "Background")
@@ -278,7 +310,6 @@ struct FunctionalColorGrid: View {
                 }
             }
             .frame(maxWidth: .infinity)
-        }
     }
 }
 
