@@ -246,36 +246,38 @@ public struct DesignTokens {
         }
         
         public static func grayColor(for shade: Int) -> Color {
-            // 在暗色模式下，调整亮度值以获得更好的对比度
+            // 使用NSColor创建更精确的灰度颜色
             if config.isDarkMode {
+                // 暗色模式：较亮的灰色用于文本
                 switch shade {
-                case 50: return Color(white: 0.98)
-                case 100: return Color(white: 0.94)
-                case 200: return Color(white: 0.86)
-                case 300: return Color(white: 0.74)
-                case 400: return Color(white: 0.62)
-                case 500: return Color(white: 0.50)
-                case 600: return Color(white: 0.38)
-                case 700: return Color(white: 0.26)
-                case 800: return Color(white: 0.14)
-                case 900: return Color(white: 0.06)
-                case 950: return Color(white: 0.02)
-                default: return Color(white: 0.50)
+                case 50: return Color(NSColor(white: 0.98, alpha: 1.0))
+                case 100: return Color(NSColor(white: 0.96, alpha: 1.0))  // 最亮的标题
+                case 200: return Color(NSColor(white: 0.87, alpha: 1.0))
+                case 300: return Color(NSColor(white: 0.76, alpha: 1.0))
+                case 400: return Color(NSColor(white: 0.64, alpha: 1.0))
+                case 500: return Color(NSColor(white: 0.52, alpha: 1.0))
+                case 600: return Color(NSColor(white: 0.40, alpha: 1.0))
+                case 700: return Color(NSColor(white: 0.28, alpha: 1.0))
+                case 800: return Color(NSColor(white: 0.16, alpha: 1.0))
+                case 900: return Color(NSColor(white: 0.08, alpha: 1.0))  // 最暗的背景
+                case 950: return Color(NSColor(white: 0.04, alpha: 1.0))
+                default: return Color(NSColor(white: 0.50, alpha: 1.0))
                 }
             } else {
+                // 亮色模式：较暗的灰色用于文本
                 switch shade {
-                case 50: return Color(white: 0.98)
-                case 100: return Color(white: 0.96)
-                case 200: return Color(white: 0.91)
-                case 300: return Color(white: 0.84)
-                case 400: return Color(white: 0.65)
-                case 500: return Color(white: 0.50)
-                case 600: return Color(white: 0.40)
-                case 700: return Color(white: 0.30)
-                case 800: return Color(white: 0.20)
-                case 900: return Color(white: 0.10)
-                case 950: return Color(white: 0.05)
-                default: return Color(white: 0.50)
+                case 50: return Color(NSColor(white: 0.98, alpha: 1.0))
+                case 100: return Color(NSColor(white: 0.96, alpha: 1.0))
+                case 200: return Color(NSColor(white: 0.91, alpha: 1.0))
+                case 300: return Color(NSColor(white: 0.84, alpha: 1.0))
+                case 400: return Color(NSColor(white: 0.65, alpha: 1.0))
+                case 500: return Color(NSColor(white: 0.45, alpha: 1.0))
+                case 600: return Color(NSColor(white: 0.35, alpha: 1.0))
+                case 700: return Color(NSColor(white: 0.25, alpha: 1.0))
+                case 800: return Color(NSColor(white: 0.15, alpha: 1.0))
+                case 900: return Color(NSColor(white: 0.05, alpha: 1.0))  // 最暗的标题
+                case 950: return Color(NSColor(white: 0.02, alpha: 1.0))
+                default: return Color(NSColor(white: 0.50, alpha: 1.0))
                 }
             }
         }
