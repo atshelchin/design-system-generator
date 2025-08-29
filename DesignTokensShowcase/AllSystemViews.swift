@@ -44,7 +44,7 @@ struct CompleteTypographySystemView: View {
                         HStack(alignment: .center, spacing: 24 * config.spacingScale) {
                             Text(item.0)
                                 .font(.custom("Menlo", size: 12 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                                 .frame(width: 80, alignment: .leading)
                             
                             Text(language == "zh" ? "示例文本" : "Sample Text")
@@ -89,7 +89,7 @@ struct CompleteTypographySystemView: View {
                                 .globalTextStyle(config, size: 32, weight: item.1)
                             Text(item.0)
                                 .font(.custom("Menlo", size: 11 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                             Text(item.2)
                                 .secondaryTextStyle(config, size: 10)
                         }
@@ -111,7 +111,7 @@ struct CompleteTypographySystemView: View {
                         VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
                             Text(item.0)
                                 .font(.custom("Menlo", size: 12 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                             Text(language == "zh" ? "这是一段示例文本，展示不同的字体族效果。" : 
                                  "The quick brown fox jumps over the lazy dog.")
                                 .font(fontForFamily(item.0, size: 16 * config.fontScale))
@@ -175,7 +175,7 @@ struct CompleteHierarchySystemView: View {
                         ZStack {
                             ForEach(0..<3) { index in
                                 RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                    .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.3 - Double(index) * 0.1))
+                                    .fill(DesignTokens.Colors.primary.opacity(0.3 - Double(index) * 0.1))
                                     .frame(width: 80 - CGFloat(index * 10), height: 60 - CGFloat(index * 10))
                                     .offset(x: CGFloat(index * 5), y: CGFloat(index * 5))
                             }
@@ -185,7 +185,7 @@ struct CompleteHierarchySystemView: View {
                         VStack(spacing: 4 * config.spacingScale) {
                             Text(item.0)
                                 .font(.custom("Menlo", size: 11 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                             Text(item.2)
                                 .globalTextStyle(config, size: 10)
                             Text("z-index: \(item.1)")
@@ -243,15 +243,15 @@ struct CompleteSpacingSystemView: View {
                     HStack(spacing: 16 * config.spacingScale) {
                         Text(item.0)
                             .font(.custom("Menlo", size: 11 * config.fontScale))
-                            .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                            .foregroundColor(DesignTokens.Colors.primary)
                             .frame(width: 80, alignment: .leading)
                         
                         Rectangle()
-                            .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.2))
+                            .fill(DesignTokens.Colors.primary.opacity(0.2))
                             .frame(width: min(CGFloat(item.1) * config.spacingScale * 3, 300), height: 20)
                             .overlay(
                                 Rectangle()
-                                    .fill(DesignTokens.Colors.brandColor(for: 500))
+                                    .fill(DesignTokens.Colors.primary)
                                     .frame(width: CGFloat(item.1) * config.spacingScale, height: 20),
                                 alignment: .leading
                             )
@@ -299,15 +299,15 @@ struct CompleteRadiusSystemView: View {
                     VStack(spacing: 8 * config.spacingScale) {
                         if item.0 == "rounded-full" {
                             Circle()
-                                .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.1))
-                                .overlay(Circle().stroke(DesignTokens.Colors.brandColor(for: 500), lineWidth: 2))
+                                .fill(DesignTokens.Colors.primary.opacity(0.1))
+                                .overlay(Circle().stroke(DesignTokens.Colors.primary, lineWidth: 2))
                                 .frame(width: 64, height: 64)
                         } else {
                             RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.1))
+                                .fill(DesignTokens.Colors.primary.opacity(0.1))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                        .stroke(DesignTokens.Colors.brandColor(for: 500), lineWidth: 2)
+                                        .stroke(DesignTokens.Colors.primary, lineWidth: 2)
                                 )
                                 .frame(width: 80, height: 64)
                         }
@@ -315,7 +315,7 @@ struct CompleteRadiusSystemView: View {
                         VStack(spacing: 4 * config.spacingScale) {
                             Text(item.0)
                                 .font(.custom("Menlo", size: 10 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                             Text(item.0 == "rounded-full" ? "9999px" : "\(item.1)px")
                                 .secondaryTextStyle(config, size: 9)
                         }
@@ -364,7 +364,7 @@ struct CompleteShadowSystemView: View {
                         VStack(spacing: 4 * config.spacingScale) {
                             Text(item.0)
                                 .font(.custom("Menlo", size: 11 * config.fontScale))
-                                .foregroundColor(DesignTokens.Colors.brandColor(for: 500))
+                                .foregroundColor(DesignTokens.Colors.primary)
                             if item.0 != "shadow-none" {
                                 Text("blur: \(item.1)px")
                                     .secondaryTextStyle(config, size: 9)
@@ -432,7 +432,7 @@ struct CompleteAccessibilitySystemView: View {
                 
                 HStack(spacing: 24 * config.spacingScale) {
                     ForEach([
-                        (language == "zh" ? "默认" : "Default", 2, DesignTokens.Colors.brandColor(for: 500)),
+                        (language == "zh" ? "默认" : "Default", 2, DesignTokens.Colors.primary),
                         (language == "zh" ? "高对比" : "High Contrast", 3, Color.black),
                         (language == "zh" ? "自定义" : "Custom", 2, DesignTokens.Colors.accent)
                     ], id: \.0) { item in
@@ -523,7 +523,7 @@ struct CompleteComponentsView: View {
                 ComponentCard(title: language == "zh" ? "滑块" : "Slider", config: config) {
                     VStack(spacing: 8 * config.spacingScale) {
                         Slider(value: $sliderValue, in: 0...100)
-                            .accentColor(DesignTokens.Colors.brandColor(for: 500))
+                            .accentColor(DesignTokens.Colors.primary)
                         Text("\(Int(sliderValue))%")
                             .globalTextStyle(config, size: 12)
                     }
@@ -562,7 +562,7 @@ struct CompleteComponentsView: View {
                 ComponentCard(title: language == "zh" ? "进度条" : "Progress", config: config) {
                     VStack(spacing: 8 * config.spacingScale) {
                         ProgressView(value: 0.6)
-                            .progressViewStyle(LinearProgressViewStyle(tint: DesignTokens.Colors.brandColor(for: 500)))
+                            .progressViewStyle(LinearProgressViewStyle(tint: DesignTokens.Colors.primary))
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
                             .scaleEffect(0.8)

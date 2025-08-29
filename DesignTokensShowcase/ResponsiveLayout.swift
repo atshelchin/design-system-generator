@@ -156,21 +156,22 @@ public struct AdaptiveColumns {
 
 extension View {
     /// Apply responsive padding based on screen size
+    @ViewBuilder
     public func responsivePadding(_ config: DesignTokensConfig) -> some View {
         GeometryReader { geometry in
-            let screenSize = ScreenSize.from(width: geometry.size.width)
-            let padding: CGFloat
-            
-            switch screenSize {
-            case .compact:
-                padding = DesignTokens.Spacing.space4
-            case .regular:
-                padding = DesignTokens.Spacing.space6
-            case .large:
-                padding = DesignTokens.Spacing.space8
-            }
-            
-            self.padding(padding)
+            self.padding(responsivePaddingValue(for: geometry.size.width, config: config))
+        }
+    }
+    
+    private func responsivePaddingValue(for width: CGFloat, config: DesignTokensConfig) -> CGFloat {
+        let screenSize = ScreenSize.from(width: width)
+        switch screenSize {
+        case .compact:
+            return DesignTokens.Spacing.space4
+        case .regular:
+            return DesignTokens.Spacing.space6
+        case .large:
+            return DesignTokens.Spacing.space8
         }
     }
     

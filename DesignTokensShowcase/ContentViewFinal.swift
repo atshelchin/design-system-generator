@@ -210,77 +210,7 @@ struct ContentViewFinal: View {
 
 // CompleteColorSystemView is now imported from CompleteColorSystem.swift
 
-// 文字系统视图
-struct TypographySystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            // 标题
-            VStack(alignment: .leading, spacing: 8) {
-                Text(language == "zh" ? "2. 文字系统" : "2. Typography System")
-                    .font(.system(size: 32, weight: .bold))
-                Text(language == "zh" ? "字体大小、字重和字体族" : "Font sizes, weights, and families")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color(NSColor.secondaryLabelColor))
-            }
-            
-            // 字体大小展示
-            VStack(alignment: .leading, spacing: 16) {
-                Text(language == "zh" ? "字体大小 (完整)" : "Font Sizes (Complete)")
-                    .font(.system(size: 20, weight: .semibold))
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach([
-                        ("text-xs", 12, "12px"),
-                        ("text-sm", 14, "14px"),
-                        ("text-base", 16, "16px"),
-                        ("text-lg", 18, "18px"),
-                        ("text-xl", 20, "20px"),
-                        ("text-2xl", 24, "24px"),
-                        ("text-3xl", 30, "30px"),
-                        ("text-4xl", 36, "36px"),
-                        ("text-5xl", 48, "48px"),
-                        ("text-6xl", 60, "60px")
-                    ], id: \.0) { item in
-                        HStack(spacing: 16) {
-                            Text("\(item.0) (\(item.2))")
-                                .font(.system(size: CGFloat(item.1) * config.fontScale))
-                                .frame(minWidth: 200, alignment: .leading)
-                        }
-                    }
-                }
-            }
-            
-            // 字体族
-            HStack(spacing: 32) {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Sans-serif")
-                        .font(.system(size: 16, weight: .semibold))
-                    Text("System UI Font - 系统默认字体\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n0123456789")
-                        .font(.system(size: 14))
-                    Text("--font-family-sans")
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(Color(NSColor.tertiaryLabelColor))
-                }
-                
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Monospace")
-                        .font(.system(size: 16, weight: .semibold))
-                    Text("Monospace Font - 等宽字体\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n0123456789")
-                        .font(.system(size: 14, design: .monospaced))
-                    Text("--font-family-mono")
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(Color(NSColor.tertiaryLabelColor))
-                }
-            }
-            .padding()
-            .background(Color(NSColor.controlBackgroundColor))
-            .cornerRadius(8)
-        }
-    }
-}
+// TypographySystemView is now imported from TypographySystem.swift
 
 // 间距系统视图
 struct SpacingSystemView: View {
@@ -316,11 +246,11 @@ struct SpacingSystemView: View {
                 ], id: \.0) { item in
                     HStack(spacing: 16) {
                         Rectangle()
-                            .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.2))
+                            .fill(DesignTokens.Colors.primary.opacity(0.2))
                             .frame(width: CGFloat(item.1) * config.spacingScale * 2, height: 24)
                             .overlay(
                                 Rectangle()
-                                    .fill(DesignTokens.Colors.brandColor(for: 500))
+                                    .fill(DesignTokens.Colors.primary)
                                     .frame(width: CGFloat(item.1) * config.spacingScale, height: 24),
                                 alignment: .leading
                             )
@@ -368,15 +298,15 @@ struct RadiusSystemView: View {
                     VStack(spacing: 8) {
                         if item.0 == "full" {
                             Circle()
-                                .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.1))
-                                .overlay(Circle().stroke(DesignTokens.Colors.brandColor(for: 500), lineWidth: 2))
+                                .fill(DesignTokens.Colors.primary.opacity(0.1))
+                                .overlay(Circle().stroke(DesignTokens.Colors.primary, lineWidth: 2))
                                 .frame(width: 64, height: 64)
                         } else {
                             RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                .fill(DesignTokens.Colors.brandColor(for: 500).opacity(0.1))
+                                .fill(DesignTokens.Colors.primary.opacity(0.1))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                        .stroke(DesignTokens.Colors.brandColor(for: 500), lineWidth: 2)
+                                        .stroke(DesignTokens.Colors.primary, lineWidth: 2)
                                 )
                                 .frame(width: 64, height: 64)
                         }
@@ -438,16 +368,7 @@ struct ShadowSystemView: View {
     }
 }
 
-// 层级系统视图
-struct HierarchySystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        Text(language == "zh" ? "层级系统" : "Hierarchy System")
-            .font(.system(size: 24, weight: .bold))
-    }
-}
+// HierarchySystemView is now imported from HierarchySystem.swift
 
 struct AccessibilitySystemView: View {
     let language: String

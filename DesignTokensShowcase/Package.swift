@@ -20,7 +20,7 @@ let package = Package(
             name: "DesignTokensShowcase",
             path: ".",
             exclude: ["run.sh", "Package.swift", "ContentView.swift", "ContentViewNew.swift", "CompactControlPanel.swift", "FloatingPanel.swift"],
-            sources: ["ContentViewFinal.swift", "FullControlPanel.swift", "FullControlPanelNew.swift", "DesignTokens.swift", "CompleteColorSystem.swift", "GlobalTextModifier.swift", "ResponsiveLayout.swift", "main.swift"]
+            sources: ["ContentViewFinal.swift", "FullControlPanel.swift", "FullControlPanelNew.swift", "DesignTokens.swift", "CompleteColorSystem.swift", "GlobalTextModifier.swift", "ResponsiveLayout.swift", "TypographySystem.swift", "HierarchySystem.swift", "AllSystemViews.swift", "main.swift"]
         )
     ]
 )

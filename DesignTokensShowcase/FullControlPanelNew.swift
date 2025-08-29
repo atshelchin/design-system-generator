@@ -21,9 +21,9 @@ struct FullControlPanelNew: View {
     @State private var showingFontPicker = false
     @State private var showingFontManager = false
     
-    // 动态品牌色
+    // 使用primary色
     private var brandColor: Color {
-        DesignTokens.Colors.brandColor(for: 500)
+        DesignTokens.Colors.primary
     }
     
     var body: some View {
@@ -233,7 +233,7 @@ struct FullControlPanelNew: View {
                             }
                         )
                         
-                        // 重置所有按钮
+                        // 重置所有按钮 - 使用secondary色
                         Button(action: {
                             config.brandHue = 217
                             config.brandSaturation = 91
@@ -251,10 +251,10 @@ struct FullControlPanelNew: View {
                         }) {
                             Text(language == "zh" ? "重置所有" : "Reset All")
                                 .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(.white)
+                                .foregroundColor(DesignTokens.Colors.secondaryForeground)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 8)
-                                .background(brandColor)
+                                .background(DesignTokens.Colors.secondary)
                                 .cornerRadius(6)
                         }
                         .buttonStyle(PlainButtonStyle())
