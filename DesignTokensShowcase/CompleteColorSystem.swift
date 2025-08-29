@@ -295,15 +295,7 @@ struct FunctionalColorGrid: View {
                     )
                     .frame(minWidth: 150)
                     
-                    TextField("Input Field", text: .constant(""))
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .globalTextStyle(config, size: 11)
-                        .padding(8 * config.spacingScale)
-                        .background(Color(NSColor.controlBackgroundColor))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.input, lineWidth: 1)
-                        )
+                    InputFieldWithFocus(config: config)
                         .frame(minWidth: 150)
                     
                     Button(language == "zh" ? "聚焦环" : "Focus Ring") {}
@@ -392,5 +384,26 @@ struct DisabledButtonStyle: ButtonStyle {
             .padding(.vertical, 8 * config.spacingScale)
             .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
             .cornerRadius(4 * config.radiusScale)
+    }
+}
+
+// 带Focus Ring的输入框组件
+struct InputFieldWithFocus: View {
+    @ObservedObject var config: DesignTokensConfig
+    @State private var text = ""
+    @FocusState private var isFocused: Bool
+    
+    var body: some View {
+        TextField("Input Field", text: $text)
+            .textFieldStyle(PlainTextFieldStyle())
+            .globalTextStyle(config, size: 11)
+            .padding(8 * config.spacingScale)
+            .background(Color(NSColor.controlBackgroundColor))
+            .overlay(
+                RoundedRectangle(cornerRadius: 4 * config.radiusScale)
+                    .stroke(isFocused ? DesignTokens.Colors.ring : DesignTokens.Colors.input, 
+                           lineWidth: isFocused ? 2 : 1)
+            )
+            .focused($isFocused)
     }
 }

@@ -305,50 +305,55 @@ private struct ContrastModeExample {
     let buttonForeground: Color
 }
 
-private let contrastModes = [
-    ContrastModeExample(
-        mode: .normal,
-        nameZh: "默认",
-        nameEn: "Default",
-        weight: .medium,
-        bodyWeight: .regular,
-        foreground: DesignTokens.Colors.foreground,
-        bodyColor: DesignTokens.Colors.mutedForeground,
-        background: DesignTokens.Colors.card,
-        border: DesignTokens.Colors.border,
-        borderWidth: 1,
-        buttonBackground: DesignTokens.Colors.primary,
-        buttonForeground: .white
-    ),
-    ContrastModeExample(
-        mode: .high,
-        nameZh: "高对比",
-        nameEn: "High Contrast",
-        weight: .semibold,
-        bodyWeight: .medium,
-        foreground: Color.black,
-        bodyColor: Color(white: 0.2),
-        background: Color.white,
-        border: Color.black,
-        borderWidth: 2,
-        buttonBackground: Color.black,
-        buttonForeground: Color.white
-    ),
-    ContrastModeExample(
-        mode: .ultra,
-        nameZh: "超高对比",
-        nameEn: "Ultra High",
-        weight: .bold,
-        bodyWeight: .semibold,
-        foreground: Color.black,
-        bodyColor: Color.black,
-        background: Color.white,
-        border: Color.black,
-        borderWidth: 3,
-        buttonBackground: Color.black,
-        buttonForeground: Color.white
-    )
-]
+private var contrastModes: [ContrastModeExample] {
+    let config = DesignTokensConfig.shared
+    let isDark = config.isDarkMode
+    
+    return [
+        ContrastModeExample(
+            mode: .normal,
+            nameZh: "默认",
+            nameEn: "Default",
+            weight: .medium,
+            bodyWeight: .regular,
+            foreground: DesignTokens.Colors.foreground,
+            bodyColor: DesignTokens.Colors.mutedForeground,
+            background: DesignTokens.Colors.card,
+            border: DesignTokens.Colors.border,
+            borderWidth: 1,
+            buttonBackground: DesignTokens.Colors.primary,
+            buttonForeground: DesignTokens.Colors.primaryForeground
+        ),
+        ContrastModeExample(
+            mode: .high,
+            nameZh: "高对比",
+            nameEn: "High Contrast",
+            weight: .semibold,
+            bodyWeight: .medium,
+            foreground: isDark ? DesignTokens.Colors.grayColor(for: 100) : DesignTokens.Colors.grayColor(for: 900),
+            bodyColor: isDark ? DesignTokens.Colors.grayColor(for: 200) : DesignTokens.Colors.grayColor(for: 800),
+            background: isDark ? DesignTokens.Colors.grayColor(for: 900) : DesignTokens.Colors.grayColor(for: 50),
+            border: isDark ? DesignTokens.Colors.grayColor(for: 300) : DesignTokens.Colors.grayColor(for: 700),
+            borderWidth: 2,
+            buttonBackground: isDark ? DesignTokens.Colors.brandColor(for: 300) : DesignTokens.Colors.brandColor(for: 700),
+            buttonForeground: isDark ? Color.black : Color.white
+        ),
+        ContrastModeExample(
+            mode: .ultra,
+            nameZh: "超高对比",
+            nameEn: "Ultra High",
+            weight: .bold,
+            bodyWeight: .semibold,
+            foreground: isDark ? Color.white : Color.black,
+            bodyColor: isDark ? Color.white : Color.black,
+            background: isDark ? Color.black : Color.white,
+            border: isDark ? Color.white : Color.black,
+            borderWidth: 3,
+            buttonBackground: isDark ? Color.white : Color.black,
+            buttonForeground: isDark ? Color.black : Color.white
+        )
+    ]
+}
 
 // 字间距示例
 private struct LetterSpacingExample {

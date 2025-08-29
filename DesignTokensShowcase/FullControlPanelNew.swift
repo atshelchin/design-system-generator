@@ -331,12 +331,11 @@ struct BrandButtonGroup: View {
                         Text(option)
                             .font(.system(size: 10, weight: selected == option ? .medium : .regular))
                             .foregroundColor(selected == option ? .white : Color(NSColor.labelColor))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 5)
+                            .frame(maxWidth: .infinity, minHeight: 24) // 增加最小高度
+                            .contentShape(Rectangle()) // 确保整个区域可点击
                     }
                     .buttonStyle(PlainButtonStyle())
                     .background(selected == option ? brandColor : Color.clear)
-                    .contentShape(Rectangle())
                     
                     if option != options.last {
                         Divider()
