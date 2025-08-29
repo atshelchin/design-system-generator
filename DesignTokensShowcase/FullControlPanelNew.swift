@@ -313,6 +313,21 @@ struct BrandButtonGroup: View {
     let brandColor: Color
     let action: (String) -> Void
     
+    // 根据主题和对比度模式选择合适的前景色
+    private func selectedForegroundColor(isSelected: Bool) -> Color {
+        if isSelected {
+            let config = DesignTokensConfig.shared
+            // 在暗色模式下，如果是超高对比度，使用黑色文字
+            if config.isDarkMode && config.contrast == .ultra {
+                return Color.black
+            }
+            // 其他情况使用白色
+            return .white
+        } else {
+            return Color(NSColor.labelColor)
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 4) {
@@ -330,7 +345,7 @@ struct BrandButtonGroup: View {
                     }) {
                         Text(option)
                             .font(.system(size: 10, weight: selected == option ? .medium : .regular))
-                            .foregroundColor(selected == option ? .white : Color(NSColor.labelColor))
+                            .foregroundColor(selectedForegroundColor(isSelected: selected == option))
                             .frame(maxWidth: .infinity, minHeight: 24) // 增加最小高度
                             .contentShape(Rectangle()) // 确保整个区域可点击
                     }
