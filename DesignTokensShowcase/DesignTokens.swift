@@ -292,7 +292,11 @@ public struct DesignTokens {
             config.isDarkMode ? gray700 : gray100
         }
         public static var mutedForeground: Color {
-            config.isDarkMode ? gray400 : gray600
+            // Handle high contrast mode
+            if config.contrast == .high {
+                return config.isDarkMode ? Color(white: 0.75) : Color(white: 0.25)
+            }
+            return config.isDarkMode ? gray400 : gray600
         }
         
         // Status colors
@@ -346,6 +350,10 @@ public struct DesignTokens {
             if config.contrast == .ultra {
                 return config.isDarkMode ? Color.black : Color.white
             }
+            // Handle high contrast mode - 提高对比度
+            if config.contrast == .high {
+                return config.isDarkMode ? Color(white: 0.05) : Color.white
+            }
             return config.isDarkMode ? gray900 : Color.white
         }
         public static var foreground: Color {
@@ -353,16 +361,28 @@ public struct DesignTokens {
             if config.contrast == .ultra {
                 return config.isDarkMode ? Color.white : Color.black
             }
+            // Handle high contrast mode - 确保文字有足够对比度
+            if config.contrast == .high {
+                return config.isDarkMode ? Color(white: 0.95) : Color(white: 0.05)
+            }
             if config.isDarkMode {
                 return Color(white: 0.95) // Text brightness control
             }
             return gray900
         }
         public static var card: Color {
-            config.isDarkMode ? gray800 : Color.white
+            // Handle high contrast mode
+            if config.contrast == .high {
+                return config.isDarkMode ? Color(white: 0.1) : Color.white
+            }
+            return config.isDarkMode ? gray800 : Color.white
         }
         public static var cardForeground: Color {
-            config.isDarkMode ? gray100 : gray900
+            // Handle high contrast mode
+            if config.contrast == .high {
+                return config.isDarkMode ? Color(white: 0.95) : Color(white: 0.05)
+            }
+            return config.isDarkMode ? gray100 : gray900
         }
         public static var popover: Color {
             config.isDarkMode ? gray800 : Color.white
