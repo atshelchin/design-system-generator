@@ -11,7 +11,6 @@
   --brand-saturation: 91%; /* 饱和度 Saturation (0-100%) */
   --radius-scale: 1;       /* 圆角缩放 Radius Scale */
   --spacing-scale: 1;      /* 间距缩放 Spacing Scale */
-  --font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* 无障碍配置 Accessibility Configuration */
   --font-scale: 1;         /* 字体缩放 Font Scale */
@@ -505,7 +504,7 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-family);
+  font-family: var(--font-family-sans);
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--color-foreground);

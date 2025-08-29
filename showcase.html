@@ -583,25 +583,33 @@
             gap: var(--space-2);
         }
         
+        .font-controls {
+            display: flex;
+            gap: var(--space-1);
+            align-items: center;
+        }
+        
         .font-select {
-            padding: var(--space-2);
+            padding: var(--space-1-5) var(--space-2);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-sm);
             background: var(--color-background);
             color: var(--color-foreground);
             font-size: var(--text-xs);
             cursor: pointer;
-            width: 100%;
+            flex: 1;
+            min-width: 0;
         }
         
         .font-upload-wrapper {
             display: flex;
-            gap: var(--space-2);
+            gap: var(--space-1);
             align-items: center;
+            flex-shrink: 0;
         }
         
         .font-upload-btn {
-            padding: var(--space-1-5) var(--space-3);
+            padding: var(--space-1) var(--space-2);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-sm);
             background: var(--color-panel-1);
@@ -610,11 +618,13 @@
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
         }
         
         .font-upload-btn:hover {
             background: var(--color-panel-2);
-            transform: translateY(-1px);
         }
         
         .font-upload-input {
@@ -2150,42 +2160,6 @@
             
             <div class="control-content" id="controlContent">
                 
-                <!-- 字体选择 -->
-                <div class="control-item-vertical">
-                    <div class="control-label-wrapper">
-                        <span class="control-icon">🅰️</span>
-                        <span class="control-label" data-en="Font Family" data-zh="字体选择">字体选择</span>
-                    </div>
-                    <div class="font-selector">
-                        <select class="font-select" id="fontSelect" onchange="changeFont(this.value)">
-                            <option value="system" data-en="System Default" data-zh="系统默认">系统默认</option>
-                            <option value="sans-serif">Sans-serif</option>
-                            <option value="serif">Serif</option>
-                            <option value="monospace">Monospace</option>
-                            <option value="-apple-system" data-en="Apple System" data-zh="苹果系统">Apple System</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Helvetica">Helvetica</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Courier New">Courier New</option>
-                            <optgroup label="Uploaded Fonts" data-en="Uploaded Fonts" data-zh="已上传字体" id="uploadedFonts"></optgroup>
-                        </select>
-                        <div class="font-upload-wrapper">
-                            <label class="font-upload-btn">
-                                <span data-en="Upload Font" data-zh="上传字体">上传字体</span>
-                                <input type="file" class="font-upload-input" id="fontUpload" accept=".ttf,.otf,.woff,.woff2,.eot,.svg,.dfont,.collection,.ttc,.otc" multiple onchange="handleFontUpload(this.files)">
-                            </label>
-                            <button class="font-upload-btn" onclick="toggleFontList()">
-                                <span data-en="Manage" data-zh="管理">管理</span>
-                            </button>
-                        </div>
-                        <div class="font-list" id="fontList"></div>
-                    </div>
-                </div>
-                
-                <!-- 分隔线 -->
-                <div style="border-top: 1px solid var(--color-border); margin: var(--space-3) 0;"></div>
-                
                 <!-- 品牌色调微调 -->
                 <div class="control-item">
                     <div class="control-label-wrapper">
@@ -2228,6 +2202,41 @@
                 
                 <!-- 分隔线 -->
                 <div style="border-top: 1px solid var(--color-border); margin: var(--space-3) 0;"></div>
+                
+                <!-- 字体选择 -->
+                <div class="control-item-vertical">
+                    <div class="control-label-wrapper">
+                        <span class="control-icon">🅰️</span>
+                        <span class="control-label" data-en="Font Family" data-zh="字体选择">字体选择</span>
+                    </div>
+                    <div class="font-selector">
+                        <div class="font-controls">
+                            <select class="font-select" id="fontSelect" onchange="changeFont(this.value)">
+                                <option value="system" data-en="System Default" data-zh="系统默认">系统默认</option>
+                                <option value="sans-serif">Sans-serif</option>
+                                <option value="serif">Serif</option>
+                                <option value="monospace">Monospace</option>
+                                <option value="-apple-system" data-en="Apple System" data-zh="苹果系统">Apple System</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier New">Courier New</option>
+                                <optgroup label="Uploaded Fonts" data-en="Uploaded Fonts" data-zh="已上传字体" id="uploadedFonts"></optgroup>
+                            </select>
+                            <div class="font-upload-wrapper">
+                                <label class="font-upload-btn">
+                                    <span data-en="Upload" data-zh="上传">上传</span>
+                                    <input type="file" class="font-upload-input" id="fontUpload" accept=".ttf,.otf,.woff,.woff2,.eot,.svg,.dfont,.collection,.ttc,.otc" multiple onchange="handleFontUpload(this.files)">
+                                </label>
+                                <button class="font-upload-btn" onclick="toggleFontList()">
+                                    <span data-en="Manage" data-zh="管理">管理</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="font-list" id="fontList"></div>
+                    </div>
+                </div>
                 
                 <!-- 字体大小按钮组 -->
                 <div class="control-item-vertical">
@@ -2302,7 +2311,11 @@
             
             // 切换所有带有 data-en 和 data-zh 的元素
             document.querySelectorAll('[data-en][data-zh]').forEach(el => {
-                el.textContent = el.getAttribute(`data-${lang}`);
+                if (el.tagName === 'OPTGROUP') {
+                    el.label = el.getAttribute(`data-${lang}`);
+                } else {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                }
             });
             
             // 更新 input placeholder
@@ -2540,55 +2553,85 @@
                 const format = supportedFormats[extension];
                 
                 if (!format) {
-                    alert(`不支持的字体格式: ${extension}`);
+                    const currentLang = document.getElementById('lang-en').classList.contains('active') ? 'en' : 'zh';
+                    const alertText = currentLang === 'en' ? 
+                        `Unsupported font format: ${extension}` : 
+                        `不支持的字体格式: ${extension}`;
+                    alert(alertText);
                     continue;
                 }
                 
                 const reader = new FileReader();
                 reader.onload = async (e) => {
-                    const fontData = e.target.result;
-                    const fontName = file.name.replace(/\.[^/.]+$/, '');
+                    const arrayBuffer = e.target.result;
+                    let fontName = file.name.replace(/\.[^/.]+$/, '');
                     
-                    // 创建 Font Face，根据格式指定
-                    let fontFace;
+                    // 清理字体名称，保留中文字符
+                    const cleanFontName = fontName.replace(/[^\w\s\-\u4e00-\u9fa5]/g, '').trim() || 'CustomFont' + Date.now();
+                    
                     try {
-                        // 对于某些格式需要特殊处理
-                        if (format === 'collection') {
-                            // TTC/OTC 字体集合可能包含多个字体
-                            fontFace = new FontFace(fontName, fontData, {
-                                display: 'swap',
-                                weight: 'normal',
-                                style: 'normal'
-                            });
-                        } else {
-                            fontFace = new FontFace(fontName, fontData, {
-                                display: 'swap'
-                            });
-                        }
+                        // 创建 Blob URL
+                        const blob = new Blob([arrayBuffer], { type: `application/font-${extension}` });
+                        const fontUrl = URL.createObjectURL(blob);
                         
-                        await fontFace.load();
-                        document.fonts.add(fontFace);
+                        // 只使用 @font-face 样式加载字体，不使用 FontFace API
+                        const style = document.createElement('style');
+                        style.setAttribute('data-font', cleanFontName);
+                        style.textContent = `
+                            @font-face {
+                                font-family: '${cleanFontName}';
+                                src: url('${fontUrl}') format('${format}');
+                                font-display: swap;
+                                font-weight: normal;
+                                font-style: normal;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                        
+                        // 预加载字体
+                        const testDiv = document.createElement('div');
+                        testDiv.style.fontFamily = `'${cleanFontName}'`;
+                        testDiv.style.position = 'absolute';
+                        testDiv.style.left = '-9999px';
+                        testDiv.style.fontSize = '72px';
+                        testDiv.textContent = '测试字体加载 Test Font';
+                        document.body.appendChild(testDiv);
+                        
+                        // 延迟移除测试元素，让字体有时间加载
+                        setTimeout(() => {
+                            if (testDiv.parentNode) {
+                                document.body.removeChild(testDiv);
+                            }
+                        }, 1000);
                         
                         // 存储到 IndexedDB
                         const transaction = db.transaction([STORE_NAME], 'readwrite');
                         const store = transaction.objectStore(STORE_NAME);
-                        store.put({
-                            name: fontName,
-                            data: fontData,
+                        const request = store.put({
+                            name: cleanFontName,
+                            originalName: fontName,
+                            data: arrayBuffer,
                             fileName: file.name,
                             format: format,
+                            extension: extension,
                             size: (file.size / 1024).toFixed(2) + ' KB',
                             uploadTime: new Date().toISOString()
                         });
                         
-                        // 添加到选择器
-                        addFontToSelector(fontName);
-                        updateFontList();
+                        request.onsuccess = () => {
+                            // 添加到选择器
+                            addFontToSelector(cleanFontName);
+                            updateFontList();
+                        };
                         
-                        console.log(`Font ${fontName} (${format}) uploaded successfully`);
+                        console.log(`Font ${cleanFontName} (${format}) uploaded successfully`);
                     } catch (error) {
                         console.error(`Failed to load font ${fontName}:`, error);
-                        alert(`字体 ${fontName} 加载失败: ${error.message}`);
+                        const currentLang = document.getElementById('lang-en').classList.contains('active') ? 'en' : 'zh';
+                        const alertText = currentLang === 'en' ? 
+                            `Failed to load font ${fontName}: ${error.message}` : 
+                            `字体 ${fontName} 加载失败：${error.message}`;
+                        alert(alertText);
                     }
                 };
                 reader.readAsArrayBuffer(file);
@@ -2607,9 +2650,40 @@
                 const fonts = request.result;
                 for (let font of fonts) {
                     try {
-                        const fontFace = new FontFace(font.name, font.data);
-                        await fontFace.load();
-                        document.fonts.add(fontFace);
+                        // 重新创建 Blob URL
+                        const blob = new Blob([font.data], { 
+                            type: `application/font-${font.extension || 'ttf'}` 
+                        });
+                        const fontUrl = URL.createObjectURL(blob);
+                        
+                        // 添加 @font-face 样式
+                        const style = document.createElement('style');
+                        style.setAttribute('data-font', font.name);
+                        style.textContent = `
+                            @font-face {
+                                font-family: '${font.name}';
+                                src: url('${fontUrl}') format('${font.format || 'truetype'}');
+                                font-display: swap;
+                                font-weight: normal;
+                                font-style: normal;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                        
+                        // 预加载字体
+                        const testDiv = document.createElement('div');
+                        testDiv.style.fontFamily = `'${font.name}'`;
+                        testDiv.style.position = 'absolute';
+                        testDiv.style.left = '-9999px';
+                        testDiv.textContent = 'Test';
+                        document.body.appendChild(testDiv);
+                        
+                        setTimeout(() => {
+                            if (testDiv.parentNode) {
+                                document.body.removeChild(testDiv);
+                            }
+                        }, 100);
+                        
                         addFontToSelector(font.name);
                     } catch (error) {
                         console.error(`Failed to load stored font ${font.name}:`, error);
@@ -2625,7 +2699,7 @@
             const optgroup = document.getElementById('uploadedFonts');
             
             // 检查是否已存在
-            const existing = Array.from(optgroup.options).find(opt => opt.value === fontName);
+            const existing = Array.from(optgroup.children).find(opt => opt.value === fontName);
             if (!existing) {
                 const option = document.createElement('option');
                 option.value = fontName;
@@ -2647,19 +2721,25 @@
                 const fontList = document.getElementById('fontList');
                 
                 if (fonts.length === 0) {
-                    fontList.innerHTML = '<div style="text-align: center; color: var(--color-muted-foreground);">暂无上传字体</div>';
+                    const currentLang = document.getElementById('lang-en').classList.contains('active') ? 'en' : 'zh';
+                    const noFontsText = currentLang === 'en' ? 'No uploaded fonts' : '暂无上传字体';
+                    fontList.innerHTML = `<div style="text-align: center; color: var(--color-muted-foreground);">${noFontsText}</div>`;
                 } else {
-                    fontList.innerHTML = fonts.map(font => `
-                        <div class="font-item">
-                            <div style="flex: 1;">
-                                <div style="font-family: '${font.name}'; font-size: var(--text-sm);">${font.name}</div>
-                                <div style="font-size: var(--text-xs); color: var(--color-muted-foreground); margin-top: 2px;">
-                                    ${font.format || 'unknown'} · ${font.size || 'N/A'}
+                    fontList.innerHTML = fonts.map(font => {
+                        const currentLang = document.getElementById('lang-en').classList.contains('active') ? 'en' : 'zh';
+                        const deleteText = currentLang === 'en' ? 'Delete' : '删除';
+                        return `
+                            <div class="font-item">
+                                <div style="flex: 1;">
+                                    <div style="font-family: '${font.name}'; font-size: var(--text-sm);">${font.name}</div>
+                                    <div style="font-size: var(--text-xs); color: var(--color-muted-foreground); margin-top: 2px;">
+                                        ${font.format || 'unknown'} · ${font.size || 'N/A'}
+                                    </div>
                                 </div>
+                                <button onclick="deleteFont('${font.name}')">${deleteText}</button>
                             </div>
-                            <button onclick="deleteFont('${font.name}')">删除</button>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 }
             };
         }
@@ -2668,24 +2748,42 @@
         async function deleteFont(fontName) {
             if (!db) return;
             
-            if (confirm(`确定要删除字体 ${fontName} 吗？`)) {
+            const currentLang = document.getElementById('lang-en').classList.contains('active') ? 'en' : 'zh';
+            const confirmText = currentLang === 'en' ? 
+                `Are you sure you want to delete font ${fontName}?` : 
+                `确定要删除字体 ${fontName} 吗？`;
+            
+            if (confirm(confirmText)) {
                 const transaction = db.transaction([STORE_NAME], 'readwrite');
                 const store = transaction.objectStore(STORE_NAME);
-                store.delete(fontName);
                 
-                // 从选择器中移除
-                const optgroup = document.getElementById('uploadedFonts');
-                const option = Array.from(optgroup.options).find(opt => opt.value === fontName);
-                if (option) option.remove();
-                
-                // 如果当前使用的是该字体，切换回默认
-                const select = document.getElementById('fontSelect');
-                if (select.value === fontName) {
-                    select.value = 'system';
-                    changeFont('system');
-                }
-                
-                updateFontList();
+                const request = store.delete(fontName);
+                request.onsuccess = () => {
+                    // 从选择器中移除
+                    const optgroup = document.getElementById('uploadedFonts');
+                    const option = Array.from(optgroup.children).find(opt => opt.value === fontName);
+                    if (option) option.remove();
+                    
+                    // 移除对应的 @font-face 样式
+                    const styles = document.querySelectorAll(`style[data-font="${fontName}"]`);
+                    styles.forEach(style => style.remove());
+                    
+                    // 如果当前使用的是该字体，切换回默认
+                    const select = document.getElementById('fontSelect');
+                    if (select.value === fontName) {
+                        select.value = 'system';
+                        changeFont('system');
+                    }
+                    
+                    // 立即更新字体列表
+                    updateFontList();
+                    
+                    // 如果管理对话框是打开的，保持打开状态
+                    const dialog = document.getElementById('fontManagerDialog');
+                    if (dialog && dialog.style.display === 'block') {
+                        // 保持对话框打开
+                    }
+                };
             }
         }
         
