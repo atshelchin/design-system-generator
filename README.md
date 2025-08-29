@@ -1,4 +1,4 @@
-# design-system-generator
+# design-tokens
 
 > A modern, customizable CSS design token system with built-in dark mode support
 
@@ -9,19 +9,19 @@ A complete design system in a single CSS file. Customize 5 core variables to gen
 ## Install
 
 ```sh
-npm install @shelchin/design-system-generator
+npm install @shelchin/design-tokens
 ```
 
 ## Usage
 
 ```css
-@import '@shelchin/design-system-generator';
+@import '@shelchin/design-tokens';
 ```
 
 **or**
 
 ```html
-<link rel="stylesheet" href="node_modules/@shelchin/design-system-generator/design-system-generator.css">
+<link rel="stylesheet" href="node_modules/@shelchin/design-tokens/design-tokens.css">
 ```
 
 ## Customization

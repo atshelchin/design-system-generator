@@ -19,7 +19,7 @@ on:
       - main
     paths:
       - 'package.json'
-      - 'design-system-generator.css'
+      - 'design-tokens.css'
 
 jobs:
   check-version:
@@ -110,7 +110,7 @@ jobs:
       - name: Validate files exist
         run: |
           # Ensure all required files exist
-          for file in design-system-generator.css package.json README.md; do
+          for file in design-tokens.css package.json README.md; do
             if [ ! -f "$file" ]; then
               echo "❌ Required file missing: $file"
               exit 1
@@ -165,28 +165,28 @@ jobs:
           tag_name: v${{ needs.check-version.outputs.version }}
           name: v${{ needs.check-version.outputs.version }}
           body: |
-            ## 🎉 @shelchin/design-system-generator v${{ needs.check-version.outputs.version }}
+            ## 🎉 @shelchin/design-tokens v${{ needs.check-version.outputs.version }}
             
             ### Installation
             ```bash
-            npm install @shelchin/design-system-generator@latest
+            npm install @shelchin/design-tokens@latest
             ```
             
             ### Usage
             ```css
-            @import '@shelchin/design-system-generator';
+            @import '@shelchin/design-tokens';
             ```
             
             Or in HTML:
             ```html
-            <link rel="stylesheet" href="node_modules/@shelchin/design-system-generator/design-system-generator.css">
+            <link rel="stylesheet" href="node_modules/@shelchin/design-tokens/design-tokens.css">
             ```
             
             ### NPM Package
-            https://www.npmjs.com/package/@shelchin/design-system-generator
+            https://www.npmjs.com/package/@shelchin/design-tokens
             
             ### Demo
-            https://atshelchin.github.io/design-system-generator/
+            https://atshelchin.github.io/design-tokens/
           draft: false
           prerelease: false
 
@@ -200,14 +200,14 @@ jobs:
           if [[ "${{ needs.publish.result }}" == "success" ]]; then
             echo "## ✅ Successfully Published" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "- **Package:** @shelchin/design-system-generator" >> $GITHUB_STEP_SUMMARY
+            echo "- **Package:** @shelchin/design-tokens" >> $GITHUB_STEP_SUMMARY
             echo "- **Version:** ${{ needs.check-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
             echo "- **Tag:** ${{ needs.check-version.outputs.npm-tag }}" >> $GITHUB_STEP_SUMMARY
             echo "- **Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Install" >> $GITHUB_STEP_SUMMARY
             echo '```bash' >> $GITHUB_STEP_SUMMARY
-            echo "npm install @shelchin/design-system-generator@${{ needs.check-version.outputs.npm-tag }}" >> $GITHUB_STEP_SUMMARY
+            echo "npm install @shelchin/design-tokens@${{ needs.check-version.outputs.npm-tag }}" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
           elif [[ "${{ needs.publish.result }}" == "skipped" ]]; then
             echo "## ⏭️ Publish Skipped" >> $GITHUB_STEP_SUMMARY

@@ -16,8 +16,8 @@ jobs:
       - name: Validate CSS file
         run: |
           # Check that CSS file exists
-          if [ ! -f "design-system-generator.css" ]; then
-            echo "❌ Missing required file: design-system-generator.css"
+          if [ ! -f "design-tokens.css" ]; then
+            echo "❌ Missing required file: design-tokens.css"
             exit 1
           fi
           echo "✅ CSS file present"
@@ -26,11 +26,11 @@ jobs:
         run: |
           # Ensure CSS file isn't too large
           MAX_SIZE=100000 # 100KB
-          SIZE=$(stat -f%z "design-system-generator.css" 2>/dev/null || stat -c%s "design-system-generator.css")
+          SIZE=$(stat -f%z "design-tokens.css" 2>/dev/null || stat -c%s "design-tokens.css")
           if [ $SIZE -gt $MAX_SIZE ]; then
-            echo "⚠️  Warning: design-system-generator.css is larger than 100KB ($SIZE bytes)"
+            echo "⚠️  Warning: design-tokens.css is larger than 100KB ($SIZE bytes)"
           else
-            echo "✅ design-system-generator.css size: $SIZE bytes"
+            echo "✅ design-tokens.css size: $SIZE bytes"
           fi
 
       - name: Validate package.json
