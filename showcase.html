@@ -504,22 +504,77 @@
             border-radius: var(--radius-md);
         }
         
-        /* 代码示例 */
-        .code-example {
-            margin-top: var(--space-4);
-            padding: var(--space-3);
-            background: var(--color-panel-1);
-            border-radius: var(--radius-md);
-            font-family: var(--font-family-mono);
-            font-size: var(--text-xs);
-            color: var(--color-code);
-            overflow-x: auto;
+        /* 代码编辑器样式 */
+        .code-editor {
+            margin-top: var(--space-6);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: #1e1e1e;
             display: none;
         }
         
-        .code-example.active {
+        .code-editor.active {
             display: block;
         }
+        
+        .code-editor-header {
+            background: #2d2d2d;
+            padding: var(--space-2) var(--space-4);
+            border-bottom: 1px solid #3e3e3e;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .code-editor-title {
+            font-size: var(--text-xs);
+            color: #cccccc;
+            font-family: var(--font-family-mono);
+        }
+        
+        .code-editor-content {
+            padding: var(--space-4);
+            font-family: var(--font-family-mono);
+            font-size: var(--text-sm);
+            line-height: 1.6;
+            color: #d4d4d4;
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre;
+        }
+        
+        /* 亮色主题代码编辑器 */
+        [data-theme=""] .code-editor {
+            background: #f5f5f5;
+        }
+        
+        [data-theme=""] .code-editor-header {
+            background: #e8e8e8;
+            border-bottom-color: #d0d0d0;
+        }
+        
+        [data-theme=""] .code-editor-title {
+            color: #333333;
+        }
+        
+        [data-theme=""] .code-editor-content {
+            color: #333333;
+        }
+        
+        /* 代码高亮 */
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-comment { color: #6a9955; }
+        .code-variable { color: #9cdcfe; }
+        .code-property { color: #d7ba7d; }
+        
+        [data-theme=""] .code-keyword { color: #0000ff; }
+        [data-theme=""] .code-string { color: #a31515; }
+        [data-theme=""] .code-comment { color: #008000; }
+        [data-theme=""] .code-variable { color: #001080; }
+        [data-theme=""] .code-property { color: #795e26; }
         
         .code-tabs {
             display: flex;
@@ -698,14 +753,10 @@
                 
                 <div class="control-group">
                     <span class="control-label" data-en="Code" data-zh="代码">代码</span>
-                    <button id="code-css" class="active" onclick="setCodeType('css')">CSS</button>
-                    <button id="code-swift" onclick="setCodeType('swift')">SwiftUI</button>
-                </div>
-                
-                <div class="control-group">
-                    <span class="control-label" data-en="Show Code" data-zh="显示代码">显示代码</span>
-                    <button id="toggle-code" onclick="toggleCode()">
-                        <span data-en="Toggle" data-zh="切换">切换</span>
+                    <button id="code-css" onclick="showCode('css')">CSS</button>
+                    <button id="code-swift" onclick="showCode('swift')">SwiftUI</button>
+                    <button id="code-hide" class="active" onclick="showCode('hide')">
+                        <span data-en="Hide" data-zh="隐藏">隐藏</span>
                     </button>
                 </div>
             </div>
@@ -828,10 +879,6 @@
                     </div>
                     <div class="showcase-label">Primary</div>
                     <div class="showcase-value">--color-primary</div>
-                    <div class="code-example css">
-background: var(--color-primary);</div>
-                    <div class="code-example swift">
-DesignSystem.Colors.primary</div>
                 </div>
                 
                 <div class="showcase-item">
@@ -947,6 +994,104 @@ DesignSystem.Colors.primary</div>
                     </div>
                 </div>
             </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-colors-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 品牌色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-500</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-100</span>);
+
+<span class="code-comment">/* 中性色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-100</span>);
+<span class="code-property">border-color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-300</span>);
+
+<span class="code-comment">/* 语义色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary-foreground</span>);
+
+<span class="code-comment">/* 状态色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-success</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-warning</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-danger</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-colors-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 品牌色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.brand500</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.brand100</span>)
+
+<span class="code-comment">// 中性色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.gray100</span>)
+<span class="code-property">.border</span>(<span class="code-variable">DesignSystem.Colors.gray300</span>)
+
+<span class="code-comment">// 语义色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.primary</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.primaryForeground</span>)
+
+<span class="code-comment">// 状态色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.success</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.warning</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.danger</span>)
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-typography-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 字体大小 */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xs</span>);  <span class="code-comment">/* 12px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-sm</span>);  <span class="code-comment">/* 14px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-base</span>); <span class="code-comment">/* 16px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-lg</span>);  <span class="code-comment">/* 18px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xl</span>);  <span class="code-comment">/* 20px */</span>
+
+<span class="code-comment">/* 字重 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-thin</span>);     <span class="code-comment">/* 100 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-normal</span>);   <span class="code-comment">/* 400 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-semibold</span>); <span class="code-comment">/* 600 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-bold</span>);     <span class="code-comment">/* 700 */</span>
+
+<span class="code-comment">/* 字体族 */</span>
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-sans</span>);
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-mono</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-typography-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 字体大小</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xs</span>))   <span class="code-comment">// 12pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.sm</span>))   <span class="code-comment">// 14pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.base</span>)) <span class="code-comment">// 16pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.lg</span>))   <span class="code-comment">// 18pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xl</span>))   <span class="code-comment">// 20pt</span>
+
+<span class="code-comment">// 字重</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.thin</span>)      <span class="code-comment">// 100</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.regular</span>)   <span class="code-comment">// 400</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.semibold</span>)  <span class="code-comment">// 600</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.bold</span>)      <span class="code-comment">// 700</span>
+
+<span class="code-comment">// 字体族</span>
+<span class="code-property">.font</span>(<span class="code-variable">.system</span>)
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">design</span>: <span class="code-variable">.monospaced</span>))
+                </div>
+            </div>
         </section>
         
         <!-- 2. 文字系统 -->
@@ -970,10 +1115,6 @@ DesignSystem.Colors.primary</div>
                     <div class="text-demo text-4xl">text-4xl (36px)</div>
                     <div class="text-demo text-5xl">text-5xl (48px)</div>
                     <div class="text-demo text-6xl">text-6xl (60px)</div>
-                    <div class="code-example css">
-font-size: var(--text-lg);</div>
-                    <div class="code-example swift">
-.font(.system(size: DesignSystem.Typography.lg))</div>
                 </div>
                 
                 <!-- 字重 - 完整展示 -->
@@ -987,10 +1128,6 @@ font-size: var(--text-lg);</div>
                     <div class="text-demo font-bold">Bold (700)</div>
                     <div class="text-demo font-extrabold">Extrabold (800)</div>
                     <div class="text-demo font-black">Black (900)</div>
-                    <div class="code-example css">
-font-weight: var(--font-semibold);</div>
-                    <div class="code-example swift">
-.fontWeight(.semibold)</div>
                 </div>
             </div>
             
@@ -1016,6 +1153,104 @@ font-weight: var(--font-semibold);</div>
                         0123456789
                     </p>
                     <div class="showcase-value">--font-family-mono</div>
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-colors-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 品牌色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-500</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-100</span>);
+
+<span class="code-comment">/* 中性色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-100</span>);
+<span class="code-property">border-color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-300</span>);
+
+<span class="code-comment">/* 语义色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary-foreground</span>);
+
+<span class="code-comment">/* 状态色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-success</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-warning</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-danger</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-colors-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 品牌色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.brand500</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.brand100</span>)
+
+<span class="code-comment">// 中性色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.gray100</span>)
+<span class="code-property">.border</span>(<span class="code-variable">DesignSystem.Colors.gray300</span>)
+
+<span class="code-comment">// 语义色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.primary</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.primaryForeground</span>)
+
+<span class="code-comment">// 状态色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.success</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.warning</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.danger</span>)
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-typography-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 字体大小 */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xs</span>);  <span class="code-comment">/* 12px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-sm</span>);  <span class="code-comment">/* 14px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-base</span>); <span class="code-comment">/* 16px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-lg</span>);  <span class="code-comment">/* 18px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xl</span>);  <span class="code-comment">/* 20px */</span>
+
+<span class="code-comment">/* 字重 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-thin</span>);     <span class="code-comment">/* 100 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-normal</span>);   <span class="code-comment">/* 400 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-semibold</span>); <span class="code-comment">/* 600 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-bold</span>);     <span class="code-comment">/* 700 */</span>
+
+<span class="code-comment">/* 字体族 */</span>
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-sans</span>);
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-mono</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-typography-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 字体大小</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xs</span>))   <span class="code-comment">// 12pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.sm</span>))   <span class="code-comment">// 14pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.base</span>)) <span class="code-comment">// 16pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.lg</span>))   <span class="code-comment">// 18pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xl</span>))   <span class="code-comment">// 20pt</span>
+
+<span class="code-comment">// 字重</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.thin</span>)      <span class="code-comment">// 100</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.regular</span>)   <span class="code-comment">// 400</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.semibold</span>)  <span class="code-comment">// 600</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.bold</span>)      <span class="code-comment">// 700</span>
+
+<span class="code-comment">// 字体族</span>
+<span class="code-property">.font</span>(<span class="code-variable">.system</span>)
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">design</span>: <span class="code-variable">.monospaced</span>))
                 </div>
             </div>
         </section>
@@ -1174,6 +1409,157 @@ font-weight: var(--font-semibold);</div>
                     </div>
                 </div>
             </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-colors-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 品牌色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-500</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--brand-100</span>);
+
+<span class="code-comment">/* 中性色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-100</span>);
+<span class="code-property">border-color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--gray-300</span>);
+
+<span class="code-comment">/* 语义色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-primary-foreground</span>);
+
+<span class="code-comment">/* 状态色 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-success</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-warning</span>);
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-danger</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-colors-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 品牌色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.brand500</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.brand100</span>)
+
+<span class="code-comment">// 中性色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.gray100</span>)
+<span class="code-property">.border</span>(<span class="code-variable">DesignSystem.Colors.gray300</span>)
+
+<span class="code-comment">// 语义色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.primary</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.primaryForeground</span>)
+
+<span class="code-comment">// 状态色</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.success</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.warning</span>)
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.danger</span>)
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-typography-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 字体大小 */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xs</span>);  <span class="code-comment">/* 12px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-sm</span>);  <span class="code-comment">/* 14px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-base</span>); <span class="code-comment">/* 16px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-lg</span>);  <span class="code-comment">/* 18px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xl</span>);  <span class="code-comment">/* 20px */</span>
+
+<span class="code-comment">/* 字重 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-thin</span>);     <span class="code-comment">/* 100 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-normal</span>);   <span class="code-comment">/* 400 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-semibold</span>); <span class="code-comment">/* 600 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-bold</span>);     <span class="code-comment">/* 700 */</span>
+
+<span class="code-comment">/* 字体族 */</span>
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-sans</span>);
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-mono</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-typography-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 字体大小</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xs</span>))   <span class="code-comment">// 12pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.sm</span>))   <span class="code-comment">// 14pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.base</span>)) <span class="code-comment">// 16pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.lg</span>))   <span class="code-comment">// 18pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xl</span>))   <span class="code-comment">// 20pt</span>
+
+<span class="code-comment">// 字重</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.thin</span>)      <span class="code-comment">// 100</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.regular</span>)   <span class="code-comment">// 400</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.semibold</span>)  <span class="code-comment">// 600</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.bold</span>)      <span class="code-comment">// 700</span>
+
+<span class="code-comment">// 字体族</span>
+<span class="code-property">.font</span>(<span class="code-variable">.system</span>)
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">design</span>: <span class="code-variable">.monospaced</span>))
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-hierarchy-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 标题层级 */</span>
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-heading-primary</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-heading-muted</span>);
+
+<span class="code-comment">/* 描述层级 */</span>
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-description-1</span>); <span class="code-comment">/* 最重要 */</span>
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-description-2</span>); <span class="code-comment">/* 次要 */</span>
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-description-3</span>); <span class="code-comment">/* 辅助 */</span>
+
+<span class="code-comment">/* 数值层级 */</span>
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-value-positive</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-value-negative</span>);
+<span class="code-property">color</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-value-neutral</span>);
+
+<span class="code-comment">/* 面板层级 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-panel-0</span>); <span class="code-comment">/* 基础背景 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-panel-1</span>); <span class="code-comment">/* 一级面板 */</span>
+<span class="code-property">background</span>: <span class="code-keyword">var</span>(<span class="code-variable">--color-panel-2</span>); <span class="code-comment">/* 二级面板 */</span>
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-hierarchy-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 标题层级</span>
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.headingPrimary</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.headingMuted</span>)
+
+<span class="code-comment">// 描述层级</span>
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.description1</span>) <span class="code-comment">// 最重要</span>
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.description2</span>) <span class="code-comment">// 次要</span>
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.description3</span>) <span class="code-comment">// 辅助</span>
+
+<span class="code-comment">// 数值层级</span>
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.valuePositive</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.valueNegative</span>)
+<span class="code-property">.foregroundColor</span>(<span class="code-variable">DesignSystem.Colors.valueNeutral</span>)
+
+<span class="code-comment">// 面板层级</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.panel0</span>) <span class="code-comment">// 基础背景</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.panel1</span>) <span class="code-comment">// 一级面板</span>
+<span class="code-property">.background</span>(<span class="code-variable">DesignSystem.Colors.panel2</span>) <span class="code-comment">// 二级面板</span>
+                </div>
+            </div>
         </section>
         
         <!-- 4. 间距系统 -->
@@ -1269,12 +1655,40 @@ font-weight: var(--font-semibold);</div>
                     <div class="showcase-value">80px</div>
                 </div>
             </div>
-            <div class="code-example css" style="margin-top: var(--space-4)">
-padding: var(--space-4);
-margin: var(--space-8);</div>
-            <div class="code-example swift" style="margin-top: var(--space-4)">
-.padding(DesignSystem.Spacing.s4)
-.padding(.all, DesignSystem.Spacing.s8)</div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-spacing-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 间距使用 */</span>
+<span class="code-property">padding</span>: <span class="code-keyword">var</span>(<span class="code-variable">--space-4</span>);     <span class="code-comment">/* 16px */</span>
+<span class="code-property">margin</span>: <span class="code-keyword">var</span>(<span class="code-variable">--space-8</span>);      <span class="code-comment">/* 32px */</span>
+<span class="code-property">gap</span>: <span class="code-keyword">var</span>(<span class="code-variable">--space-2</span>);         <span class="code-comment">/* 8px */</span>
+
+<span class="code-comment">/* 组合使用 */</span>
+<span class="code-property">padding</span>: <span class="code-keyword">var</span>(<span class="code-variable">--space-2</span>) <span class="code-keyword">var</span>(<span class="code-variable">--space-4</span>);
+<span class="code-property">margin</span>: <span class="code-keyword">var</span>(<span class="code-variable">--space-6</span>) <span class="code-variable">auto</span>;
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-spacing-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 间距使用</span>
+<span class="code-property">.padding</span>(<span class="code-variable">DesignSystem.Spacing.s4</span>)      <span class="code-comment">// 16pt</span>
+<span class="code-property">.padding</span>(<span class="code-variable">.all</span>, <span class="code-variable">DesignSystem.Spacing.s8</span>) <span class="code-comment">// 32pt</span>
+<span class="code-property">.spacing</span>(<span class="code-variable">DesignSystem.Spacing.s2</span>)      <span class="code-comment">// 8pt</span>
+
+<span class="code-comment">// 方向性间距</span>
+<span class="code-property">.padding</span>(<span class="code-variable">.horizontal</span>, <span class="code-variable">DesignSystem.Spacing.s4</span>)
+<span class="code-property">.padding</span>(<span class="code-variable">.vertical</span>, <span class="code-variable">DesignSystem.Spacing.s2</span>)
+<span class="code-property">.padding</span>(<span class="code-variable">.top</span>, <span class="code-variable">DesignSystem.Spacing.s6</span>)
+                </div>
+            </div>
         </section>
         
         <!-- 5. 圆角系统 -->
@@ -1342,10 +1756,40 @@ margin: var(--space-8);</div>
                     <div class="showcase-value">9999px</div>
                 </div>
             </div>
-            <div class="code-example css" style="margin-top: var(--space-4)">
-border-radius: var(--radius-lg);</div>
-            <div class="code-example swift" style="margin-top: var(--space-4)">
-.cornerRadius(DesignSystem.Radius.lg)</div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-radius-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 圆角使用 */</span>
+<span class="code-property">border-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-sm</span>);   <span class="code-comment">/* 小圆角 ~4px */</span>
+<span class="code-property">border-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-md</span>);   <span class="code-comment">/* 中圆角 ~8px */</span>
+<span class="code-property">border-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-lg</span>);   <span class="code-comment">/* 大圆角 ~12px */</span>
+<span class="code-property">border-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-full</span>); <span class="code-comment">/* 完全圆角 9999px */</span>
+
+<span class="code-comment">/* 部分圆角 */</span>
+<span class="code-property">border-top-left-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-lg</span>);
+<span class="code-property">border-top-right-radius</span>: <span class="code-keyword">var</span>(<span class="code-variable">--radius-lg</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-radius-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 圆角使用</span>
+<span class="code-property">.cornerRadius</span>(<span class="code-variable">DesignSystem.Radius.sm</span>)   <span class="code-comment">// 小圆角 ~4pt</span>
+<span class="code-property">.cornerRadius</span>(<span class="code-variable">DesignSystem.Radius.md</span>)   <span class="code-comment">// 中圆角 ~8pt</span>
+<span class="code-property">.cornerRadius</span>(<span class="code-variable">DesignSystem.Radius.lg</span>)   <span class="code-comment">// 大圆角 ~12pt</span>
+<span class="code-property">.clipShape</span>(<span class="code-variable">Circle</span>())                    <span class="code-comment">// 完全圆形</span>
+
+<span class="code-comment">// 自定义圆角</span>
+<span class="code-property">.clipShape</span>(<span class="code-variable">RoundedRectangle</span>(<span class="code-variable">cornerRadius</span>: <span class="code-variable">DesignSystem.Radius.xl</span>))
+                </div>
+            </div>
         </section>
         
         <!-- 6. 阴影系统 -->
@@ -1413,10 +1857,46 @@ border-radius: var(--radius-lg);</div>
                     <div class="showcase-value">--shadow-inner</div>
                 </div>
             </div>
-            <div class="code-example css" style="margin-top: var(--space-4)">
-box-shadow: var(--shadow-md);</div>
-            <div class="code-example swift" style="margin-top: var(--space-4)">
-.shadow(radius: DesignSystem.Shadow.md)</div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-shadow-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 阴影使用 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-xs</span>);    <span class="code-comment">/* 极小阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-sm</span>);    <span class="code-comment">/* 小阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-md</span>);    <span class="code-comment">/* 中阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-lg</span>);    <span class="code-comment">/* 大阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-xl</span>);    <span class="code-comment">/* 超大阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-keyword">var</span>(<span class="code-variable">--shadow-inner</span>); <span class="code-comment">/* 内阴影 */</span>
+
+<span class="code-comment">/* 无阴影 */</span>
+<span class="code-property">box-shadow</span>: <span class="code-variable">none</span>;
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-shadow-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 阴影使用</span>
+<span class="code-property">.shadow</span>(<span class="code-variable">radius</span>: <span class="code-variable">DesignSystem.Shadow.xs</span>)  <span class="code-comment">// 极小阴影</span>
+<span class="code-property">.shadow</span>(<span class="code-variable">radius</span>: <span class="code-variable">DesignSystem.Shadow.sm</span>)  <span class="code-comment">// 小阴影</span>
+<span class="code-property">.shadow</span>(<span class="code-variable">radius</span>: <span class="code-variable">DesignSystem.Shadow.md</span>)  <span class="code-comment">// 中阴影</span>
+<span class="code-property">.shadow</span>(<span class="code-variable">radius</span>: <span class="code-variable">DesignSystem.Shadow.lg</span>)  <span class="code-comment">// 大阴影</span>
+
+<span class="code-comment">// 自定义阴影</span>
+<span class="code-property">.shadow</span>(
+    <span class="code-variable">color</span>: <span class="code-variable">Color.black.opacity</span>(<span class="code-string">0.1</span>),
+    <span class="code-variable">radius</span>: <span class="code-string">8</span>,
+    <span class="code-variable">x</span>: <span class="code-string">0</span>,
+    <span class="code-variable">y</span>: <span class="code-string">4</span>
+)
+                </div>
+            </div>
         </section>
         
         <!-- 7. 无障碍系统 -->
@@ -1462,6 +1942,114 @@ box-shadow: var(--shadow-md);</div>
                         <div style="width: 60px; height: 60px; background: var(--brand-500); border-radius: var(--radius-lg);"></div>
                         <div style="width: 60px; height: 60px; background: var(--brand-300); border-radius: var(--radius-lg);"></div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-accessibility-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content"><span class="code-comment">/* 无障碍设置 */</span>
+
+<span class="code-comment">/* 字体大小缩放 */</span>
+<span class="code-keyword">[data-font-size="small"]</span> { <span class="code-property">--font-scale</span>: <span class="code-string">0.875</span>; }
+<span class="code-keyword">[data-font-size="normal"]</span> { <span class="code-property">--font-scale</span>: <span class="code-string">1</span>; }
+<span class="code-keyword">[data-font-size="large"]</span> { <span class="code-property">--font-scale</span>: <span class="code-string">1.125</span>; }
+<span class="code-keyword">[data-font-size="x-large"]</span> { <span class="code-property">--font-scale</span>: <span class="code-string">1.25</span>; }
+
+<span class="code-comment">/* 对比度模式 */</span>
+<span class="code-keyword">[data-contrast="high"]</span> { 
+    <span class="code-property">--color-foreground</span>: <span class="code-string">hsl(0, 0%, 0%)</span>;
+    <span class="code-property">--color-background</span>: <span class="code-string">hsl(0, 0%, 100%)</span>;
+}
+<span class="code-keyword">[data-contrast="ultra"]</span> { 
+    <span class="code-property">--color-foreground</span>: <span class="code-string">#000000</span>;
+    <span class="code-property">--color-background</span>: <span class="code-string">#ffffff</span>;
+}
+
+<span class="code-comment">/* 字间距 */</span>
+<span class="code-keyword">[data-letter-spacing="wide"]</span> { <span class="code-property">letter-spacing</span>: <span class="code-string">0.05em</span>; }
+<span class="code-keyword">[data-letter-spacing="wider"]</span> { <span class="code-property">letter-spacing</span>: <span class="code-string">0.1em</span>; }
+
+<span class="code-comment">/* 行高 */</span>
+<span class="code-keyword">[data-line-height="relaxed"]</span> { <span class="code-property">line-height</span>: <span class="code-string">1.8</span>; }
+<span class="code-keyword">[data-line-height="loose"]</span> { <span class="code-property">line-height</span>: <span class="code-string">2</span>; }
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-accessibility-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content"><span class="code-comment">// 无障碍设置</span>
+
+<span class="code-comment">// 动态字体大小</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.base</span>))
+<span class="code-property">.dynamicTypeSize</span>(<span class="code-variable">.small</span>...<span class="code-variable">.xxxLarge</span>)
+
+<span class="code-comment">// 高对比度支持</span>
+<span class="code-property">.environment</span>(<span class="code-variable">\.colorSchemeContrast</span>, <span class="code-variable">.high</span>)
+
+<span class="code-comment">// 字间距调整</span>
+<span class="code-property">.tracking</span>(<span class="code-string">2</span>) <span class="code-comment">// 增加字间距</span>
+
+<span class="code-comment">// 行高调整</span>
+<span class="code-property">.lineSpacing</span>(<span class="code-string">8</span>) <span class="code-comment">// 增加行间距</span>
+
+<span class="code-comment">// 无障碍标签</span>
+<span class="code-property">.accessibilityLabel</span>(<span class="code-string">"描述文字"</span>)
+<span class="code-property">.accessibilityHint</span>(<span class="code-string">"操作提示"</span>)
+<span class="code-property">.accessibilityValue</span>(<span class="code-string">"当前值"</span>)
+                </div>
+            </div>
+            
+            <!-- 代码编辑器 -->
+            <div class="code-editor" id="code-typography-css">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">CSS</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">/* 字体大小 */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xs</span>);  <span class="code-comment">/* 12px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-sm</span>);  <span class="code-comment">/* 14px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-base</span>); <span class="code-comment">/* 16px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-lg</span>);  <span class="code-comment">/* 18px */</span>
+<span class="code-property">font-size</span>: <span class="code-keyword">var</span>(<span class="code-variable">--text-xl</span>);  <span class="code-comment">/* 20px */</span>
+
+<span class="code-comment">/* 字重 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-thin</span>);     <span class="code-comment">/* 100 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-normal</span>);   <span class="code-comment">/* 400 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-semibold</span>); <span class="code-comment">/* 600 */</span>
+<span class="code-property">font-weight</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-bold</span>);     <span class="code-comment">/* 700 */</span>
+
+<span class="code-comment">/* 字体族 */</span>
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-sans</span>);
+<span class="code-property">font-family</span>: <span class="code-keyword">var</span>(<span class="code-variable">--font-family-mono</span>);
+                </div>
+            </div>
+            
+            <div class="code-editor" id="code-typography-swift">
+                <div class="code-editor-header">
+                    <div class="code-editor-title">SwiftUI</div>
+                </div>
+                <div class="code-editor-content">
+<span class="code-comment">// 字体大小</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xs</span>))   <span class="code-comment">// 12pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.sm</span>))   <span class="code-comment">// 14pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.base</span>)) <span class="code-comment">// 16pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.lg</span>))   <span class="code-comment">// 18pt</span>
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">size</span>: <span class="code-variable">DesignSystem.Typography.xl</span>))   <span class="code-comment">// 20pt</span>
+
+<span class="code-comment">// 字重</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.thin</span>)      <span class="code-comment">// 100</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.regular</span>)   <span class="code-comment">// 400</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.semibold</span>)  <span class="code-comment">// 600</span>
+<span class="code-property">.fontWeight</span>(<span class="code-variable">.bold</span>)      <span class="code-comment">// 700</span>
+
+<span class="code-comment">// 字体族</span>
+<span class="code-property">.font</span>(<span class="code-variable">.system</span>)
+<span class="code-property">.font</span>(<span class="code-property">.system</span>(<span class="code-variable">design</span>: <span class="code-variable">.monospaced</span>))
                 </div>
             </div>
         </section>
@@ -1607,29 +2195,29 @@ box-shadow: var(--shadow-md);</div>
             }
         }
         
-        // 代码类型切换
-        function setCodeType(type) {
+        // 显示代码
+        let currentCodeType = 'hide';
+        function showCode(type) {
+            currentCodeType = type;
+            
+            // 更新按钮状态
             document.getElementById('code-css').classList.toggle('active', type === 'css');
             document.getElementById('code-swift').classList.toggle('active', type === 'swift');
+            document.getElementById('code-hide').classList.toggle('active', type === 'hide');
             
-            // 切换代码示例
-            document.querySelectorAll('.code-example').forEach(el => {
-                el.classList.remove('active');
-            });
-            document.querySelectorAll(`.code-example.${type}`).forEach(el => {
-                if (showCode) {
-                    el.classList.add('active');
+            // 显示/隐藏所有代码编辑器
+            document.querySelectorAll('.code-editor').forEach(editor => {
+                editor.classList.remove('active');
+                
+                if (type !== 'hide') {
+                    // 获取编辑器ID，例如: code-colors-css
+                    const editorId = editor.id;
+                    const editorType = editorId.split('-').pop(); // 获取最后部分 (css 或 swift)
+                    
+                    if (editorType === type) {
+                        editor.classList.add('active');
+                    }
                 }
-            });
-        }
-        
-        // 显示/隐藏代码
-        let showCode = false;
-        function toggleCode() {
-            showCode = !showCode;
-            const activeType = document.getElementById('code-css').classList.contains('active') ? 'css' : 'swift';
-            document.querySelectorAll(`.code-example.${activeType}`).forEach(el => {
-                el.classList.toggle('active', showCode);
             });
         }
         
