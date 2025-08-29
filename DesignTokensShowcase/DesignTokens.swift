@@ -11,7 +11,6 @@ import Combine
 
 /// Observable Design Tokens Configuration
 /// This class ensures all changes are reactive and update the UI in real-time
-@MainActor
 public class DesignTokensConfig: ObservableObject {
     /// Brand color hue (0-360) matching CSS --brand-hue
     @Published public var brandHue: Double = 217 {
@@ -525,6 +524,7 @@ extension Color {
 
 extension View {
     /// Apply design token text style
+    @available(macOS 13.0, iOS 16.0, *)
     public func textStyle(size: CGFloat, weight: Font.Weight = .regular) -> some View {
         self
             .font(.system(size: size, weight: weight))
