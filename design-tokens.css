@@ -80,10 +80,10 @@ html {
   /* 按钮色 Button Colors */
   --color-button-primary: var(--brand-600);
   --color-button-primary-foreground: #ffffff;
-  --color-button-secondary: var(--gray-100);
-  --color-button-secondary-foreground: var(--gray-900);
+  --color-button-secondary: var(--brand-100);
+  --color-button-secondary-foreground: var(--brand-700);
   --color-button-disabled: var(--gray-100);
-  --color-button-disabled-foreground: var(--gray-400);
+  --color-button-disabled-foreground: var(--gray-600);
   
   /* 状态色 Status Colors */
   --color-positive: #22c55e;
@@ -283,11 +283,11 @@ html {
   
   /* 按钮色 - 暗色主题 Button Colors - Dark Theme */
   --color-button-primary: var(--brand-500);
-  --color-button-primary-foreground: var(--gray-900);
-  --color-button-secondary: var(--gray-700);
-  --color-button-secondary-foreground: var(--gray-100);
-  --color-button-disabled: var(--gray-800);
-  --color-button-disabled-foreground: var(--gray-600);
+  --color-button-primary-foreground: var(--gray-300);
+  --color-button-secondary: var(--brand-900);
+  --color-button-secondary-foreground: var(--brand-800);
+  --color-button-disabled: var(--gray-700);
+  --color-button-disabled-foreground: var(--gray-400);
   
   /* 状态色 - 暗色主题 Status Colors - Dark Theme */
   --color-positive: #86efac;

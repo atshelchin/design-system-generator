@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:design-token}/DesignTokensShowcase",
+            "name": "Debug DesignTokensShowcase (DesignTokensShowcase)",
+            "program": "${workspaceFolder:design-token}/DesignTokensShowcase/.build/debug/DesignTokensShowcase",
+            "preLaunchTask": "swift: Build Debug DesignTokensShowcase (DesignTokensShowcase)"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:design-token}/DesignTokensShowcase",
+            "name": "Release DesignTokensShowcase (DesignTokensShowcase)",
+            "program": "${workspaceFolder:design-token}/DesignTokensShowcase/.build/release/DesignTokensShowcase",
+            "preLaunchTask": "swift: Build Release DesignTokensShowcase (DesignTokensShowcase)"
+        }
+    ]
+}
