@@ -66,11 +66,40 @@ struct AccessibilitySystemView: View {
                 Text(language == "zh" ? "对比度模式" : "Contrast Modes")
                     .globalTextStyle(config, size: 18, weight: .semibold)
                 
-                HStack(spacing: 24 * config.spacingScale) {
-                    ForEach(contrastModes, id: \.mode) { contrast in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 24 * config.spacingScale) {
+                        // 当前对比度效果
                         VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                            Text(language == "zh" ? contrast.nameZh : contrast.nameEn)
+                            Text(language == "zh" ? "当前" : "Current")
                                 .globalTextStyle(config, size: 14, weight: .medium)
+                            
+                            VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                                // 标题示例
+                                Text(language == "zh" ? "标题文字" : "Heading Text")
+                                    .globalTextStyle(config, size: 16, weight: .semibold)
+                                
+                                // 正文示例
+                                Text(language == "zh" ? "正文内容示例" : "Body text example")
+                                    .globalTextStyle(config, size: 14)
+                                
+                                // 按钮示例
+                                Button(language == "zh" ? "按钮" : "Button") {}
+                                    .buttonStyle(PrimaryButtonStyle(config: config))
+                            }
+                            .padding(12 * config.spacingScale)
+                            .background(DesignTokens.Colors.card)
+                            .cornerRadius(6 * config.radiusScale)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6 * config.radiusScale)
+                                    .stroke(DesignTokens.Colors.border, lineWidth: config.contrast == .ultra ? 3 : (config.contrast == .high ? 2 : 1))
+                            )
+                        }
+                        
+                        // 固定的三种对比度示例
+                        ForEach(contrastModes, id: \.mode) { contrast in
+                            VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
+                                Text(language == "zh" ? contrast.nameZh : contrast.nameEn)
+                                    .globalTextStyle(config, size: 14, weight: .medium)
                             
                             VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
                                 // 标题示例
@@ -104,6 +133,7 @@ struct AccessibilitySystemView: View {
                                 RoundedRectangle(cornerRadius: 6 * config.radiusScale)
                                     .stroke(contrast.border, lineWidth: 1)
                             )
+                        }
                         }
                     }
                 }
@@ -316,13 +346,14 @@ private var contrastModes: [ContrastModeExample] {
             nameEn: "Default",
             weight: .medium,
             bodyWeight: .regular,
-            foreground: DesignTokens.Colors.foreground,
-            bodyColor: DesignTokens.Colors.mutedForeground,
-            background: DesignTokens.Colors.card,
-            border: DesignTokens.Colors.border,
+            // 默认模式应该显示固定的默认效果，不受当前对比度影响
+            foreground: isDark ? DesignTokens.Colors.grayColor(for: 100) : DesignTokens.Colors.grayColor(for: 900),
+            bodyColor: isDark ? DesignTokens.Colors.grayColor(for: 400) : DesignTokens.Colors.grayColor(for: 600),
+            background: isDark ? DesignTokens.Colors.grayColor(for: 800) : Color.white,
+            border: isDark ? DesignTokens.Colors.grayColor(for: 700) : DesignTokens.Colors.grayColor(for: 200),
             borderWidth: 1,
-            buttonBackground: DesignTokens.Colors.primary,
-            buttonForeground: DesignTokens.Colors.primaryForeground
+            buttonBackground: isDark ? DesignTokens.Colors.brandColor(for: 500) : DesignTokens.Colors.brandColor(for: 600),
+            buttonForeground: Color.white
         ),
         ContrastModeExample(
             mode: .high,

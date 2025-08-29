@@ -375,12 +375,32 @@ struct SmallBrandButtonStyle: ButtonStyle {
     let brandColor: Color
     
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
+        let config = DesignTokensConfig.shared
+        // 在暗色模式+高对比度/超高对比度下，使用黑色文字和更亮的背景
+        let foregroundColor: Color = {
+            if config.isDarkMode && (config.contrast == .high || config.contrast == .ultra) {
+                return Color.black
+            }
+            return .white
+        }()
+        
+        let backgroundColor: Color = {
+            if config.isDarkMode && config.contrast == .ultra {
+                // 超高对比度使用白色背景
+                return Color.white
+            } else if config.isDarkMode && config.contrast == .high {
+                // 高对比度使用更亮的品牌色
+                return DesignTokens.Colors.brandColor(for: 300)
+            }
+            return brandColor
+        }()
+        
+        return configuration.label
             .font(.system(size: 11))
-            .foregroundColor(.white)
+            .foregroundColor(foregroundColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .background(brandColor)
+            .background(backgroundColor)
             .cornerRadius(4)
             .opacity(configuration.isPressed ? 0.8 : 1.0)
     }

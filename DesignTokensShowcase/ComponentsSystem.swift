@@ -336,7 +336,7 @@ struct ComponentsSystemView: View {
                     }
                 }
             }
-            .frame(minHeight: 800) // 设置最小高度以确保所有组件可见
+            .frame(minHeight: 1200) // 增加最小高度以确保所有组件完全可见
         }
     }
 }
