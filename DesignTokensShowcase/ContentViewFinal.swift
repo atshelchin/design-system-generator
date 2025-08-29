@@ -125,8 +125,9 @@ struct ContentViewFinal: View {
                 )
                 
                 // 主内容区域
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 0) {
                         // 导航标签
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 4) {
@@ -140,7 +141,12 @@ struct ContentViewFinal: View {
                                     ("accessibility", language == "zh" ? "无障碍" : "Accessibility"),
                                     ("components", language == "zh" ? "组件示例" : "Components")
                                 ], id: \.0) { item in
-                                    Button(action: { selectedSection = item.0 }) {
+                                    Button(action: { 
+                                        selectedSection = item.0
+                                        withAnimation(.easeInOut(duration: 0.3)) {
+                                            proxy.scrollTo(item.0, anchor: .top)
+                                        }
+                                    }) {
                                         Text(item.1)
                                             .font(.system(size: 13, weight: .medium))
                                             .foregroundColor(selectedSection == item.0 ? .white : Color(NSColor.labelColor))
@@ -163,28 +169,38 @@ struct ContentViewFinal: View {
                             switch selectedSection {
                             case "colors":
                                 CompleteColorSystemView(language: language, config: config)
+                                    .id("colors")
                             case "typography":
                                 TypographySystemView(language: language, config: config)
+                                    .id("typography")
                             case "hierarchy":
                                 HierarchySystemView(language: language, config: config)
+                                    .id("hierarchy")
                             case "spacing":
                                 SpacingSystemView(language: language, config: config)
+                                    .id("spacing")
                             case "radius":
                                 RadiusSystemView(language: language, config: config)
+                                    .id("radius")
                             case "shadow":
                                 ShadowSystemView(language: language, config: config)
+                                    .id("shadow")
                             case "accessibility":
                                 AccessibilitySystemView(language: language, config: config)
+                                    .id("accessibility")
                             case "components":
                                 ComponentsSystemView(language: language, config: config)
+                                    .id("components")
                             default:
                                 CompleteColorSystemView(language: language, config: config)
+                                    .id("colors")
                             }
                         }
                         .padding(.horizontal, 48)
                         .padding(.bottom, 100)
                     }
                 }
+            }
             }
             
             // 悬浮控制面板
@@ -212,180 +228,14 @@ struct ContentViewFinal: View {
 
 // TypographySystemView is now imported from TypographySystem.swift
 
-// 间距系统视图
-struct SpacingSystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(language == "zh" ? "4. 间距系统" : "4. Spacing System")
-                    .font(.system(size: 32, weight: .bold))
-                Text(language == "zh" ? "统一的间距规范" : "Unified spacing specifications")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color(NSColor.secondaryLabelColor))
-            }
-            
-            VStack(alignment: .leading, spacing: 12) {
-                ForEach([
-                    ("space-0", 0),
-                    ("space-0.5", 2),
-                    ("space-1", 4),
-                    ("space-2", 8),
-                    ("space-3", 12),
-                    ("space-4", 16),
-                    ("space-5", 20),
-                    ("space-6", 24),
-                    ("space-8", 32),
-                    ("space-10", 40),
-                    ("space-12", 48),
-                    ("space-16", 64),
-                    ("space-20", 80),
-                    ("space-24", 96)
-                ], id: \.0) { item in
-                    HStack(spacing: 16) {
-                        Rectangle()
-                            .fill(DesignTokens.Colors.primary.opacity(0.2))
-                            .frame(width: CGFloat(item.1) * config.spacingScale * 2, height: 24)
-                            .overlay(
-                                Rectangle()
-                                    .fill(DesignTokens.Colors.primary)
-                                    .frame(width: CGFloat(item.1) * config.spacingScale, height: 24),
-                                alignment: .leading
-                            )
-                        
-                        Text(item.0)
-                            .font(.system(size: 12, design: .monospaced))
-                            .frame(width: 80, alignment: .leading)
-                        
-                        Text("\(item.1)px")
-                            .font(.system(size: 11))
-                            .foregroundColor(Color(NSColor.tertiaryLabelColor))
-                    }
-                }
-            }
-        }
-    }
-}
+// SpacingSystemView is now imported from SpacingSystem.swift
 
-// 圆角系统视图
-struct RadiusSystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(language == "zh" ? "5. 圆角系统" : "5. Radius System")
-                    .font(.system(size: 32, weight: .bold))
-                Text(language == "zh" ? "统一的圆角规范" : "Unified radius specifications")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color(NSColor.secondaryLabelColor))
-            }
-            
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 4), spacing: 20) {
-                ForEach([
-                    ("none", 0),
-                    ("sm", 4),
-                    ("base", 6),
-                    ("md", 8),
-                    ("lg", 12),
-                    ("xl", 16),
-                    ("2xl", 24),
-                    ("full", 9999)
-                ], id: \.0) { item in
-                    VStack(spacing: 8) {
-                        if item.0 == "full" {
-                            Circle()
-                                .fill(DesignTokens.Colors.primary.opacity(0.1))
-                                .overlay(Circle().stroke(DesignTokens.Colors.primary, lineWidth: 2))
-                                .frame(width: 64, height: 64)
-                        } else {
-                            RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                .fill(DesignTokens.Colors.primary.opacity(0.1))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: CGFloat(item.1) * config.radiusScale)
-                                        .stroke(DesignTokens.Colors.primary, lineWidth: 2)
-                                )
-                                .frame(width: 64, height: 64)
-                        }
-                        
-                        Text(item.0)
-                            .font(.system(size: 12, weight: .medium))
-                        
-                        Text(item.0 == "full" ? "9999px" : "\(item.1)px")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(NSColor.tertiaryLabelColor))
-                    }
-                }
-            }
-        }
-    }
-}
+// RadiusSystemView is now imported from RadiusSystem.swift
 
-// 阴影系统视图
-struct ShadowSystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 32) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(language == "zh" ? "6. 阴影系统" : "6. Shadow System")
-                    .font(.system(size: 32, weight: .bold))
-                Text(language == "zh" ? "多层次的阴影效果" : "Multi-level shadow effects")
-                    .font(.system(size: 16))
-                    .foregroundColor(Color(NSColor.secondaryLabelColor))
-            }
-            
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 20), count: 3), spacing: 20) {
-                ForEach([
-                    ("shadow-sm", 2),
-                    ("shadow-base", 4),
-                    ("shadow-md", 6),
-                    ("shadow-lg", 10),
-                    ("shadow-xl", 15),
-                    ("shadow-2xl", 25)
-                ], id: \.0) { item in
-                    VStack(spacing: 8) {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.white)
-                            .frame(width: 100, height: 60)
-                            .shadow(
-                                color: Color.black.opacity(0.1),
-                                radius: CGFloat(item.1),
-                                y: CGFloat(item.1) / 2
-                            )
-                        
-                        Text(item.0)
-                            .font(.system(size: 11, design: .monospaced))
-                            .foregroundColor(Color(NSColor.secondaryLabelColor))
-                    }
-                }
-            }
-        }
-    }
-}
+// ShadowSystemView is now imported from ShadowSystem.swift
 
 // HierarchySystemView is now imported from HierarchySystem.swift
 
-struct AccessibilitySystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        Text(language == "zh" ? "无障碍" : "Accessibility")
-            .font(.system(size: 24, weight: .bold))
-    }
-}
+// AccessibilitySystemView is now imported from AccessibilitySystem.swift
 
-struct ComponentsSystemView: View {
-    let language: String
-    @ObservedObject var config: DesignTokensConfig
-    
-    var body: some View {
-        Text(language == "zh" ? "组件示例" : "Components")
-            .font(.system(size: 24, weight: .bold))
-    }
-}
+// ComponentsSystemView is now imported from ComponentsSystem.swift

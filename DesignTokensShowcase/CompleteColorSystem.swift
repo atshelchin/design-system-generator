@@ -229,22 +229,27 @@ struct FunctionalColorGrid: View {
                 Text(language == "zh" ? "背景" : "Background")
                     .globalTextStyle(config, size: 13, weight: .semibold)
                 
-                VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                VStack(spacing: 8 * config.spacingScale) {
                     ColorSampleRow(
                         label: language == "zh" ? "页面背景" : "Page Background",
                         color: DesignTokens.Colors.background,
                         config: config
                     )
+                    .frame(minWidth: 150)
+                    
                     ColorSampleRow(
                         label: language == "zh" ? "卡片背景" : "Card Background", 
                         color: DesignTokens.Colors.card,
                         config: config
                     )
+                    .frame(minWidth: 150)
+                    
                     ColorSampleRow(
                         label: language == "zh" ? "弹出背景" : "Popover Background",
                         color: DesignTokens.Colors.popover,
                         config: config
                     )
+                    .frame(minWidth: 150)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -257,16 +262,16 @@ struct FunctionalColorGrid: View {
                 VStack(spacing: 8 * config.spacingScale) {
                     Button("Primary Button") {}
                         .buttonStyle(PrimaryButtonStyle(config: config))
-                        .frame(maxWidth: .infinity)
+                        .frame(minWidth: 150)
                     
                     Button("Secondary Button") {}
                         .buttonStyle(SecondaryButtonStyle(config: config))
-                        .frame(maxWidth: .infinity)
+                        .frame(minWidth: 150)
                     
                     Button("Disabled Button") {}
                         .disabled(true)
                         .buttonStyle(DisabledButtonStyle(config: config))
-                        .frame(maxWidth: .infinity)
+                        .frame(minWidth: 150)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -276,37 +281,41 @@ struct FunctionalColorGrid: View {
                 Text(language == "zh" ? "边框与输入" : "Borders & Input")
                     .globalTextStyle(config, size: 13, weight: .semibold)
                 
-                VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                    Text(language == "zh" ? "边框" : "Border")
-                        .globalTextStyle(config, size: 11)
-                        .padding(.horizontal, 8 * config.spacingScale)
-                        .padding(.vertical, 6 * config.spacingScale)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.border, lineWidth: 1)
-                        )
-                    
+                VStack(spacing: 8 * config.spacingScale) {
                     HStack {
-                        Text("Input Field")
+                        Text(language == "zh" ? "边框" : "Border")
                             .globalTextStyle(config, size: 11)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .frame(maxWidth: .infinity)
                     }
-                    .padding(8 * config.spacingScale)
-                    .background(Color(NSColor.controlBackgroundColor))
+                    .padding(.horizontal, 8 * config.spacingScale)
+                    .padding(.vertical, 6 * config.spacingScale)
                     .overlay(
                         RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                            .stroke(DesignTokens.Colors.input, lineWidth: 1)
+                            .stroke(DesignTokens.Colors.border, lineWidth: 1)
                     )
+                    .frame(minWidth: 150)
+                    
+                    TextField("Input Field", text: .constant(""))
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .globalTextStyle(config, size: 11)
+                        .padding(8 * config.spacingScale)
+                        .background(Color(NSColor.controlBackgroundColor))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4 * config.radiusScale)
+                                .stroke(DesignTokens.Colors.input, lineWidth: 1)
+                        )
+                        .frame(minWidth: 150)
                     
                     Button(language == "zh" ? "聚焦环" : "Focus Ring") {}
                         .buttonStyle(PlainButtonStyle())
                         .globalTextStyle(config, size: 11)
+                        .frame(maxWidth: .infinity)
                         .padding(8 * config.spacingScale)
                         .overlay(
                             RoundedRectangle(cornerRadius: 4 * config.radiusScale)
                                 .stroke(DesignTokens.Colors.ring, lineWidth: 2)
                         )
-                        .frame(maxWidth: .infinity)
+                        .frame(minWidth: 150)
                 }
             }
             .frame(maxWidth: .infinity)

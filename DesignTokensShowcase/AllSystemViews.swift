@@ -603,27 +603,4 @@ struct CompleteComponentsView: View {
     }
 }
 
-// 组件卡片容器
-struct ComponentCard<Content: View>: View {
-    let title: String
-    let config: DesignTokensConfig
-    let content: () -> Content
-    
-    init(title: String, config: DesignTokensConfig, @ViewBuilder content: @escaping () -> Content) {
-        self.title = title
-        self.config = config
-        self.content = content
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-            Text(title)
-                .globalTextStyle(config, size: 12, weight: .medium)
-            content()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16 * config.spacingScale)
-        .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
-        .cornerRadius(8 * config.radiusScale)
-    }
-}
+// ComponentCard is now defined in ComponentsSystem.swift
