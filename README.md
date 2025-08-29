@@ -2,6 +2,8 @@
 
 > A comprehensive, SwiftUI-compatible CSS design system with built-in dark mode, accessibility features, and bilingual support
 
+🎨 **[Live Demo](https://atshelchin.github.io/design-tokens/showcase.html)** | 📚 **[Documentation](DESIGN_SYSTEM_GUIDE.md)** | 🚀 **[Quick Reference](QUICK_REFERENCE.md)**
+
 ## Overview
 
 A production-ready design token system that provides a complete visual foundation for web and SwiftUI applications. This system emphasizes consistency, accessibility, and cross-platform compatibility with a "60% good enough" visual philosophy - focusing on solving problems rather than perfect aesthetics.

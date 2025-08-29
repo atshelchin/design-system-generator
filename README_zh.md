@@ -2,6 +2,8 @@
 
 > 一个全面的、兼容 SwiftUI 的 CSS 设计系统，内置深色模式、无障碍功能和双语支持
 
+🎨 **[在线演示](https://atshelchin.github.io/design-tokens/showcase.html)** | 📚 **[文档指南](DESIGN_SYSTEM_GUIDE.md)** | 🚀 **[快速参考](QUICK_REFERENCE.md)**
+
 ## 概述
 
 这是一个生产级的设计令牌系统，为 Web 和 SwiftUI 应用程序提供完整的视觉基础。该系统强调一致性、可访问性和跨平台兼容性，采用"60分及格"的视觉理念——专注于解决问题而非完美的美学。
