@@ -472,33 +472,33 @@ public struct DesignTokens {
             
             if config.isDarkMode {
                 switch level {
-                case 1: return gray100
-                case 2: return gray200
-                case 3: return gray300
-                case 4: return gray400
-                case 5: return gray500
-                case 6: return gray600
-                default: return gray100
+                case 1: return grayColor(for: 100)
+                case 2: return grayColor(for: 200)
+                case 3: return grayColor(for: 300)
+                case 4: return grayColor(for: 400)
+                case 5: return grayColor(for: 500)
+                case 6: return grayColor(for: 600)
+                default: return grayColor(for: 100)
                 }
             } else {
                 switch level {
-                case 1: return gray900
-                case 2: return gray800
-                case 3: return gray700
-                case 4: return gray600
-                case 5: return gray500
-                case 6: return gray400
-                default: return gray900
+                case 1: return grayColor(for: 900)
+                case 2: return grayColor(for: 800)
+                case 3: return grayColor(for: 700)
+                case 4: return grayColor(for: 600)
+                case 5: return grayColor(for: 500)
+                case 6: return grayColor(for: 400)
+                default: return grayColor(for: 900)
                 }
             }
         }
         
         // Semantic heading colors
         public static var headingPrimary: Color {
-            config.isDarkMode ? brand400 : brand600
+            config.isDarkMode ? brandColor(for: 400) : brandColor(for: 600)
         }
         public static var headingMuted: Color {
-            config.isDarkMode ? gray500 : gray400
+            config.isDarkMode ? grayColor(for: 500) : grayColor(for: 400)
         }
         public static var headingSuccess: Color { success }
         public static var headingDanger: Color { danger }
@@ -512,29 +512,29 @@ public struct DesignTokens {
             
             if config.isDarkMode {
                 switch level {
-                case 1: return gray300
-                case 2: return gray400
-                case 3: return gray500
-                case 4: return gray600
-                default: return gray400
+                case 1: return grayColor(for: 300)
+                case 2: return grayColor(for: 400)
+                case 3: return grayColor(for: 500)
+                case 4: return grayColor(for: 600)
+                default: return grayColor(for: 400)
                 }
             } else {
                 switch level {
-                case 1: return gray700
-                case 2: return gray600
-                case 3: return gray500
-                case 4: return gray400
-                default: return gray600
+                case 1: return grayColor(for: 700)
+                case 2: return grayColor(for: 600)
+                case 3: return grayColor(for: 500)
+                case 4: return grayColor(for: 400)
+                default: return grayColor(for: 600)
                 }
             }
         }
         
         // Semantic description colors
         public static var descriptionPrimary: Color {
-            config.isDarkMode ? brand400 : brand500
+            config.isDarkMode ? brandColor(for: 400) : brandColor(for: 500)
         }
         public static var descriptionMuted: Color {
-            config.isDarkMode ? gray600 : gray400
+            config.isDarkMode ? grayColor(for: 600) : grayColor(for: 400)
         }
         public static var descriptionSuccess: Color {
             config.isDarkMode ? Color(hex: "#6ee7b7") : Color(hex: "#22c55e")
@@ -555,30 +555,30 @@ public struct DesignTokens {
             
             if config.isDarkMode {
                 switch level {
-                case 1: return gray100
-                case 2: return gray200
-                case 3: return gray300
-                case 4: return gray400
-                case 5: return gray500
-                case 6: return gray600
-                default: return gray100
+                case 1: return grayColor(for: 100)
+                case 2: return grayColor(for: 200)
+                case 3: return grayColor(for: 300)
+                case 4: return grayColor(for: 400)
+                case 5: return grayColor(for: 500)
+                case 6: return grayColor(for: 600)
+                default: return grayColor(for: 100)
                 }
             } else {
                 switch level {
-                case 1: return gray900
-                case 2: return gray800
-                case 3: return gray700
-                case 4: return gray600
-                case 5: return gray500
-                case 6: return gray400
-                default: return gray900
+                case 1: return grayColor(for: 900)
+                case 2: return grayColor(for: 800)
+                case 3: return grayColor(for: 700)
+                case 4: return grayColor(for: 600)
+                case 5: return grayColor(for: 500)
+                case 6: return grayColor(for: 400)
+                default: return grayColor(for: 900)
                 }
             }
         }
         
         // Semantic value colors
         public static var valuePrimary: Color {
-            config.isDarkMode ? brand400 : brand600
+            config.isDarkMode ? brandColor(for: 400) : brandColor(for: 600)
         }
         public static var valuePositive: Color {
             config.isDarkMode ? Color(hex: "#86efac") : Color(hex: "#22c55e")
@@ -587,10 +587,10 @@ public struct DesignTokens {
             config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
         }
         public static var valueNeutral: Color {
-            config.isDarkMode ? gray400 : gray600
+            config.isDarkMode ? grayColor(for: 400) : grayColor(for: 600)
         }
         public static var valueCode: Color {
-            config.isDarkMode ? gray200 : gray800
+            config.isDarkMode ? grayColor(for: 200) : grayColor(for: 800)
         }
     }
     
