@@ -246,40 +246,25 @@ public struct DesignTokens {
         }
         
         public static func grayColor(for shade: Int) -> Color {
-            // 使用NSColor创建更精确的灰度颜色
-            if config.isDarkMode {
-                // 暗色模式：较亮的灰色用于文本
-                switch shade {
-                case 50: return Color(NSColor(white: 0.98, alpha: 1.0))
-                case 100: return Color(NSColor(white: 0.96, alpha: 1.0))  // 最亮的标题
-                case 200: return Color(NSColor(white: 0.87, alpha: 1.0))
-                case 300: return Color(NSColor(white: 0.76, alpha: 1.0))
-                case 400: return Color(NSColor(white: 0.64, alpha: 1.0))
-                case 500: return Color(NSColor(white: 0.52, alpha: 1.0))
-                case 600: return Color(NSColor(white: 0.40, alpha: 1.0))
-                case 700: return Color(NSColor(white: 0.28, alpha: 1.0))
-                case 800: return Color(NSColor(white: 0.16, alpha: 1.0))
-                case 900: return Color(NSColor(white: 0.08, alpha: 1.0))  // 最暗的背景
-                case 950: return Color(NSColor(white: 0.04, alpha: 1.0))
-                default: return Color(NSColor(white: 0.50, alpha: 1.0))
-                }
-            } else {
-                // 亮色模式：较暗的灰色用于文本
-                switch shade {
-                case 50: return Color(NSColor(white: 0.98, alpha: 1.0))
-                case 100: return Color(NSColor(white: 0.96, alpha: 1.0))
-                case 200: return Color(NSColor(white: 0.91, alpha: 1.0))
-                case 300: return Color(NSColor(white: 0.84, alpha: 1.0))
-                case 400: return Color(NSColor(white: 0.65, alpha: 1.0))
-                case 500: return Color(NSColor(white: 0.45, alpha: 1.0))
-                case 600: return Color(NSColor(white: 0.35, alpha: 1.0))
-                case 700: return Color(NSColor(white: 0.25, alpha: 1.0))
-                case 800: return Color(NSColor(white: 0.15, alpha: 1.0))
-                case 900: return Color(NSColor(white: 0.05, alpha: 1.0))  // 最暗的标题
-                case 950: return Color(NSColor(white: 0.02, alpha: 1.0))
-                default: return Color(NSColor(white: 0.50, alpha: 1.0))
-                }
+            // 与 design-tokens.css 完全一致：hsl(brand-hue, 10%, lightness)
+            let lightness: Double
+            switch shade {
+            case 50: lightness = 98
+            case 100: lightness = 96
+            case 200: lightness = 91
+            case 300: lightness = 84
+            case 400: lightness = 65
+            case 500: lightness = 50
+            case 600: lightness = 40
+            case 700: lightness = 30
+            case 800: lightness = 20
+            case 900: lightness = 10
+            case 950: lightness = 5
+            default: lightness = 50
             }
+            
+            // 使用HSL，带10%饱和度，与CSS保持一致
+            return hsl(config.brandHue, 10, lightness)
         }
         
         // Semantic colors - Light Mode
