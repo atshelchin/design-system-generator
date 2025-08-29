@@ -19,14 +19,14 @@ struct GlobalTextStyle: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(customFont(size: baseSize * config.fontScale))
+            .font(customFont(size: baseSize * config.fontScale, weight: contrastAdjustedWeight))
             .tracking(letterSpacingValue)
             .lineSpacing(lineHeightValue)
             .foregroundColor(textColorWithContrast)
     }
     
     // 自定义字体
-    private func customFont(size: CGFloat) -> Font {
+    private func customFont(size: CGFloat, weight: Font.Weight) -> Font {
         switch config.selectedFont {
         case "serif":
             return .custom("Georgia", size: size).weight(weight)
@@ -39,31 +39,51 @@ struct GlobalTextStyle: ViewModifier {
         }
     }
     
-    // 计算字间距
-    private var letterSpacingValue: CGFloat {
-        let base = baseSize * 0.01 // 基础间距为字体大小的1%
-        switch config.letterSpacing {
-        case .wide:
-            return base * 2.5  // 0.025em
-        case .wider:
-            return base * 5    // 0.05em
-        case .widest:
-            return base * 10   // 0.1em
+    // 根据对比度模式调整字重 - 匹配CSS font-weight
+    private var contrastAdjustedWeight: Font.Weight {
+        switch config.contrast {
+        case .high:
+            return .medium // CSS: font-weight: 500
+        case .ultra:
+            return .semibold // CSS: font-weight: 600
         default:
-            return 0
+            return weight // 使用原始字重
         }
     }
     
-    // 计算行高
+    // 计算字间距 - 匹配CSS letter-spacing值
+    private var letterSpacingValue: CGFloat {
+        switch config.letterSpacing {
+        case .wide:
+            return baseSize * 0.025  // CSS: letter-spacing: 0.025em
+        case .wider:
+            return baseSize * 0.05   // CSS: letter-spacing: 0.05em
+        case .widest:
+            return baseSize * 0.1    // CSS: letter-spacing: 0.1em
+        default:
+            return 0  // CSS: normal (no extra spacing)
+        }
+    }
+    
+    // 计算行高 - 匹配CSS line-height值
     private var lineHeightValue: CGFloat {
+        // CSS line-height计算：
+        // 实际行高 = fontSize * lineHeight倍数
+        // SwiftUI lineSpacing = 实际行高 - fontSize
+        let actualFontSize = baseSize * config.fontScale
+        let lineHeightMultiplier: CGFloat
+        
         switch config.lineHeight {
         case .relaxed:
-            return baseSize * 0.25  // 增加25%行高
+            lineHeightMultiplier = 1.8  // CSS: line-height: 1.8
         case .loose:
-            return baseSize * 0.5   // 增加50%行高
+            lineHeightMultiplier = 2.2  // CSS: line-height: 2.2
         default:
-            return 0
+            lineHeightMultiplier = 1.6  // CSS: line-height: 1.6 (normal)
         }
+        
+        let totalLineHeight = actualFontSize * lineHeightMultiplier
+        return max(0, totalLineHeight - actualFontSize)  // 返回额外间距
     }
     
     // 应用对比度
@@ -120,14 +140,14 @@ struct GlobalTextStyleNoColor: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(customFont(size: baseSize * config.fontScale))
+            .font(customFont(size: baseSize * config.fontScale, weight: contrastAdjustedWeight))
             .tracking(letterSpacingValue)
             .lineSpacing(lineHeightValue)
             // 不设置foregroundColor，让元素保持自己的颜色
     }
     
     // 自定义字体
-    private func customFont(size: CGFloat) -> Font {
+    private func customFont(size: CGFloat, weight: Font.Weight) -> Font {
         switch config.selectedFont {
         case "serif":
             return .custom("Georgia", size: size).weight(weight)
@@ -140,36 +160,56 @@ struct GlobalTextStyleNoColor: ViewModifier {
         }
     }
     
-    // 计算字间距
-    private var letterSpacingValue: CGFloat {
-        let base = baseSize * 0.01 // 基础间距为字体大小的1%
-        switch config.letterSpacing {
-        case .wide:
-            return base * 2.5  // 0.025em
-        case .wider:
-            return base * 5    // 0.05em
-        case .widest:
-            return base * 10   // 0.1em
+    // 根据对比度模式调整字重 - 匹配CSS font-weight
+    private var contrastAdjustedWeight: Font.Weight {
+        switch config.contrast {
+        case .high:
+            return .medium // CSS: font-weight: 500
+        case .ultra:
+            return .semibold // CSS: font-weight: 600
         default:
-            return 0
+            return weight // 使用原始字重
         }
     }
     
-    // 计算行高
+    // 计算字间距 - 匹配CSS letter-spacing值
+    private var letterSpacingValue: CGFloat {
+        switch config.letterSpacing {
+        case .wide:
+            return baseSize * 0.025  // CSS: letter-spacing: 0.025em
+        case .wider:
+            return baseSize * 0.05   // CSS: letter-spacing: 0.05em
+        case .widest:
+            return baseSize * 0.1    // CSS: letter-spacing: 0.1em
+        default:
+            return 0  // CSS: normal (no extra spacing)
+        }
+    }
+    
+    // 计算行高 - 匹配CSS line-height值
     private var lineHeightValue: CGFloat {
+        // CSS line-height计算：
+        // 实际行高 = fontSize * lineHeight倍数
+        // SwiftUI lineSpacing = 实际行高 - fontSize
+        let actualFontSize = baseSize * config.fontScale
+        let lineHeightMultiplier: CGFloat
+        
         switch config.lineHeight {
         case .relaxed:
-            return baseSize * 0.25  // 增加25%行高
+            lineHeightMultiplier = 1.8  // CSS: line-height: 1.8
         case .loose:
-            return baseSize * 0.5   // 增加50%行高
+            lineHeightMultiplier = 2.2  // CSS: line-height: 2.2
         default:
-            return 0
+            lineHeightMultiplier = 1.6  // CSS: line-height: 1.6 (normal)
         }
+        
+        let totalLineHeight = actualFontSize * lineHeightMultiplier
+        return max(0, totalLineHeight - actualFontSize)  // 返回额外间距
     }
 }
 
 // 扩展View以便使用
-extension View {
+public extension View {
     func globalTextStyle(_ config: DesignTokensConfig, size: CGFloat = 14, weight: Font.Weight = .regular) -> some View {
         self.modifier(GlobalTextStyle(config: config, size: size, weight: weight))
     }

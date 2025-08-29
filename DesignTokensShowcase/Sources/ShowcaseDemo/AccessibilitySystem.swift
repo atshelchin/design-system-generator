@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-
+import DesignTokensKit
 struct AccessibilitySystemView: View {
     let language: String
     @ObservedObject var config: DesignTokensConfig

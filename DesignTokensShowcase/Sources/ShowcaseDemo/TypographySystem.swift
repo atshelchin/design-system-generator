@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-
+import DesignTokensKit
 struct TypographySystemView: View {
     let language: String
     @ObservedObject var config: DesignTokensConfig

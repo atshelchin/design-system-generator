@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-
+import DesignTokensKit
 struct ContentViewFinal: View {
     @StateObject private var config = DesignTokensConfig.shared
     @State private var selectedSection = "colors"
@@ -189,7 +189,7 @@ struct ContentViewFinal: View {
                                 AccessibilitySystemView(language: language, config: config)
                                     .id("accessibility")
                             case "components":
-                                ComponentsSystemView(language: language, config: config)
+                                ComponentsExactView(language: language, config: config)
                                     .id("components")
                             default:
                                 CompleteColorSystemView(language: language, config: config)

@@ -4,7 +4,7 @@
 //
 
 import SwiftUI
-
+import DesignTokensKit
 // MARK: - Device Size Detection
 
 public enum DeviceType {

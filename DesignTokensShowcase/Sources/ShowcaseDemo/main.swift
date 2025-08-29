@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignTokensKit
 import AppKit
 
 // Create the SwiftUI app

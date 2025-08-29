@@ -10,33 +10,29 @@ let package = Package(
         .watchOS(.v9)
     ],
     products: [
+        // Library product for external applications
+        .library(
+            name: "DesignTokensKit",
+            targets: ["DesignTokensKit"]
+        ),
+        // Executable for the showcase demo
         .executable(
             name: "DesignTokensShowcase",
             targets: ["DesignTokensShowcase"]
         )
     ],
     targets: [
+        // Library target for reusable design tokens
+        .target(
+            name: "DesignTokensKit",
+            dependencies: [],
+            path: "Sources/DesignTokensKit"
+        ),
+        // Executable target for the showcase demo
         .executableTarget(
             name: "DesignTokensShowcase",
-            path: ".",
-            exclude: ["run.sh", "Package.swift"],
-            sources: [
-                "main.swift",
-                "ContentViewFinal.swift",
-                "DesignTokens.swift",
-                "FullControlPanelNew.swift",
-                "GlobalTextModifier.swift",
-                "ResponsiveLayout.swift",
-                "CompleteColorSystem.swift",
-                "TypographySystem.swift",
-                "HierarchySystem.swift",
-                "SpacingSystem.swift",
-                "RadiusSystem.swift",
-                "ShadowSystem.swift",
-                "AccessibilitySystem.swift",
-                "ComponentsSystem.swift",
-                "AllSystemViews.swift"
-            ]
-        )
+            dependencies: ["DesignTokensKit"],
+            path: "Sources/ShowcaseDemo"
+        ),
     ]
 )

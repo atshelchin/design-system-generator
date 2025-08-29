@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import DesignTokensKit
 import UniformTypeIdentifiers
 
 struct FullControlPanelNew: View {
