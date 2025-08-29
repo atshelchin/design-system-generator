@@ -246,22 +246,38 @@ public struct DesignTokens {
         }
         
         public static func grayColor(for shade: Int) -> Color {
-            let lightness: Double
-            switch shade {
-            case 50: lightness = 98
-            case 100: lightness = 96
-            case 200: lightness = 91
-            case 300: lightness = 84
-            case 400: lightness = 65
-            case 500: lightness = 50
-            case 600: lightness = 40
-            case 700: lightness = 30
-            case 800: lightness = 20
-            case 900: lightness = 10
-            case 950: lightness = 5
-            default: lightness = 50
+            // 在暗色模式下，调整亮度值以获得更好的对比度
+            if config.isDarkMode {
+                switch shade {
+                case 50: return Color(white: 0.98)
+                case 100: return Color(white: 0.94)
+                case 200: return Color(white: 0.86)
+                case 300: return Color(white: 0.74)
+                case 400: return Color(white: 0.62)
+                case 500: return Color(white: 0.50)
+                case 600: return Color(white: 0.38)
+                case 700: return Color(white: 0.26)
+                case 800: return Color(white: 0.14)
+                case 900: return Color(white: 0.06)
+                case 950: return Color(white: 0.02)
+                default: return Color(white: 0.50)
+                }
+            } else {
+                switch shade {
+                case 50: return Color(white: 0.98)
+                case 100: return Color(white: 0.96)
+                case 200: return Color(white: 0.91)
+                case 300: return Color(white: 0.84)
+                case 400: return Color(white: 0.65)
+                case 500: return Color(white: 0.50)
+                case 600: return Color(white: 0.40)
+                case 700: return Color(white: 0.30)
+                case 800: return Color(white: 0.20)
+                case 900: return Color(white: 0.10)
+                case 950: return Color(white: 0.05)
+                default: return Color(white: 0.50)
+                }
             }
-            return hsl(config.brandHue, 10, lightness)  // 中性色也跟随品牌色调变化
         }
         
         // Semantic colors - Light Mode
