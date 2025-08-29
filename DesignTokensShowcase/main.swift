@@ -12,7 +12,7 @@ import AppKit
 struct DesignTokensShowcaseApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentViewFinal()
                 .frame(minWidth: 1200, minHeight: 800)
         }
     }
@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Create the SwiftUI view
-        let contentView = ContentView()
+        let contentView = ContentViewFinal()
         
         // Create the window and set the content view
         window = NSWindow(

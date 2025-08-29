@@ -42,8 +42,13 @@ public class DesignTokensConfig: ObservableObject {
         didSet { objectWillChange.send() }
     }
     
-    /// Contrast mode matching CSS data-contrast
-    @Published public var contrastMode: ContrastMode = .normal {
+    /// Selected font family
+    @Published public var selectedFont: String = "system" {
+        didSet { objectWillChange.send() }
+    }
+    
+    /// Contrast mode enum matching CSS data-contrast
+    @Published public var contrast: ContrastMode = .normal {
         didSet { objectWillChange.send() }
     }
     
@@ -148,14 +153,16 @@ public struct DesignTokens {
             
             var r: Double = 0, g: Double = 0, b: Double = 0
             
-            switch h * 6 {
+            let hPrime = (h * 6).truncatingRemainder(dividingBy: 6)
+            
+            switch hPrime {
             case 0..<1: r = c; g = x; b = 0
             case 1..<2: r = x; g = c; b = 0
             case 2..<3: r = 0; g = c; b = x
             case 3..<4: r = 0; g = x; b = c
             case 4..<5: r = x; g = 0; b = c
             case 5..<6: r = c; g = 0; b = x
-            default: r = 0; g = 0; b = 0
+            default: r = c; g = x; b = 0  // 处理360度的情况，返回红色
             }
             
             return Color(red: r + m, green: g + m, blue: b + m, opacity: opacity)
@@ -185,6 +192,45 @@ public struct DesignTokens {
         public static var gray800: Color { hsl(config.brandHue, 10, 20) }
         public static var gray900: Color { hsl(config.brandHue, 10, 10) }
         
+        // Helper methods for accessing colors by shade - 直接计算以确保实时更新
+        public static func brandColor(for shade: Int) -> Color {
+            let lightness: Double
+            switch shade {
+            case 50: lightness = 98
+            case 100: lightness = 96
+            case 200: lightness = 91
+            case 300: lightness = 84
+            case 400: lightness = 65
+            case 500: lightness = 50
+            case 600: lightness = 40
+            case 700: lightness = 30
+            case 800: lightness = 20
+            case 900: lightness = 10
+            case 950: lightness = 5
+            default: lightness = 50
+            }
+            return hsl(config.brandHue, config.brandSaturation, lightness)
+        }
+        
+        public static func grayColor(for shade: Int) -> Color {
+            let lightness: Double
+            switch shade {
+            case 50: lightness = 98
+            case 100: lightness = 96
+            case 200: lightness = 91
+            case 300: lightness = 84
+            case 400: lightness = 65
+            case 500: lightness = 50
+            case 600: lightness = 40
+            case 700: lightness = 30
+            case 800: lightness = 20
+            case 900: lightness = 10
+            case 950: lightness = 5
+            default: lightness = 50
+            }
+            return hsl(config.brandHue, 10, lightness)  // 中性色也跟随品牌色调变化
+        }
+        
         // Semantic colors - Light Mode
         public static var primary: Color {
             config.isDarkMode ? brand500 : brand600
@@ -212,6 +258,7 @@ public struct DesignTokens {
         public static var danger: Color {
             config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
         }
+        public static var error: Color { danger } // Alias for danger
         public static var warning: Color {
             config.isDarkMode ? Color(hex: "#fcd34d") : Color(hex: "#f59e0b")
         }
@@ -234,6 +281,18 @@ public struct DesignTokens {
         }
         public static var cardForeground: Color {
             config.isDarkMode ? gray100 : gray900
+        }
+        public static var popover: Color {
+            config.isDarkMode ? gray800 : Color.white
+        }
+        public static var popoverForeground: Color {
+            config.isDarkMode ? gray100 : gray900
+        }
+        public static var accent: Color {
+            config.isDarkMode ? brand400 : brand500
+        }
+        public static var accentForeground: Color {
+            config.isDarkMode ? gray900 : Color.white
         }
         public static var border: Color {
             config.isDarkMode ? gray700 : gray200
