@@ -310,17 +310,33 @@ public struct DesignTokens {
         
         // Status colors
         public static var success: Color {
-            config.isDarkMode ? Color(hex: "#6ee7b7") : Color(hex: "#22c55e")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0x6e/255.0, green: 0xe7/255.0, blue: 0xb7/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0x22/255.0, green: 0xc5/255.0, blue: 0x5e/255.0, alpha: 1.0))
+            }
         }
         public static var danger: Color {
-            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0xfc/255.0, green: 0xa5/255.0, blue: 0xa5/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0xef/255.0, green: 0x44/255.0, blue: 0x44/255.0, alpha: 1.0))
+            }
         }
         public static var error: Color { danger } // Alias for danger
         public static var warning: Color {
-            config.isDarkMode ? Color(hex: "#fcd34d") : Color(hex: "#f59e0b")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0xfc/255.0, green: 0xd3/255.0, blue: 0x4d/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0xf5/255.0, green: 0x9e/255.0, blue: 0x0b/255.0, alpha: 1.0))
+            }
         }
         public static var info: Color {
-            config.isDarkMode ? Color(hex: "#93c5fd") : Color(hex: "#3b82f6")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0x93/255.0, green: 0xc5/255.0, blue: 0xfd/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0x3b/255.0, green: 0x82/255.0, blue: 0xf6/255.0, alpha: 1.0))
+            }
         }
         
         // Additional semantic colors
@@ -553,13 +569,25 @@ public struct DesignTokens {
             config.isDarkMode ? grayColor(for: 600) : grayColor(for: 400)
         }
         public static var descriptionSuccess: Color {
-            config.isDarkMode ? Color(hex: "#6ee7b7") : Color(hex: "#22c55e")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0x6e/255.0, green: 0xe7/255.0, blue: 0xb7/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0x22/255.0, green: 0xc5/255.0, blue: 0x5e/255.0, alpha: 1.0))
+            }
         }
         public static var descriptionWarning: Color {
-            config.isDarkMode ? Color(hex: "#fcd34d") : Color(hex: "#f59e0b")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0xfc/255.0, green: 0xd3/255.0, blue: 0x4d/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0xf5/255.0, green: 0x9e/255.0, blue: 0x0b/255.0, alpha: 1.0))
+            }
         }
         public static var descriptionDanger: Color {
-            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0xfc/255.0, green: 0xa5/255.0, blue: 0xa5/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0xef/255.0, green: 0x44/255.0, blue: 0x44/255.0, alpha: 1.0))
+            }
         }
         
         // Value hierarchy colors
@@ -597,10 +625,18 @@ public struct DesignTokens {
             config.isDarkMode ? brandColor(for: 400) : brandColor(for: 600)
         }
         public static var valuePositive: Color {
-            config.isDarkMode ? Color(hex: "#86efac") : Color(hex: "#22c55e")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0x86/255.0, green: 0xef/255.0, blue: 0xac/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0x22/255.0, green: 0xc5/255.0, blue: 0x5e/255.0, alpha: 1.0))
+            }
         }
         public static var valueNegative: Color {
-            config.isDarkMode ? Color(hex: "#fca5a5") : Color(hex: "#ef4444")
+            if config.isDarkMode {
+                return Color(NSColor(red: 0xfc/255.0, green: 0xa5/255.0, blue: 0xa5/255.0, alpha: 1.0))
+            } else {
+                return Color(NSColor(red: 0xef/255.0, green: 0x44/255.0, blue: 0x44/255.0, alpha: 1.0))
+            }
         }
         public static var valueNeutral: Color {
             config.isDarkMode ? grayColor(for: 400) : grayColor(for: 600)
