@@ -750,6 +750,21 @@ public struct DesignTokens {
         public static var full: CGFloat { 9999 }
     }
     
+    // MARK: - Z-Index System (Layering hierarchy)
+    
+    public struct ZIndex {
+        public static let base: Int = 0        // Base layer
+        public static let dropdown: Int = 10   // Dropdowns
+        public static let sticky: Int = 20     // Sticky elements
+        public static let fixed: Int = 30      // Fixed elements
+        public static let overlay: Int = 40    // Overlays
+        public static let modal: Int = 50      // Modals
+        public static let popover: Int = 60    // Popovers
+        public static let tooltip: Int = 70    // Tooltips
+        public static let notification: Int = 80 // Notifications
+        public static let top: Int = 90        // Top priority
+    }
+    
     // MARK: - Shadow System (100% matching CSS)
     
     public struct Shadows {

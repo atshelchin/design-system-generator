@@ -47,14 +47,13 @@ struct CompleteColorSystemView: View {
                         ("Primary", "--color-primary", DesignTokens.Colors.primary),
                         ("Secondary", "--color-secondary", DesignTokens.Colors.secondary),
                         ("Muted", "--color-muted", DesignTokens.Colors.muted),
-                        ("Accent", "--color-accent", DesignTokens.Colors.accent),
                         ("Success", "--color-success", DesignTokens.Colors.success),
                         ("Warning", "--color-warning", DesignTokens.Colors.warning),
                         ("Danger", "--color-danger", DesignTokens.Colors.danger),
                         ("Info", "--color-info", DesignTokens.Colors.info),
-                        ("Positive", "--color-positive", DesignTokens.Colors.success),
-                        ("Negative", "--color-negative", DesignTokens.Colors.danger),
-                        ("Neutral", "--color-neutral", Color(NSColor.systemGray))
+                        ("Positive", "--color-positive", DesignTokens.Colors.positive),
+                        ("Negative", "--color-negative", DesignTokens.Colors.negative),
+                        ("Neutral", "--color-neutral", DesignTokens.Colors.neutral)
                     ],
                     config: config
                 )
@@ -110,8 +109,8 @@ struct ColorGrid: View {
             let columnCount = AdaptiveColumns.colorGrid(for: screenSize)
             
             LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible(), spacing: 8 * config.spacingScale), count: columnCount),
-                spacing: 8 * config.spacingScale
+                columns: Array(repeating: GridItem(.flexible(), spacing: DesignTokens.Spacing.space3), count: columnCount), // gap: --space-3
+                spacing: DesignTokens.Spacing.space3 // gap: --space-3
             ) {
                 ForEach(colors, id: \.name) { item in
                     ColorItem(
@@ -126,28 +125,33 @@ struct ColorGrid: View {
     }
 }
 
-// 单个色块项 - 更紧凑的设计
+// 单个色块项 - 100%匹配showcase.html
 struct ColorItem: View {
     let name: String
     let color: Color
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        VStack(spacing: 4 * config.spacingScale) {
-            // 色块 - 更小的圆角和高度
-            RoundedRectangle(cornerRadius: 4 * config.radiusScale)
+        VStack(spacing: 0) {
+            // 色块 - 高度80px匹配CSS .color-swatch
+            RoundedRectangle(cornerRadius: DesignTokens.Radius.md) // --radius-md
                 .fill(color)
-                .aspectRatio(1.2, contentMode: .fit)
-                .shadow(
-                    color: Color.black.opacity(0.05),
-                    radius: 1,
+                .frame(height: 80) // 80px高度
+                .shadow( // --shadow-sm
+                    color: Color.black.opacity(0.1),
+                    radius: 2,
                     y: 1
                 )
+                .padding(.bottom, DesignTokens.Spacing.space2) // margin-bottom: --space-2
             
-            // 色值名称
+            // 色值名称 --text-xs with --color-description-3
             Text(name)
-                .secondaryTextStyle(config, size: 10)
+                .globalTextStyleNoColor(config, size: DesignTokens.Typography.textXS)
+                .foregroundColor(DesignTokens.Colors.description(3))
+            
+            Spacer(minLength: 0)
         }
+        .frame(height: 100) // 固定总高度
     }
 }
 
@@ -167,7 +171,7 @@ struct SemanticColorGrid: View {
             ) {
                 ForEach(colors, id: \.0) { item in
                     VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                        // 色块 - 更小更紧凑
+                        // 色块 - 固定高度
                         RoundedRectangle(cornerRadius: 4 * config.radiusScale)
                             .fill(item.2)
                             .frame(height: 50)
@@ -335,7 +339,7 @@ struct PrimaryButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13 * config.fontScale, weight: .medium))
+            .globalTextStyleNoColor(config, size: 13, weight: .medium)
             .foregroundColor(.white)
             .padding(.horizontal, 16 * config.spacingScale)
             .padding(.vertical, 8 * config.spacingScale)
@@ -350,7 +354,7 @@ struct SecondaryButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13 * config.fontScale, weight: .medium))
+            .globalTextStyleNoColor(config, size: 13, weight: .medium)
             .foregroundColor(DesignTokens.Colors.primary)
             .padding(.horizontal, 16 * config.spacingScale)
             .padding(.vertical, 8 * config.spacingScale)
@@ -369,7 +373,7 @@ struct DisabledButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 13 * config.fontScale, weight: .medium))
+            .globalTextStyleNoColor(config, size: 13, weight: .medium)
             .foregroundColor(Color(NSColor.tertiaryLabelColor))
             .padding(.horizontal, 16 * config.spacingScale)
             .padding(.vertical, 8 * config.spacingScale)

@@ -15,8 +15,8 @@ struct AccessibilitySystemView: View {
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 HStack {
                     Image(systemName: "info.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.info)
                         .font(.system(size: 16 * config.fontScale))
+                        .foregroundColor(DesignTokens.Colors.info)
                     
                     Text(language == "zh" ? 
                          "所有无障碍控制现在都在右下角的悬浮面板中。您可以调整：" :

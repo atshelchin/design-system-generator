@@ -53,7 +53,7 @@ struct SinglePageShowcaseView: View {
                                 title: language == "zh" ? "2. 文字系统" : "2. Typography System",
                                 config: config
                             ) {
-                                TypographySystemView(language: language, config: config)
+                                TypographySystemCompleteView(language: language, config: config)
                             }
                             
                             Divider()
@@ -269,7 +269,7 @@ struct FixedNavigationBar: View {
                         }
                     }) {
                         Text(language == "zh" ? section.1 : section.2)
-                            .globalTextStyle(config, size: 14, weight: .medium)
+                            .globalTextStyleNoColor(config, size: 14, weight: .medium)
                             .foregroundColor(DesignTokens.Colors.primary)
                     }
                     .buttonStyle(PlainButtonStyle())

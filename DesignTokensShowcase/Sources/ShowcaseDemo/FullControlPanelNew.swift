@@ -39,8 +39,7 @@ struct FullControlPanelNew: View {
             }) {
                 HStack {
                     Text(language == "zh" ? "设计系统控制" : "Design System Controls")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(DesignTokens.Colors.foreground)
+                        .globalTextStyle(config, size: 13, weight: .semibold)
                     
                     Spacer()
                     
@@ -128,7 +127,7 @@ struct FullControlPanelNew: View {
                                 Text("🅰️")
                                     .font(.system(size: 14))
                                 Text(language == "zh" ? "字体选择" : "Font Family")
-                                    .font(.system(size: 12))
+                                    .globalTextStyle(config, size: 12)
                             }
                             
                             // 字体下拉菜单
@@ -140,10 +139,6 @@ struct FullControlPanelNew: View {
                                 Button("Sans-serif") {
                                     selectedFont = "Sans-serif"
                                     config.selectedFont = "sans-serif"
-                                }
-                                Button("Serif") {
-                                    selectedFont = "Serif"
-                                    config.selectedFont = "serif"
                                 }
                                 Button("Monospace") {
                                     selectedFont = "Monospace"
@@ -162,7 +157,7 @@ struct FullControlPanelNew: View {
                             } label: {
                                 HStack {
                                     Text(selectedFont)
-                                        .font(.system(size: 11))
+                                        .globalTextStyle(config, size: 11)
                                     Spacer()
                                     Image(systemName: "chevron.down")
                                         .font(.system(size: 8))
@@ -281,7 +276,7 @@ struct FullControlPanelNew: View {
                             lineHeight = "标准"
                     }) {
                         Text(language == "zh" ? "重置所有" : "Reset All")
-                            .font(.system(size: 12, weight: .medium))
+                            .globalTextStyleNoColor(config, size: 12, weight: .medium)
                             .foregroundColor(DesignTokens.Colors.secondaryForeground)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 8)
@@ -356,7 +351,7 @@ struct BrandColorSlider: View {
                 Text(icon)
                     .font(.system(size: 13))
                 Text(label)
-                    .font(.system(size: 11))
+                    .globalTextStyle(config, size: 11)
             }
             .frame(width: 80, alignment: .leading)
             
@@ -365,7 +360,7 @@ struct BrandColorSlider: View {
                 .controlSize(.small)
             
             Text(String(format: format, value))
-                .font(.system(size: 10, design: .monospaced))
+                .monoTextStyle(config, size: 10)
                 .foregroundColor(Color(NSColor.secondaryLabelColor))
                 .frame(width: 40, alignment: .trailing)
         }
@@ -403,7 +398,7 @@ struct BrandButtonGroup: View {
                 Text(icon)
                     .font(.system(size: 13))
                 Text(label)
-                    .font(.system(size: 11))
+                    .globalTextStyle(config, size: 11)
             }
             
             HStack(spacing: 0) {
@@ -413,7 +408,7 @@ struct BrandButtonGroup: View {
                         action(option)
                     }) {
                         Text(option)
-                            .font(.system(size: 10, weight: selected == option ? .medium : .regular))
+                            .globalTextStyleNoColor(config, size: 10, weight: selected == option ? .medium : .regular)
                             .foregroundColor(selectedForegroundColor(isSelected: selected == option))
                             .frame(maxWidth: .infinity, minHeight: 24) // 增加最小高度
                             .contentShape(Rectangle()) // 确保整个区域可点击
@@ -465,7 +460,7 @@ struct SmallBrandButtonStyle: ButtonStyle {
         }()
         
         return configuration.label
-            .font(.system(size: 11))
+            .globalTextStyleNoColor(config, size: 11)
             .foregroundColor(foregroundColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)

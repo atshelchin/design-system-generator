@@ -22,7 +22,7 @@ struct GlobalTextStyle: ViewModifier {
             .font(customFont(size: baseSize * config.fontScale, weight: contrastAdjustedWeight))
             .tracking(letterSpacingValue)
             .lineSpacing(lineHeightValue)
-            .foregroundColor(textColorWithContrast)
+            .foregroundColor(textColorWithContrast)  // 最后设置颜色，会覆盖之前的
     }
     
     // 自定义字体

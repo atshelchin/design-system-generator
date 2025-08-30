@@ -362,7 +362,7 @@ struct Components100PercentAccurateView: View {
     }
 }
 
-// MARK: - Component Card Container
+// MARK: - Component Card Container (100% matching showcase.html)
 struct ComponentCard100: View {
     let title: String
     let config: DesignTokensConfig
@@ -379,20 +379,27 @@ struct ComponentCard100: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
+        VStack(alignment: .leading, spacing: 0) {
+            // Component title matching .component-title CSS
             Text(title)
-                .globalTextStyle(config, size: 18, weight: .semibold)
-                .foregroundColor(DesignTokens.Colors.foreground)
+                .globalTextStyle(config, size: DesignTokens.Typography.textLG, weight: .semibold) // --text-lg (18px) with 600 weight
+                .padding(.bottom, DesignTokens.Spacing.space4) // --space-4 margin-bottom
             
-            content()
-                .frame(maxWidth: .infinity)
+            // Component preview area matching .component-preview CSS
+            VStack(spacing: DesignTokens.Spacing.space3) { // gap: --space-3
+                content()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer(minLength: 0)
         }
-        .padding(20 * config.spacingScale)
-        .background(DesignTokens.Colors.card)
-        .cornerRadius(8 * config.radiusScale)
+        .padding(DesignTokens.Spacing.space6) // --space-6 padding
+        .frame(minHeight: 180, alignment: .top)
+        .background(DesignTokens.Colors.card) // --color-card
+        .cornerRadius(DesignTokens.Radius.lg) // --radius-lg
         .overlay(
-            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
-                .stroke(DesignTokens.Colors.border, lineWidth: 1)
+            RoundedRectangle(cornerRadius: DesignTokens.Radius.lg)
+                .stroke(DesignTokens.Colors.border, lineWidth: 1) // --color-border
         )
     }
 }
@@ -933,7 +940,7 @@ struct AccordionComponent100: View {
                         .globalTextStyle(config, size: 14, weight: .medium)
                     Spacer()
                     Text("▶")
-                        .font(.system(size: 12))
+                        .globalTextStyle(config, size: 12)
                 }
                 .foregroundColor(DesignTokens.Colors.foreground)
                 .padding(12 * config.spacingScale)
@@ -1390,7 +1397,7 @@ struct CommentComponent100: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12 * config.spacingScale) {
             Text("A")
-                .font(.system(size: 14, weight: .semibold))
+                .globalTextStyleNoColor(config, size: 14, weight: .semibold)
                 .foregroundColor(.white)
                 .frame(width: 32, height: 32)
                 .background(DesignTokens.Colors.primary)
@@ -1488,8 +1495,7 @@ struct InfoWidgetComponent100: View {
             
             HStack(alignment: .bottom, spacing: 4) {
                 Text("23")
-                    .font(.system(size: 32, weight: .bold))
-                    .foregroundColor(DesignTokens.Colors.foreground)
+                    .globalTextStyle(config, size: 32, weight: .bold)
                 Text("°C")
                     .globalTextStyle(config, size: 16)
                     .foregroundColor(DesignTokens.Colors.mutedForeground)
@@ -1515,17 +1521,17 @@ struct InfoWidgetComponent100: View {
 
 // MARK: - Helper Components and Styles
 
-// Button Styles
+// Button Styles (100% matching showcase.html CSS)
 struct Primary100ButtonStyle: ButtonStyle {
     let config: DesignTokensConfig
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .globalTextStyle(config, size: 14, weight: .medium)
-            .foregroundColor(.white)
-            .padding(.horizontal, 16 * config.spacingScale)
-            .padding(.vertical, 8 * config.spacingScale)
-            .background(configuration.isPressed ? DesignTokens.Colors.primary.opacity(0.8) : DesignTokens.Colors.primary)
-            .cornerRadius(6 * config.radiusScale)
+            .globalTextStyleNoColor(config, size: DesignTokens.Typography.textSM) // --text-sm
+            .foregroundColor(DesignTokens.Colors.primaryForeground) // --color-primary-foreground
+            .padding(.horizontal, DesignTokens.Spacing.space4) // --space-4
+            .padding(.vertical, DesignTokens.Spacing.space2) // --space-2
+            .background(configuration.isPressed ? DesignTokens.Colors.primary.opacity(0.9) : DesignTokens.Colors.primary)
+            .cornerRadius(DesignTokens.Radius.md) // --radius-md
     }
 }
 
@@ -1533,12 +1539,12 @@ struct Secondary100ButtonStyle: ButtonStyle {
     let config: DesignTokensConfig
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .globalTextStyle(config, size: 14, weight: .medium)
-            .foregroundColor(DesignTokens.Colors.foreground)
-            .padding(.horizontal, 16 * config.spacingScale)
-            .padding(.vertical, 8 * config.spacingScale)
-            .background(configuration.isPressed ? DesignTokens.Colors.secondary.opacity(0.8) : DesignTokens.Colors.secondary)
-            .cornerRadius(6 * config.radiusScale)
+            .globalTextStyleNoColor(config, size: DesignTokens.Typography.textSM) // --text-sm
+            .foregroundColor(DesignTokens.Colors.secondaryForeground) // --color-secondary-foreground
+            .padding(.horizontal, DesignTokens.Spacing.space4) // --space-4
+            .padding(.vertical, DesignTokens.Spacing.space2) // --space-2
+            .background(configuration.isPressed ? DesignTokens.Colors.secondary.opacity(0.9) : DesignTokens.Colors.secondary)
+            .cornerRadius(DesignTokens.Radius.md) // --radius-md
     }
 }
 
@@ -1546,14 +1552,14 @@ struct Outline100ButtonStyle: ButtonStyle {
     let config: DesignTokensConfig
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .globalTextStyle(config, size: 14, weight: .medium)
-            .foregroundColor(DesignTokens.Colors.primary)
-            .padding(.horizontal, 16 * config.spacingScale)
-            .padding(.vertical, 8 * config.spacingScale)
+            .globalTextStyleNoColor(config, size: DesignTokens.Typography.textSM) // --text-sm
+            .foregroundColor(DesignTokens.Colors.primary) // --color-primary
+            .padding(.horizontal, DesignTokens.Spacing.space4) // --space-4
+            .padding(.vertical, DesignTokens.Spacing.space2) // --space-2
             .background(configuration.isPressed ? DesignTokens.Colors.primary.opacity(0.1) : Color.clear)
             .overlay(
-                RoundedRectangle(cornerRadius: 6 * config.radiusScale)
-                    .stroke(DesignTokens.Colors.primary, lineWidth: 1)
+                RoundedRectangle(cornerRadius: DesignTokens.Radius.md)
+                    .stroke(DesignTokens.Colors.brandColor(for: 600), lineWidth: 1) // --brand-600
             )
     }
 }
@@ -1562,12 +1568,12 @@ struct Ghost100ButtonStyle: ButtonStyle {
     let config: DesignTokensConfig
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .globalTextStyle(config, size: 14, weight: .medium)
-            .foregroundColor(DesignTokens.Colors.foreground)
-            .padding(.horizontal, 16 * config.spacingScale)
-            .padding(.vertical, 8 * config.spacingScale)
+            .globalTextStyleNoColor(config, size: DesignTokens.Typography.textSM) // --text-sm
+            .foregroundColor(DesignTokens.Colors.foreground) // --color-foreground
+            .padding(.horizontal, DesignTokens.Spacing.space4) // --space-4
+            .padding(.vertical, DesignTokens.Spacing.space2) // --space-2
             .background(configuration.isPressed ? DesignTokens.Colors.muted.opacity(0.5) : Color.clear)
-            .cornerRadius(6 * config.radiusScale)
+            .cornerRadius(DesignTokens.Radius.md) // --radius-md
     }
 }
 
@@ -1575,12 +1581,12 @@ struct Destructive100ButtonStyle: ButtonStyle {
     let config: DesignTokensConfig
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .globalTextStyle(config, size: 14, weight: .medium)
-            .foregroundColor(.white)
-            .padding(.horizontal, 16 * config.spacingScale)
-            .padding(.vertical, 8 * config.spacingScale)
-            .background(configuration.isPressed ? DesignTokens.Colors.destructive.opacity(0.8) : DesignTokens.Colors.destructive)
-            .cornerRadius(6 * config.radiusScale)
+            .globalTextStyleNoColor(config, size: DesignTokens.Typography.textSM) // --text-sm
+            .foregroundColor(DesignTokens.Colors.primaryForeground) // --color-primary-foreground (same as primary)
+            .padding(.horizontal, DesignTokens.Spacing.space4) // --space-4
+            .padding(.vertical, DesignTokens.Spacing.space2) // --space-2
+            .background(configuration.isPressed ? DesignTokens.Colors.danger.opacity(0.9) : DesignTokens.Colors.danger)
+            .cornerRadius(DesignTokens.Radius.md) // --radius-md
     }
 }
 
@@ -1721,7 +1727,7 @@ struct Alert100: View {
     var body: some View {
         HStack(spacing: 8 * config.spacingScale) {
             Text(icon)
-                .font(.system(size: 16))
+                .globalTextStyle(config, size: 16)
             Text(text)
                 .globalTextStyle(config, size: 14)
         }
@@ -1793,7 +1799,7 @@ struct Avatar100: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: size.fontSize, weight: .semibold))
+            .globalTextStyleNoColor(config, size: size.fontSize, weight: .semibold)
             .foregroundColor(.white)
             .frame(width: size.dimension, height: size.dimension)
             .background(DesignTokens.Colors.primary)
@@ -1889,7 +1895,7 @@ struct StepperItem100: View {
     var body: some View {
         VStack(spacing: 4 * config.spacingScale) {
             Text(number)
-                .font(.system(size: 14, weight: .semibold))
+                .globalTextStyleNoColor(config, size: 14, weight: .semibold)
                 .foregroundColor(isCompleted || isActive ? .white : DesignTokens.Colors.mutedForeground)
                 .frame(width: 32, height: 32)
                 .background(isCompleted || isActive ? DesignTokens.Colors.primary : DesignTokens.Colors.muted)
@@ -2056,7 +2062,7 @@ struct MetricDisplay100: View {
             
             HStack(alignment: .bottom, spacing: 4) {
                 Text(value)
-                    .font(.system(size: 24, weight: .bold))
+                    .globalTextStyle(config, size: 24, weight: .bold)
                 Text(unit)
                     .globalTextStyle(config, size: 14)
                     .foregroundColor(DesignTokens.Colors.mutedForeground)

@@ -5,203 +5,155 @@
 
 import SwiftUI
 import DesignTokensKit
+
+// MARK: - Unified Showcase Card Component
+struct ShowcaseCard<Content: View>: View {
+    let title: String
+    let config: DesignTokensConfig
+    let minHeight: CGFloat
+    @ViewBuilder let content: () -> Content
+    
+    init(
+        title: String,
+        config: DesignTokensConfig,
+        minHeight: CGFloat = 200,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.title = title
+        self.config = config
+        self.minHeight = minHeight
+        self.content = content
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
+            Text(title)
+                .globalTextStyle(config, size: 16, weight: .semibold)
+                .foregroundColor(DesignTokens.Colors.foreground)
+            
+            VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                content()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer(minLength: 0)
+        }
+        .padding(20 * config.spacingScale)
+        .frame(minHeight: minHeight, alignment: .top)
+        .background(DesignTokens.Colors.card)
+        .cornerRadius(8 * config.radiusScale)
+        .overlay(
+            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
+                .stroke(DesignTokens.Colors.border, lineWidth: 1)
+        )
+    }
+}
+
 struct TypographySystemView: View {
     let language: String
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            GeometryReader { geometry in
-                let screenSize = ScreenSize.from(width: geometry.size.width)
-                let columnCount = screenSize == .compact ? 1 : 2
-                
+        ScrollView {
+            VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
                 LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 24 * config.spacingScale), count: columnCount),
+                    columns: [
+                        GridItem(.flexible(minimum: 280), spacing: 24 * config.spacingScale),
+                        GridItem(.flexible(minimum: 280), spacing: 24 * config.spacingScale)
+                    ],
                     spacing: 24 * config.spacingScale
                 ) {
                     // 字体大小 - 完整展示
-                    VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                        Text(language == "zh" ? "字体大小 (完整)" : "Font Sizes (Complete)")
-                            .globalTextStyle(config, size: 16, weight: .semibold)
-                        
-                        VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                    ShowcaseCard(
+                        title: language == "zh" ? "字体大小" : "Font Sizes",
+                        config: config,
+                        minHeight: 0
+                    ) {
+                        VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
                             ForEach(fontSizes, id: \.name) { size in
-                                HStack {
+                                HStack(alignment: .firstTextBaseline) {
                                     Text(size.label)
+                                        .globalTextStyleNoColor(config, size: 11)
+                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                        .frame(width: 80, alignment: .leading)
+                                    Text("Aa")
                                         .globalTextStyle(config, size: size.value)
                                     Spacer()
                                 }
                             }
                         }
-                        .padding(16 * config.spacingScale)
-                        .background(DesignTokens.Colors.card)
-                        .cornerRadius(8 * config.radiusScale)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.border, lineWidth: 1)
-                        )
                     }
                     
                     // 字重 - 完整展示
-                    VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                        Text(language == "zh" ? "字重 (完整)" : "Font Weights (Complete)")
-                            .globalTextStyle(config, size: 16, weight: .semibold)
-                        
+                    ShowcaseCard(
+                        title: language == "zh" ? "字重" : "Font Weights",
+                        config: config,
+                        minHeight: 0
+                    ) {
                         VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                            ForEach(fontWeights, id: \.name) { weight in
-                                Text(weight.label)
-                                    .globalTextStyle(config, size: 16, weight: weight.value)
-                            }
+                                ForEach(fontWeights, id: \.name) { weight in
+                                    HStack {
+                                        Text(weight.name)
+                                            .globalTextStyleNoColor(config, size: 11)
+                                            .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                            .frame(width: 80, alignment: .leading)
+                                        Text("Sample")
+                                            .globalTextStyle(config, size: 16, weight: weight.value)
+                                        Spacer()
+                                    }
+                                }
                         }
-                        .padding(16 * config.spacingScale)
-                        .background(DesignTokens.Colors.card)
-                        .cornerRadius(8 * config.radiusScale)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.border, lineWidth: 1)
-                        )
                     }
                     
                     // 字体族
-                    VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                        Text(language == "zh" ? "字体族" : "Font Families")
-                            .globalTextStyle(config, size: 16, weight: .semibold)
-                        
+                    ShowcaseCard(
+                        title: language == "zh" ? "字体族" : "Font Families",
+                        config: config,
+                        minHeight: 0
+                    ) {
                         VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                            // Sans-serif
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text("Sans-serif")
-                                    .globalTextStyle(config, size: 12, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                // Sans Serif
+                                VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
+                                    Text("Sans Serif")
+                                        .globalTextStyleNoColor(config, size: 12, weight: .medium)
+                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                    Text("System UI Font - " + (language == "zh" ? "系统默认字体" : "System Default Font"))
+                                        .globalTextStyle(config, size: 14)
+                                    Text("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                                        .globalTextStyle(config, size: 14)
+                                    Text("abcdefghijklmnopqrstuvwxyz")
+                                        .globalTextStyle(config, size: 14)
+                                    Text("0123456789")
+                                        .globalTextStyle(config, size: 14)
+                                    Text("--font-family-sans")
+                                        .globalTextStyleNoColor(config, size: 10)
+                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                }
                                 
-                                Text("The quick brown fox jumps over the lazy dog")
-                                    .globalTextStyle(config, size: 16)
+                                Divider()
                                 
-                                Text(language == "zh" ? "快速的棕色狐狸跳过懒狗" : "1234567890")
-                                    .globalTextStyle(config, size: 16)
-                            }
-                            
-                            Divider()
-                            
-                            // Serif
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text("Serif")
-                                    .globalTextStyle(config, size: 12, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                
-                                Text("The quick brown fox jumps over the lazy dog")
-                                    .font(.custom("Georgia", size: 16 * config.fontScale))
-                                    .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
-                                    .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
-                                
-                                Text(language == "zh" ? "快速的棕色狐狸跳过懒狗" : "1234567890")
-                                    .font(.custom("Georgia", size: 16 * config.fontScale))
-                                    .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
-                                    .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
-                            }
-                            
-                            Divider()
-                            
-                            // Monospace
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text("Monospace")
-                                    .globalTextStyle(config, size: 12, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                
-                                Text("The quick brown fox jumps over the lazy dog")
-                                    .monoTextStyle(config, size: 16)
-                                
-                                Text("1234567890 !@#$%^&*()")
-                                    .monoTextStyle(config, size: 16)
-                            }
+                                // Monospace
+                                VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
+                                    Text("Monospace")
+                                        .globalTextStyleNoColor(config, size: 12, weight: .medium)
+                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                    Text("Monospace Font - " + (language == "zh" ? "等宽字体" : "Monospace Font"))
+                                        .monoTextStyle(config, size: 14)
+                                    Text("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                                        .monoTextStyle(config, size: 14)
+                                    Text("abcdefghijklmnopqrstuvwxyz")
+                                        .monoTextStyle(config, size: 14)
+                                    Text("0123456789")
+                                        .monoTextStyle(config, size: 14)
+                                    Text("--font-family-mono")
+                                        .globalTextStyleNoColor(config, size: 10)
+                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                                }
                         }
-                        .padding(16 * config.spacingScale)
-                        .background(DesignTokens.Colors.card)
-                        .cornerRadius(8 * config.radiusScale)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.border, lineWidth: 1)
-                        )
-                    }
-                    
-                    // 文本样式组合
-                    VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                        Text(language == "zh" ? "文本样式组合" : "Text Style Combinations")
-                            .globalTextStyle(config, size: 16, weight: .semibold)
-                        
-                        VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                            // 标题样式
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text(language == "zh" ? "标题 H1" : "Heading H1")
-                                    .globalTextStyle(config, size: 36, weight: .bold)
-                                    .foregroundColor(DesignTokens.Colors.heading(1))
-                                
-                                Text(language == "zh" ? "标题 H2" : "Heading H2")
-                                    .globalTextStyle(config, size: 30, weight: .semibold)
-                                    .foregroundColor(DesignTokens.Colors.heading(2))
-                                
-                                Text(language == "zh" ? "标题 H3" : "Heading H3")
-                                    .globalTextStyle(config, size: 24, weight: .semibold)
-                                    .foregroundColor(DesignTokens.Colors.heading(3))
-                                
-                                Text(language == "zh" ? "标题 H4" : "Heading H4")
-                                    .globalTextStyle(config, size: 20, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.heading(4))
-                                
-                                Text(language == "zh" ? "标题 H5" : "Heading H5")
-                                    .globalTextStyle(config, size: 18, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.heading(5))
-                                
-                                Text(language == "zh" ? "标题 H6" : "Heading H6")
-                                    .globalTextStyle(config, size: 16, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.heading(6))
-                            }
-                            
-                            Divider()
-                            
-                            // 正文样式
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text(language == "zh" ? "正文内容" : "Body Text")
-                                    .globalTextStyle(config, size: 12, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                
-                                Text(language == "zh" ? 
-                                     "这是一段正文内容。设计系统通过统一的文字样式，确保界面的一致性和可读性。" :
-                                     "This is body text. The design system ensures consistency and readability through unified text styles.")
-                                    .globalTextStyle(config, size: 16)
-                                    .lineLimit(nil)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            
-                            Divider()
-                            
-                            // 小字和注释
-                            VStack(alignment: .leading, spacing: 4 * config.spacingScale) {
-                                Text(language == "zh" ? "小字和注释" : "Small Text & Captions")
-                                    .globalTextStyle(config, size: 12, weight: .medium)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                
-                                Text(language == "zh" ? "这是小字文本" : "This is small text")
-                                    .globalTextStyle(config, size: 12)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                
-                                Text(language == "zh" ? "* 这是一条注释" : "* This is a caption")
-                                    .globalTextStyle(config, size: 11)
-                                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                    .italic()
-                            }
-                        }
-                        .padding(16 * config.spacingScale)
-                        .background(DesignTokens.Colors.card)
-                        .cornerRadius(8 * config.radiusScale)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8 * config.radiusScale)
-                                .stroke(DesignTokens.Colors.border, lineWidth: 1)
-                        )
                     }
                 }
             }
-            .frame(minHeight: 800)
+            .padding(.horizontal)
         }
     }
 }
