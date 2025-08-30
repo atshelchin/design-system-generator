@@ -2986,19 +2986,186 @@
                 transform: scale(1);
             }
         }
+        /* 固定导航栏样式 */
+        .fixed-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-background);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+        
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-foreground);
+        }
+        
+        .nav-logo svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--color-primary);
+        }
+        
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--color-secondary);
+            border: none;
+            border-radius: 6px;
+            color: var(--color-foreground);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .lang-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .lang-btn {
+            padding: 6px 12px;
+            background: var(--color-secondary);
+            border: none;
+            border-radius: 4px;
+            color: var(--color-foreground);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .nav-sections {
+            display: flex;
+            gap: 32px;
+            padding: 12px 0;
+            background: var(--color-card);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        [data-theme="dark"] .nav-sections {
+            background: rgba(23, 23, 23, 0.95);
+        }
+        
+        .nav-section-btn {
+            color: var(--color-primary);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+        
+        .nav-section-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 内容区域需要上边距来避开固定导航 */
+        .container {
+            padding-top: 120px;
+        }
+        
+        /* 滚动目标的偏移 */
+        .section {
+            scroll-margin-top: 120px;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 固定导航栏 -->
+    <div class="fixed-nav">
+        <div class="nav-container">
+            <div class="nav-header">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                    </svg>
+                    <span>Design Tokens Showcase</span>
+                </div>
+                <div class="nav-controls">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <span id="theme-icon">🌞</span>
+                        <span id="theme-text">Light</span>
+                    </button>
+                    <div class="divider" style="width: 1px; height: 20px; background: var(--color-border);"></div>
+                    <div class="lang-buttons">
+                        <button class="lang-btn active" onclick="setLanguage('zh')" id="lang-zh">中文</button>
+                        <button class="lang-btn" onclick="setLanguage('en')" id="lang-en">English</button>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-sections">
+                <button class="nav-section-btn" onclick="scrollToSection('colors')">
+                    <span data-en="Colors" data-zh="色彩">色彩</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('typography')">
+                    <span data-en="Typography" data-zh="文字">文字</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('hierarchy')">
+                    <span data-en="Hierarchy" data-zh="层级">层级</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('spacing')">
+                    <span data-en="Spacing" data-zh="间距">间距</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('radius')">
+                    <span data-en="Radius" data-zh="圆角">圆角</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('shadow')">
+                    <span data-en="Shadow" data-zh="阴影">阴影</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('accessibility')">
+                    <span data-en="Accessibility" data-zh="无障碍">无障碍</span>
+                </button>
+                <button class="nav-section-btn" onclick="scrollToSection('components')">
+                    <span data-en="Components" data-zh="组件">组件</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <!-- 头部 -->
-        <header class="header">
+        <!-- <header class="header">
             <h1 class="heading-primary" data-en="Cross-Platform Design System" data-zh="跨平台设计系统">跨平台设计系统</h1>
             <p data-en="100% SwiftUI Compatible Design Tokens" data-zh="100% SwiftUI 兼容的设计令牌">100% SwiftUI 兼容的设计令牌</p>
-        </header>
+        </header> -->
 
         <!-- 控制栏 -->
-        <div class="controls">
+        <!-- <div class="controls">
             <div class="controls-inner">
                 <div class="control-group">
                     <span class="control-label" data-en="Theme" data-zh="主题">主题</span>
@@ -3016,10 +3183,10 @@
                     <button id="lang-en" onclick="setLanguage('en')">English</button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- 分类导航 -->
-        <nav class="category-nav">
+        <!-- <nav class="category-nav">
             <button onclick="scrollToSection('colors')" data-en="Colors" data-zh="色彩系统">色彩系统</button>
             <button onclick="scrollToSection('typography')" data-en="Typography" data-zh="文字系统">文字系统</button>
             <button onclick="scrollToSection('hierarchy')" data-en="Hierarchy" data-zh="层级系统">层级系统</button>
@@ -3028,7 +3195,7 @@
             <button onclick="scrollToSection('shadow')" data-en="Shadow" data-zh="阴影系统">阴影系统</button>
             <button onclick="scrollToSection('accessibility')" data-en="Accessibility" data-zh="无障碍">无障碍</button>
             <button onclick="scrollToSection('components')" data-en="Components" data-zh="组件示例">组件示例</button>
-        </nav>
+        </nav> -->
 
         <!-- 1. 色彩系统 -->
         <section id="colors" class="section">
@@ -4717,6 +4884,57 @@
             document.getElementById('theme-dark').classList.toggle('active', theme === 'dark');
         }
 
+        // 主题切换
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? '' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // 更新按钮显示
+            document.getElementById('theme-icon').textContent = newTheme === 'dark' ? '🌙' : '🌞';
+            document.getElementById('theme-text').textContent = newTheme === 'dark' ? 'Dark' : 'Light';
+            
+            // 同步控制面板的主题按钮
+            document.getElementById('theme-light')?.classList.toggle('active', newTheme === '');
+            document.getElementById('theme-dark')?.classList.toggle('active', newTheme === 'dark');
+        }
+        
+        // 滚动到指定部分
+        function scrollToSection(sectionId) {
+            let targetElement;
+            
+            switch(sectionId) {
+                case 'colors':
+                    targetElement = document.querySelector('.section');
+                    break;
+                case 'typography':
+                    targetElement = document.querySelectorAll('.section')[1];
+                    break;
+                case 'hierarchy':
+                    targetElement = document.querySelectorAll('.section')[2];
+                    break;
+                case 'spacing':
+                    targetElement = document.querySelectorAll('.section')[3];
+                    break;
+                case 'radius':
+                    targetElement = document.querySelectorAll('.section')[4];
+                    break;
+                case 'shadow':
+                    targetElement = document.querySelectorAll('.section')[5];
+                    break;
+                case 'accessibility':
+                    targetElement = document.querySelectorAll('.section')[6];
+                    break;
+                case 'components':
+                    targetElement = document.querySelectorAll('.section')[7];
+                    break;
+            }
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
         // 语言切换
         function setLanguage(lang) {
             document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');

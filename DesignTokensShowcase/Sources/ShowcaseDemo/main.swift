@@ -30,12 +30,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Create the SwiftUI view
-        let contentView = ContentViewFinal()
+        // Create the SwiftUI view - 使用新的单页面展示
+        let contentView = SinglePageShowcaseView()
         
         // Create the window and set the content view
         window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 1200, height: 800),
+            contentRect: NSRect(x: 0, y: 0, width: 1400, height: 900),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered, defer: false)
         window.center()
