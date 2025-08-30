@@ -58,11 +58,11 @@ struct ComponentsAll42View: View {
             ScrollView {
                 LazyVGrid(
                     columns: [
-                        GridItem(.flexible(), spacing: 24 * config.spacingScale),
-                        GridItem(.flexible(), spacing: 24 * config.spacingScale),
-                        GridItem(.flexible(), spacing: 24 * config.spacingScale)
+                        GridItem(.flexible(minimum: 280, maximum: .infinity), spacing: 32 * config.spacingScale),
+                        GridItem(.flexible(minimum: 280, maximum: .infinity), spacing: 32 * config.spacingScale),
+                        GridItem(.flexible(minimum: 280, maximum: .infinity), spacing: 32 * config.spacingScale)
                     ],
-                    spacing: 24 * config.spacingScale
+                    spacing: 32 * config.spacingScale
                 ) {
                     // Components 1-10 from ComponentsExact
                         // 1. 按钮 Button
@@ -347,10 +347,10 @@ struct ComponentCardAll42<Content: View>: View {
                 .globalTextStyle(config, size: 14, weight: .semibold)
             
             content
-                .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
+                .frame(maxWidth: .infinity, minHeight: 80, alignment: .leading)
         }
-        .padding(20 * config.spacingScale)
-        .frame(maxWidth: .infinity)
+        .padding(24 * config.spacingScale)
+        .frame(maxWidth: .infinity, minHeight: 180)
         .background(DesignTokens.Colors.card)
         .cornerRadius(8 * config.radiusScale)
         .overlay(

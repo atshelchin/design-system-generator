@@ -34,8 +34,11 @@ struct GlobalTextStyle: ViewModifier {
             return .custom("Helvetica Neue", size: size).weight(weight)
         case "monospace":
             return .custom("Menlo", size: size).weight(weight)
-        default:
+        case "system":
             return .system(size: size, weight: weight)
+        default:
+            // 尝试使用自定义上传的字体
+            return .custom(config.selectedFont, size: size).weight(weight)
         }
     }
     
@@ -146,8 +149,11 @@ struct GlobalTextStyleNoColor: ViewModifier {
             return .custom("Helvetica Neue", size: size).weight(weight)
         case "monospace":
             return .custom("Menlo", size: size).weight(weight)
-        default:
+        case "system":
             return .system(size: size, weight: weight)
+        default:
+            // 尝试使用自定义上传的字体
+            return .custom(config.selectedFont, size: size).weight(weight)
         }
     }
     

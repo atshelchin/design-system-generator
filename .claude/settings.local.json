@@ -11,7 +11,9 @@
       "Bash(echo:*)",
       "Bash(done)",
       "Bash(swift run:*)",
-      "WebFetch(domain:)"
+      "WebFetch(domain:)",
+      "Bash(find:*)",
+      "Bash(bun run:*)"
     ],
     "deny": [],
     "ask": []

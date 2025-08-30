@@ -5,6 +5,8 @@
 
 import SwiftUI
 import DesignTokensKit
+import AppKit
+import CoreText
 import UniformTypeIdentifiers
 
 struct FullControlPanelNew: View {
@@ -138,6 +140,16 @@ struct FullControlPanelNew: View {
                                     selectedFont = "Monospace"
                                     config.selectedFont = "monospace"
                                 }
+                                
+                                if !uploadedFonts.isEmpty {
+                                    Divider()
+                                    ForEach(uploadedFonts, id: \.self) { fontName in
+                                        Button(fontName) {
+                                            selectedFont = fontName
+                                            config.selectedFont = fontName
+                                        }
+                                    }
+                                }
                             } label: {
                                 HStack {
                                     Text(selectedFont)
@@ -160,7 +172,7 @@ struct FullControlPanelNew: View {
                             // 上传和管理按钮
                             HStack(spacing: 6) {
                                 Button(language == "zh" ? "上传" : "Upload") {
-                                    showingFontPicker = true
+                                    selectAndLoadFont()
                                 }
                                 .buttonStyle(SmallBrandButtonStyle(brandColor: brandColor))
                                 
@@ -252,6 +264,7 @@ struct FullControlPanelNew: View {
                             config.contrast = .normal
                             config.letterSpacing = .normal
                             config.lineHeight = .normal
+                            config.selectedFont = "system"  // 重置字体到系统默认
                             selectedFont = "系统默认"
                             fontSize = "A"
                             contrast = "标准"
@@ -279,6 +292,42 @@ struct FullControlPanelNew: View {
         .background(DesignTokens.Colors.panel1)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
+        .sheet(isPresented: $showingFontManager) {
+            FontManagerView(uploadedFonts: $uploadedFonts, config: config, language: language)
+        }
+    }
+    
+    // 字体选择功能
+    private func selectAndLoadFont() {
+        let panel = NSOpenPanel()
+        panel.title = language == "zh" ? "选择字体文件" : "Select Font File"
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.allowedContentTypes = [.font, .item]
+        
+        if panel.runModal() == .OK, let url = panel.url {
+            loadFont(from: url)
+        }
+    }
+    
+    private func loadFont(from url: URL) {
+        // 加载字体到系统
+        if let fontDataProvider = CGDataProvider(url: url as CFURL),
+           let font = CGFont(fontDataProvider) {
+            
+            var error: Unmanaged<CFError>?
+            if CTFontManagerRegisterGraphicsFont(font, &error) {
+                // 获取字体名称
+                if let fullName = font.fullName as String? {
+                    uploadedFonts.append(fullName)
+                    selectedFont = fullName
+                    config.selectedFont = fullName
+                }
+            } else if let error = error?.takeRetainedValue() {
+                print("字体加载失败: \(error)")
+            }
+        }
     }
 }
 

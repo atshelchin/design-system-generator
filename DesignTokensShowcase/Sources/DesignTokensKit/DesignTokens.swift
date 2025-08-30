@@ -195,7 +195,7 @@ public struct DesignTokens {
             case 3..<4: r = 0; g = x; b = c
             case 4..<5: r = x; g = 0; b = c
             case 5..<6: r = c; g = 0; b = x
-            default: r = c; g = x; b = 0  // 处理360度的情况，返回红色
+            default: r = c; g = x; b = 0  // 处理 360 度的情况，返回红色
             }
             
             return Color(red: r + m, green: g + m, blue: b + m, opacity: opacity)
@@ -263,7 +263,7 @@ public struct DesignTokens {
             default: lightness = 50
             }
             
-            // 使用HSL，带10%饱和度，与CSS保持一致
+            // 使用 HSL，带 10% 饱和度，与 CSS 保持一致
             return hsl(config.brandHue, 10, lightness)
         }
         
@@ -315,6 +315,7 @@ public struct DesignTokens {
             }
         }
         public static var error: Color { danger } // Alias for danger
+        public static var destructive: Color { danger } // Alias for danger
         public static var warning: Color {
             if config.isDarkMode {
                 return Color(NSColor(red: 0xfc/255.0, green: 0xd3/255.0, blue: 0x4d/255.0, alpha: 1.0))

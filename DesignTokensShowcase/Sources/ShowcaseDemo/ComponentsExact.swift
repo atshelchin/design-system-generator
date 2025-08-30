@@ -1206,11 +1206,11 @@ struct AccordionView: View {
                     Button(action: { expanded[index].toggle() }) {
                         HStack {
                             Text("Section \(index + 1)")
-                                .font(.system(size: 14 * config.fontScale, weight: .medium))
+                                .globalTextStyle(config, size: 14, weight: .medium)
                                 .foregroundColor(DesignTokens.Colors.foreground)
                             Spacer()
                             Text(expanded[index] ? "▲" : "▼")
-                                .font(.system(size: 10 * config.fontScale))
+                                .globalTextStyle(config, size: 10)
                                 .foregroundColor(DesignTokens.Colors.mutedForeground)
                         }
                         .padding(8 * config.spacingScale)
@@ -1220,7 +1220,7 @@ struct AccordionView: View {
                     
                     if expanded[index] {
                         Text("Content for section \(index + 1)")
-                            .font(.system(size: 12 * config.fontScale))
+                            .globalTextStyle(config, size: 12)
                             .foregroundColor(DesignTokens.Colors.mutedForeground)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(8 * config.spacingScale)

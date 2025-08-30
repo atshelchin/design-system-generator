@@ -119,8 +119,8 @@ struct SinglePageShowcaseView: View {
                                 title: language == "zh" ? "8. 组件示例" : "8. Component Examples",
                                 config: config
                             ) {
-                                // 确保组件响应配置变化
-                                ComponentsAll42View(language: language, config: config)
+                                // 使用100%精确还原的组件
+                                Components100PercentAccurateView(language: language, config: config)
                                     .id(config.fontScale)
                                     .id(config.spacingScale)
                                     .id(config.radiusScale)
@@ -143,7 +143,7 @@ struct SinglePageShowcaseView: View {
                     }
                     .coordinateSpace(name: "scroll")
                     .onAppear {
-                        // 存储scrollProxy供导航使用
+                        // 存储 scrollProxy 供导航使用
                         NavigationState.shared.scrollProxy = scrollProxy
                     }
                 }
@@ -193,7 +193,7 @@ struct FixedNavigationBar: View {
         VStack(alignment: .leading, spacing: 0) {
             // 顶部栏
             HStack {
-                // Logo和标题
+                // Logo 和标题
                 HStack(spacing: 12) {
                     Image(systemName: "paintbrush.pointed.fill")
                         .font(.system(size: 24))
@@ -218,7 +218,7 @@ struct FixedNavigationBar: View {
                             Text(config.isDarkMode ? "Dark" : "Light")
                                 .globalTextStyle(config, size: 12, weight: .medium)
                         }
-                        .foregroundColor(DesignTokens.Colors.foreground)
+                        .foregroundColor(DesignTokens.Colors.secondaryForeground)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .background(DesignTokens.Colors.secondary)
@@ -234,7 +234,7 @@ struct FixedNavigationBar: View {
                         Button(action: { language = "zh" }) {
                             Text("中文")
                                 .globalTextStyle(config, size: 12, weight: .medium)
-                                .foregroundColor(language == "zh" ? .white : DesignTokens.Colors.foreground)
+                                .foregroundColor(language == "zh" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(language == "zh" ? DesignTokens.Colors.primary : DesignTokens.Colors.secondary)
@@ -245,7 +245,7 @@ struct FixedNavigationBar: View {
                         Button(action: { language = "en" }) {
                             Text("English")
                                 .globalTextStyle(config, size: 12, weight: .medium)
-                                .foregroundColor(language == "en" ? .white : DesignTokens.Colors.foreground)
+                                .foregroundColor(language == "en" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(language == "en" ? DesignTokens.Colors.primary : DesignTokens.Colors.secondary)
