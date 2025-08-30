@@ -40,6 +40,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "colors",
                                 title: language == "zh" ? "1. 色彩系统" : "1. Color System",
+                                subtitle: language == "zh" ? "品牌色、中性色和语义色" : "Brand, neutral, and semantic colors",
                                 config: config
                             ) {
                                 CompleteColorSystemView(language: language, config: config)
@@ -51,6 +52,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "typography",
                                 title: language == "zh" ? "2. 文字系统" : "2. Typography System",
+                                subtitle: language == "zh" ? "字体大小、字重和字体族" : "Font sizes, weights, and families",
                                 config: config
                             ) {
                                 TypographySystemCompleteView(language: language, config: config)
@@ -62,6 +64,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "hierarchy",
                                 title: language == "zh" ? "3. 层级系统" : "3. Hierarchy System",
+                                subtitle: language == "zh" ? "完整的层级系统，包含9大类别" : "Complete hierarchy system with 9 categories",
                                 config: config
                             ) {
                                 HierarchySystemView(language: language, config: config)
@@ -73,6 +76,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "spacing",
                                 title: language == "zh" ? "4. 间距系统" : "4. Spacing System",
+                                subtitle: language == "zh" ? "一致的间距比例" : "Consistent spacing scale",
                                 config: config
                             ) {
                                 SpacingSystemView(language: language, config: config)
@@ -84,6 +88,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "radius",
                                 title: language == "zh" ? "5. 圆角系统" : "5. Radius System",
+                                subtitle: language == "zh" ? "圆角半径比例" : "Corner radius scale",
                                 config: config
                             ) {
                                 RadiusSystemView(language: language, config: config)
@@ -95,6 +100,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "shadow",
                                 title: language == "zh" ? "6. 阴影系统" : "6. Shadow System",
+                                subtitle: language == "zh" ? "高度和深度" : "Elevation and depth",
                                 config: config
                             ) {
                                 ShadowSystemView(language: language, config: config)
@@ -106,6 +112,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "accessibility",
                                 title: language == "zh" ? "7. 无障碍系统" : "7. Accessibility System",
+                                subtitle: language == "zh" ? "字号大小、对比度、文字间距和行高" : "Font size, contrast, spacing, and line height",
                                 config: config
                             ) {
                                 AccessibilitySystemView(language: language, config: config)
@@ -117,6 +124,7 @@ struct SinglePageShowcaseView: View {
                             SystemContentView(
                                 id: "components",
                                 title: language == "zh" ? "8. 组件示例" : "8. Component Examples",
+                                subtitle: language == "zh" ? "使用设计令牌构建的常用UI组件" : "Common UI components built with design tokens",
                                 config: config
                             ) {
                                 // 使用100%精确还原的组件
@@ -293,15 +301,32 @@ struct FixedNavigationBar: View {
 struct SystemContentView<Content: View>: View {
     let id: String
     let title: String
+    let subtitle: String?
     @ObservedObject var config: DesignTokensConfig
     @ViewBuilder let content: Content
     
+    init(id: String, title: String, subtitle: String? = nil, config: DesignTokensConfig, @ViewBuilder content: () -> Content) {
+        self.id = id
+        self.title = title
+        self.subtitle = subtitle
+        self.config = config
+        self.content = content()
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 24 * config.spacingScale) {
-            // 系统标题
-            Text(title)
-                .globalTextStyle(config, size: 28, weight: .bold)
-                .padding(.bottom, 8)
+            // 系统标题和副标题
+            VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                Text(title)
+                    .globalTextStyle(config, size: 28, weight: .bold)
+                
+                if let subtitle = subtitle {
+                    Text(subtitle)
+                        .globalTextStyle(config, size: 16)
+                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                }
+            }
+            .padding(.bottom, 8)
             
             // 系统内容 - 包裹在面板中
             content

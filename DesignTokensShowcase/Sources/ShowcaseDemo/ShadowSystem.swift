@@ -11,19 +11,14 @@ struct ShadowSystemView: View {
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        // 使用自适应网格展示阴影值，每行最多6个
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            let itemWidth: CGFloat = 120
-            let spacing: CGFloat = 24 * config.spacingScale
-            let maxColumns = min(6, Int((width + spacing) / (itemWidth + spacing)))
-            let columnCount = max(1, maxColumns)
-            
-            LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columnCount),
-                alignment: .leading,
-                spacing: spacing
-            ) {
+        // 使用响应式网格
+        LazyVGrid(
+            columns: [
+                GridItem(.adaptive(minimum: 120), spacing: 24 * config.spacingScale)
+            ],
+            alignment: .leading,
+            spacing: 24 * config.spacingScale
+        ) {
             ForEach(shadowValues, id: \.name) { shadow in
                 VStack(spacing: 8 * config.spacingScale) {
                     // 可视化展示
@@ -51,8 +46,6 @@ struct ShadowSystemView: View {
                 )
             }
         }
-        }
-        .frame(minHeight: 200)
     }
 }
 

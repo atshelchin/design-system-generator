@@ -10,19 +10,17 @@ struct AccessibilitySystemView: View {
     @ObservedObject var config: DesignTokensConfig
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 控制说明
+        // 与showcase.html完全一致，只有两个部分
+        HStack(alignment: .top, spacing: 24 * config.spacingScale) {
+            // 左侧：无障碍功能
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
-                HStack {
-                    Image(systemName: "info.circle.fill")
-                        .font(.system(size: 16 * config.fontScale))
-                        .foregroundColor(DesignTokens.Colors.info)
-                    
-                    Text(language == "zh" ? 
-                         "所有无障碍控制现在都在右下角的悬浮面板中。您可以调整：" :
-                         "All accessibility controls are now in the floating panel on the bottom right. You can adjust:")
-                        .globalTextStyle(config, size: 13)
-                }
+                Text(language == "zh" ? "无障碍功能" : "Accessibility Features")
+                    .globalTextStyle(config, size: 16, weight: .semibold)
+                
+                Text(language == "zh" ? 
+                     "所有无障碍控制现在都在右下角的悬浮面板中。您可以调整：" :
+                     "All accessibility controls are now in the floating panel on the bottom right. You can adjust:")
+                    .globalTextStyle(config, size: 14)
                 
                 VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
                     ForEach(accessibilityFeatures, id: \.0) { feature in
@@ -31,277 +29,82 @@ struct AccessibilitySystemView: View {
                                 .fill(DesignTokens.Colors.primary)
                                 .frame(width: 4, height: 4)
                             Text(language == "zh" ? feature.0 : feature.1)
-                                .globalTextStyle(config, size: 12)
+                                .globalTextStyle(config, size: 13)
                         }
                     }
                 }
                 .padding(.leading, 24 * config.spacingScale)
                 
                 // 示例文本框
-                VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                    Text(language == "zh" ? 
-                         "此文本将响应所有无障碍设置。尝试调整悬浮面板中的控件以查看更改。" :
-                         "This text will respond to all accessibility settings. Try adjusting the controls in the floating panel to see the changes.")
-                        .globalTextStyle(config, size: 14)
-                        .padding(16 * config.spacingScale)
-                        .background(DesignTokens.Colors.panel(1))
-                        .cornerRadius(8 * config.radiusScale)
-                }
+                Text(language == "zh" ? 
+                     "此文本将响应所有无障碍设置。尝试调整悬浮面板中的控件以查看更改。" :
+                     "This text will respond to all accessibility settings. Try adjusting the controls in the floating panel to see the changes.")
+                    .globalTextStyle(config, size: 14)
+                    .padding(16 * config.spacingScale)
+                    .background(DesignTokens.Colors.panel(1))
+                    .cornerRadius(8 * config.radiusScale)
             }
+            .frame(maxWidth: .infinity)
             .padding(20 * config.spacingScale)
             .background(DesignTokens.Colors.card)
             .cornerRadius(8 * config.radiusScale)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8 * config.radiusScale)
+                    .stroke(DesignTokens.Colors.border, lineWidth: 1)
+            )
             
-            // 对比度演示
+            // 右侧：设计系统变量
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
-                Text(language == "zh" ? "对比度模式" : "Contrast Modes")
-                    .globalTextStyle(config, size: 18, weight: .semibold)
+                Text(language == "zh" ? "设计系统变量" : "Design System Variables")
+                    .globalTextStyle(config, size: 16, weight: .semibold)
                 
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 24 * config.spacingScale) {
-                        // 当前对比度效果
-                        VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                            Text(language == "zh" ? "当前" : "Current")
-                                .globalTextStyle(config, size: 14, weight: .medium)
-                            
-                            VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                                // 标题示例
-                                Text(language == "zh" ? "标题文字" : "Heading Text")
-                                    .globalTextStyle(config, size: 16, weight: .semibold)
-                                
-                                // 正文示例
-                                Text(language == "zh" ? "正文内容示例" : "Body text example")
-                                    .globalTextStyle(config, size: 14)
-                                
-                                // 按钮示例
-                                Button(language == "zh" ? "按钮" : "Button") {}
-                                    .buttonStyle(PrimaryButtonStyle(config: config))
-                            }
-                            .padding(12 * config.spacingScale)
-                            .background(DesignTokens.Colors.card)
-                            .cornerRadius(6 * config.radiusScale)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6 * config.radiusScale)
-                                    .stroke(DesignTokens.Colors.border, lineWidth: config.contrast == .ultra ? 3 : (config.contrast == .high ? 2 : 1))
-                            )
-                        }
-                        
-                        // 固定的三种对比度示例
-                        ForEach(contrastModes, id: \.mode) { contrast in
-                            VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
-                                Text(language == "zh" ? contrast.nameZh : contrast.nameEn)
-                                    .globalTextStyle(config, size: 14, weight: .medium)
-                            
-                            VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                                // 标题示例
-                                Text(language == "zh" ? "标题文字" : "Heading Text")
-                                    .globalTextStyleNoColor(config, size: 16, weight: contrast.weight)
-                                    .foregroundColor(contrast.foreground)
-                                
-                                // 正文示例
-                                Text(language == "zh" ? "正文内容示例" : "Body text example")
-                                    .globalTextStyleNoColor(config, size: 14, weight: contrast.bodyWeight)
-                                    .foregroundColor(contrast.bodyColor)
-                                
-                                // 按钮示例
-                                Button(language == "zh" ? "按钮" : "Button") {}
-                                    .globalTextStyleNoColor(config, size: 13, weight: contrast.weight)
-                                    .foregroundColor(contrast.buttonForeground)
-                                    .padding(.horizontal, 12 * config.spacingScale)
-                                    .padding(.vertical, 6 * config.spacingScale)
-                                    .background(contrast.buttonBackground)
-                                    .cornerRadius(4 * config.radiusScale)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                            .stroke(contrast.border, lineWidth: contrast.borderWidth)
-                                    )
-                                    .buttonStyle(PlainButtonStyle())
-                            }
-                            .padding(12 * config.spacingScale)
-                            .background(contrast.background)
-                            .cornerRadius(6 * config.radiusScale)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6 * config.radiusScale)
-                                    .stroke(contrast.border, lineWidth: 1)
-                            )
-                        }
+                Text(language == "zh" ? 
+                     "您可以动态调整核心设计变量：" :
+                     "You can dynamically adjust the core design variables:")
+                    .globalTextStyle(config, size: 14)
+                
+                VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
+                    ForEach(designVariables, id: \.0) { variable in
+                        HStack(spacing: 8 * config.spacingScale) {
+                            Circle()
+                                .fill(DesignTokens.Colors.primary)
+                                .frame(width: 4, height: 4)
+                            Text(language == "zh" ? variable.0 : variable.1)
+                                .globalTextStyle(config, size: 13)
                         }
                     }
                 }
-                .padding(20 * config.spacingScale)
-                .background(DesignTokens.Colors.background)
-                .cornerRadius(8 * config.radiusScale)
-            }
-            
-            // 文字调整演示
-            VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
-                Text(language == "zh" ? "文字调整" : "Text Adjustments")
-                    .globalTextStyle(config, size: 18, weight: .semibold)
+                .padding(.leading, 24 * config.spacingScale)
                 
-                VStack(spacing: 20 * config.spacingScale) {
-                    // 字体大小
-                    VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                        Text(language == "zh" ? "字体大小缩放" : "Font Size Scaling")
-                            .globalTextStyle(config, size: 14, weight: .medium)
-                        
-                        HStack(spacing: 16 * config.spacingScale) {
-                            ForEach(["A-", "A", "A+", "A++"], id: \.self) { size in
-                                let scale = scaleForSize(size)
-                                VStack(spacing: 4 * config.spacingScale) {
-                                    Text(size)
-                                        .globalTextStyle(config, size: 16, weight: .medium)
-                                    Text("\(Int(scale * 100))%")
-                                        .globalTextStyle(config, size: 10)
-                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                }
-                                .padding(8 * config.spacingScale)
-                                .background(config.fontScale == scale ? DesignTokens.Colors.primary.opacity(0.1) : Color.clear)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                        .stroke(config.fontScale == scale ? DesignTokens.Colors.primary : DesignTokens.Colors.border, lineWidth: 1)
-                                )
-                                .cornerRadius(4 * config.radiusScale)
-                            }
-                        }
-                    }
+                // 颜色示例
+                HStack(spacing: 12 * config.spacingScale) {
+                    RoundedRectangle(cornerRadius: 12 * config.radiusScale)
+                        .fill(DesignTokens.Colors.primary)
+                        .frame(width: 60, height: 60)
                     
-                    Divider()
+                    RoundedRectangle(cornerRadius: 12 * config.radiusScale)
+                        .fill(DesignTokens.Colors.brandColor(for: 500))
+                        .frame(width: 60, height: 60)
                     
-                    // 字间距
-                    VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                        Text(language == "zh" ? "字间距" : "Letter Spacing")
-                            .globalTextStyle(config, size: 14, weight: .medium)
-                        
-                        VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                            ForEach(letterSpacingExamples, id: \.mode) { spacing in
-                                HStack {
-                                    Text(language == "zh" ? spacing.nameZh : spacing.nameEn)
-                                        .globalTextStyle(config, size: 11)
-                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                        .frame(width: 60, alignment: .leading)
-                                    
-                                    Text("The quick brown fox jumps over the lazy dog")
-                                        .globalTextStyle(config, size: 13)
-                                        .tracking(spacing.value * 13 * config.fontScale)
-                                }
-                                .padding(8 * config.spacingScale)
-                                .background(config.letterSpacing == spacing.mode ? DesignTokens.Colors.primary.opacity(0.05) : Color.clear)
-                                .cornerRadius(4 * config.radiusScale)
-                            }
-                        }
-                    }
-                    
-                    Divider()
-                    
-                    // 行高
-                    VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                        Text(language == "zh" ? "行高" : "Line Height")
-                            .globalTextStyle(config, size: 14, weight: .medium)
-                        
-                        HStack(alignment: .top, spacing: 20 * config.spacingScale) {
-                            ForEach(lineHeightExamples, id: \.mode) { height in
-                                VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
-                                    Text(language == "zh" ? height.nameZh : height.nameEn)
-                                        .globalTextStyle(config, size: 11, weight: .medium)
-                                        .foregroundColor(DesignTokens.Colors.mutedForeground)
-                                    
-                                    Text(language == "zh" ? 
-                                         "这是一段测试文本。\n用于展示不同的行高设置。\n行高会影响阅读体验。" :
-                                         "This is test text.\nTo demonstrate different line heights.\nLine height affects reading experience.")
-                                        .globalTextStyle(config, size: 12)
-                                        .padding(8 * config.spacingScale)
-                                        .background(config.lineHeight == height.mode ? DesignTokens.Colors.primary.opacity(0.05) : Color.clear)
-                                        .cornerRadius(4 * config.radiusScale)
-                                }
-                            }
-                        }
-                    }
+                    RoundedRectangle(cornerRadius: 12 * config.radiusScale)
+                        .fill(DesignTokens.Colors.brandColor(for: 300))
+                        .frame(width: 60, height: 60)
                 }
-                .padding(20 * config.spacingScale)
-                .background(DesignTokens.Colors.card)
-                .cornerRadius(8 * config.radiusScale)
+                .padding(.top, 8 * config.spacingScale)
             }
-            
-            // 焦点指示器
-            VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
-                Text(language == "zh" ? "焦点指示器" : "Focus Indicators")
-                    .globalTextStyle(config, size: 18, weight: .semibold)
-                
-                HStack(spacing: 20 * config.spacingScale) {
-                    // 默认焦点环
-                    VStack(spacing: 8 * config.spacingScale) {
-                        Button(language == "zh" ? "默认焦点环" : "Default Focus Ring") {}
-                            .buttonStyle(PlainButtonStyle())
-                            .globalTextStyle(config, size: 12)
-                            .padding(12 * config.spacingScale)
-                            .background(DesignTokens.Colors.card)
-                            .cornerRadius(4 * config.radiusScale)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                    .stroke(DesignTokens.Colors.ring, lineWidth: 2)
-                            )
-                        
-                        Text("2px ring")
-                            .globalTextStyle(config, size: 10)
-                            .foregroundColor(DesignTokens.Colors.mutedForeground)
-                    }
-                    
-                    // 高对比焦点环
-                    VStack(spacing: 8 * config.spacingScale) {
-                        Button(language == "zh" ? "高对比焦点环" : "High Contrast Focus") {}
-                            .buttonStyle(PlainButtonStyle())
-                            .globalTextStyle(config, size: 12)
-                            .padding(12 * config.spacingScale)
-                            .background(DesignTokens.Colors.card)
-                            .cornerRadius(4 * config.radiusScale)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                    .stroke(Color.black, lineWidth: 3)
-                            )
-                        
-                        Text("3px solid")
-                            .globalTextStyle(config, size: 10)
-                            .foregroundColor(DesignTokens.Colors.mutedForeground)
-                    }
-                    
-                    // 自定义焦点环
-                    VStack(spacing: 8 * config.spacingScale) {
-                        Button(language == "zh" ? "自定义焦点环" : "Custom Focus Ring") {}
-                            .buttonStyle(PlainButtonStyle())
-                            .globalTextStyle(config, size: 12)
-                            .padding(12 * config.spacingScale)
-                            .background(DesignTokens.Colors.card)
-                            .cornerRadius(4 * config.radiusScale)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 4 * config.radiusScale)
-                                    .stroke(DesignTokens.Colors.accent, lineWidth: 2)
-                                    .shadow(color: DesignTokens.Colors.accent.opacity(0.3), radius: 4)
-                            )
-                        
-                        Text("accent + glow")
-                            .globalTextStyle(config, size: 10)
-                            .foregroundColor(DesignTokens.Colors.mutedForeground)
-                    }
-                }
-                .padding(20 * config.spacingScale)
-                .background(DesignTokens.Colors.background)
-                .cornerRadius(8 * config.radiusScale)
-            }
-        }
-    }
-    
-    private func scaleForSize(_ size: String) -> CGFloat {
-        switch size {
-        case "A-": return 0.875
-        case "A": return 1.0
-        case "A+": return 1.125
-        case "A++": return 1.25
-        default: return 1.0
+            .frame(maxWidth: .infinity)
+            .padding(20 * config.spacingScale)
+            .background(DesignTokens.Colors.card)
+            .cornerRadius(8 * config.radiusScale)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8 * config.radiusScale)
+                    .stroke(DesignTokens.Colors.border, lineWidth: 1)
+            )
         }
     }
 }
 
-// 无障碍功能列表
+// 无障碍功能列表 - 与showcase.html完全一致
 private let accessibilityFeatures = [
     ("字体大小缩放", "Font Size Scaling"),
     ("对比度模式", "Contrast Mode"),
@@ -309,99 +112,10 @@ private let accessibilityFeatures = [
     ("行高", "Line Height")
 ]
 
-// 对比度模式示例
-private struct ContrastModeExample {
-    let mode: ContrastMode
-    let nameZh: String
-    let nameEn: String
-    let weight: Font.Weight
-    let bodyWeight: Font.Weight
-    let foreground: Color
-    let bodyColor: Color
-    let background: Color
-    let border: Color
-    let borderWidth: CGFloat
-    let buttonBackground: Color
-    let buttonForeground: Color
-}
-
-private var contrastModes: [ContrastModeExample] {
-    let config = DesignTokensConfig.shared
-    let isDark = config.isDarkMode
-    
-    return [
-        ContrastModeExample(
-            mode: .normal,
-            nameZh: "默认",
-            nameEn: "Default",
-            weight: .medium,
-            bodyWeight: .regular,
-            // 默认模式应该显示固定的默认效果，不受当前对比度影响
-            foreground: isDark ? DesignTokens.Colors.grayColor(for: 100) : DesignTokens.Colors.grayColor(for: 900),
-            bodyColor: isDark ? DesignTokens.Colors.grayColor(for: 400) : DesignTokens.Colors.grayColor(for: 600),
-            background: isDark ? DesignTokens.Colors.grayColor(for: 800) : Color.white,
-            border: isDark ? DesignTokens.Colors.grayColor(for: 700) : DesignTokens.Colors.grayColor(for: 200),
-            borderWidth: 1,
-            buttonBackground: isDark ? DesignTokens.Colors.brandColor(for: 500) : DesignTokens.Colors.brandColor(for: 600),
-            buttonForeground: Color.white
-        ),
-        ContrastModeExample(
-            mode: .high,
-            nameZh: "高对比",
-            nameEn: "High Contrast",
-            weight: .semibold,
-            bodyWeight: .medium,
-            foreground: isDark ? DesignTokens.Colors.grayColor(for: 100) : DesignTokens.Colors.grayColor(for: 900),
-            bodyColor: isDark ? DesignTokens.Colors.grayColor(for: 200) : DesignTokens.Colors.grayColor(for: 800),
-            background: isDark ? DesignTokens.Colors.grayColor(for: 900) : DesignTokens.Colors.grayColor(for: 50),
-            border: isDark ? DesignTokens.Colors.grayColor(for: 300) : DesignTokens.Colors.grayColor(for: 700),
-            borderWidth: 2,
-            buttonBackground: isDark ? DesignTokens.Colors.brandColor(for: 300) : DesignTokens.Colors.brandColor(for: 700),
-            buttonForeground: isDark ? Color.black : Color.white
-        ),
-        ContrastModeExample(
-            mode: .ultra,
-            nameZh: "超高对比",
-            nameEn: "Ultra High",
-            weight: .bold,
-            bodyWeight: .semibold,
-            foreground: isDark ? Color.white : Color.black,
-            bodyColor: isDark ? Color.white : Color.black,
-            background: isDark ? Color.black : Color.white,
-            border: isDark ? Color.white : Color.black,
-            borderWidth: 3,
-            buttonBackground: isDark ? Color.white : Color.black,
-            buttonForeground: isDark ? Color.black : Color.white
-        )
-    ]
-}
-
-// 字间距示例
-private struct LetterSpacingExample {
-    let mode: LetterSpacingMode
-    let nameZh: String
-    let nameEn: String
-    let value: CGFloat
-}
-
-private let letterSpacingExamples = [
-    LetterSpacingExample(mode: .normal, nameZh: "标准", nameEn: "Normal", value: 0),
-    LetterSpacingExample(mode: .wide, nameZh: "宽松", nameEn: "Wide", value: 0.025),
-    LetterSpacingExample(mode: .wider, nameZh: "更宽", nameEn: "Wider", value: 0.05),
-    LetterSpacingExample(mode: .widest, nameZh: "最宽", nameEn: "Widest", value: 0.1)
-]
-
-// 行高示例
-private struct LineHeightExample {
-    let mode: LineHeightMode
-    let nameZh: String
-    let nameEn: String
-    let value: Double
-}
-
-private let lineHeightExamples = [
-    LineHeightExample(mode: .tight, nameZh: "紧凑", nameEn: "Tight", value: 1.25),
-    LineHeightExample(mode: .normal, nameZh: "标准", nameEn: "Normal", value: 1.6),
-    LineHeightExample(mode: .relaxed, nameZh: "舒适", nameEn: "Relaxed", value: 1.8),
-    LineHeightExample(mode: .loose, nameZh: "宽松", nameEn: "Loose", value: 2.2)
+// 设计系统变量列表 - 与showcase.html完全一致
+private let designVariables = [
+    ("品牌色调 (0-360°)", "Brand Hue (0-360°)"),
+    ("品牌饱和度 (0-100%)", "Brand Saturation (0-100%)"),
+    ("圆角缩放", "Radius Scale"),
+    ("间距缩放", "Spacing Scale")
 ]
