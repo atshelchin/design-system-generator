@@ -16,16 +16,10 @@ struct ComponentsExactView: View {
             // 标题 - 响应字体缩放
             VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
                 Text(language == "zh" ? "8. 组件示例" : "8. Component Examples")
-                    .font(.system(size: 24 * config.fontScale, weight: .bold))
-                    .tracking(letterSpacingValue(24))
-                    .lineSpacing(lineHeightValue(24))
-                    .foregroundColor(contrastAdjustedColor(DesignTokens.Colors.foreground))
+                    .globalTextStyle(config, size: 24, weight: .bold)
                 
                 Text(language == "zh" ? "使用设计令牌构建的常用UI组件" : "Common UI components built with design tokens")
-                    .font(.system(size: 14 * config.fontScale))
-                    .tracking(letterSpacingValue(14))
-                    .lineSpacing(lineHeightValue(14))
-                    .foregroundColor(contrastAdjustedColor(DesignTokens.Colors.mutedForeground))
+                    .secondaryTextStyle(config, size: 14)
             }
             
             // 组件网格 - 响应间距缩放
@@ -207,24 +201,13 @@ struct ComponentsExactView: View {
     
     // 辅助函数 - 计算字间距（响应控制面板）
     private func letterSpacingValue(_ fontSize: CGFloat) -> CGFloat {
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * fontSize * config.fontScale
     }
     
     // 辅助函数 - 计算行高（响应控制面板）
     private func lineHeightValue(_ fontSize: CGFloat) -> CGFloat {
-        let multiplier: CGFloat = {
-            switch config.lineHeight {
-            case .relaxed: return 1.8
-            case .loose: return 2.2
-            default: return 1.6
-            }
-        }()
-        return (fontSize * config.fontScale * multiplier) - (fontSize * config.fontScale)
+        let actualFontSize = fontSize * config.fontScale
+        return (config.lineHeight.value - 1.0) * actualFontSize
     }
     
     // 辅助函数 - 对比度调整颜色
@@ -253,9 +236,7 @@ struct ComponentBox<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
             Text(title)
-                .font(.system(size: 14 * config.fontScale, weight: fontWeight))
-                .tracking(letterSpacing)
-                .foregroundColor(DesignTokens.Colors.foreground)
+                .globalTextStyle(config, size: 14, weight: fontWeight)
             
             content
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -278,13 +259,7 @@ struct ComponentBox<Content: View>: View {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     private var borderColor: Color {
@@ -308,7 +283,7 @@ struct BtnPrimary: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(.white)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -328,13 +303,7 @@ struct BtnPrimary: ButtonStyle {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     @ViewBuilder
@@ -351,7 +320,7 @@ struct BtnSecondary: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(DesignTokens.Colors.secondaryForeground)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -371,13 +340,7 @@ struct BtnSecondary: ButtonStyle {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     @ViewBuilder
@@ -394,7 +357,7 @@ struct BtnOutline: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(DesignTokens.Colors.primary)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -416,13 +379,7 @@ struct BtnOutline: ButtonStyle {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     private var borderColor: Color {
@@ -445,7 +402,7 @@ struct BtnGhost: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(DesignTokens.Colors.foreground)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -463,13 +420,7 @@ struct BtnGhost: ButtonStyle {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
 }
 
@@ -478,7 +429,7 @@ struct BtnDestructive: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(.white)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -498,13 +449,7 @@ struct BtnDestructive: ButtonStyle {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     @ViewBuilder
@@ -526,7 +471,7 @@ struct InputField: View {
     var body: some View {
         TextField(placeholder, text: $text)
             .textFieldStyle(PlainTextFieldStyle())
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .padding(.horizontal, 12 * config.spacingScale)
             .padding(.vertical, 8 * config.spacingScale)
@@ -547,13 +492,7 @@ struct InputField: View {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     private var borderColor: Color {
@@ -580,7 +519,7 @@ struct SecureInputField: View {
     var body: some View {
         SecureField(placeholder, text: $text)
             .textFieldStyle(PlainTextFieldStyle())
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .padding(.horizontal, 12 * config.spacingScale)
             .padding(.vertical, 8 * config.spacingScale)
@@ -601,13 +540,7 @@ struct SecureInputField: View {
     }
     
     private var letterSpacing: CGFloat {
-        let fontSize: CGFloat = 14
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * 14 * config.fontScale
     }
     
     private var borderColor: Color {
@@ -641,7 +574,7 @@ struct SelectField: View {
         } label: {
             HStack {
                 Text(selected)
-                    .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+                    .globalTextStyle(config, size: 14, weight: fontWeight)
                 Spacer()
                 Image(systemName: "chevron.down")
                     .font(.system(size: 12 * config.fontScale))
@@ -701,7 +634,7 @@ struct CheckboxField: View {
                     .foregroundColor(checked ? DesignTokens.Colors.primary : DesignTokens.Colors.mutedForeground)
                 
                 Text(label)
-                    .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+                    .globalTextStyle(config, size: 14, weight: fontWeight)
                     .foregroundColor(DesignTokens.Colors.foreground)
             }
         }
@@ -732,7 +665,7 @@ struct RadioGroup: View {
                             .foregroundColor(selected == option ? DesignTokens.Colors.primary : DesignTokens.Colors.mutedForeground)
                         
                         Text(option)
-                            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+                            .globalTextStyle(config, size: 14, weight: fontWeight)
                             .foregroundColor(DesignTokens.Colors.foreground)
                     }
                 }
@@ -770,7 +703,7 @@ struct SwitchField: View {
                 .labelsHidden()
             
             Text(label)
-                .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+                .globalTextStyle(config, size: 14, weight: fontWeight)
                 .foregroundColor(DesignTokens.Colors.foreground)
         }
     }
@@ -792,11 +725,11 @@ struct CardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
             Text(title)
-                .font(.system(size: 16 * config.fontScale, weight: .semibold))
+                .globalTextStyle(config, size: 16, weight: .semibold)
                 .foregroundColor(DesignTokens.Colors.foreground)
             
             Text(content)
-                .font(.system(size: 14 * config.fontScale))
+                .globalTextStyle(config, size: 14)
                 .foregroundColor(DesignTokens.Colors.mutedForeground)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -836,7 +769,7 @@ struct BadgeView: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: 11 * config.fontScale, weight: .medium))
+            .globalTextStyle(config, size: 11, weight: .medium)
             .foregroundColor(type.foregroundColor)
             .padding(.horizontal, 8 * config.spacingScale)
             .padding(.vertical, 4 * config.spacingScale)
@@ -877,10 +810,10 @@ struct Alert: View {
     var body: some View {
         HStack(spacing: 8 * config.spacingScale) {
             Text(icon)
-                .font(.system(size: 14 * config.fontScale))
+                .globalTextStyle(config, size: 14)
             
             Text(message)
-                .font(.system(size: 12 * config.fontScale))
+                .globalTextStyle(config, size: 12)
                 .foregroundColor(DesignTokens.Colors.foreground)
             
             Spacer()
@@ -970,7 +903,7 @@ struct SliderField: View {
             HStack {
                 Spacer()
                 Text("\(Int(sliderValue * 100))%")
-                    .font(.system(size: 11 * config.fontScale))
+                    .globalTextStyle(config, size: 11)
                     .foregroundColor(DesignTokens.Colors.mutedForeground)
             }
         }
@@ -986,7 +919,7 @@ struct TextAreaField: View {
     
     var body: some View {
         TextEditor(text: $text)
-            .font(.system(size: 14 * config.fontScale))
+            .globalTextStyle(config, size: 14)
             .frame(height: 80)
             .padding(8 * config.spacingScale)
             .background(DesignTokens.Colors.background)
@@ -1040,7 +973,7 @@ struct Avatar: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: size.fontSize * config.fontScale, weight: .medium))
+            .globalTextStyle(config, size: size.fontSize, weight: .medium)
             .foregroundColor(.white)
             .frame(width: size.size * config.spacingScale, height: size.size * config.spacingScale)
             .background(DesignTokens.Colors.primary)
@@ -1057,7 +990,7 @@ struct TooltipView: View {
     
     var body: some View {
         Text(text)
-            .font(.system(size: 14 * config.fontScale))
+            .globalTextStyle(config, size: 14)
             .foregroundColor(DesignTokens.Colors.primary)
             .onHover { hovering in
                 showTooltip = hovering
@@ -1067,7 +1000,7 @@ struct TooltipView: View {
                     if showTooltip {
                         VStack(spacing: 0) {
                             Text(tooltip)
-                                .font(.system(size: 12 * config.fontScale))
+                                .globalTextStyle(config, size: 12)
                                 .foregroundColor(.white)
                                 .padding(8 * config.spacingScale)
                                 .background(Color.black.opacity(0.8))
@@ -1097,7 +1030,7 @@ struct TabsView: View {
                 ForEach(0..<tabs.count, id: \.self) { index in
                     Button(action: { selectedTab = index }) {
                         Text(tabs[index])
-                            .font(.system(size: 14 * config.fontScale, weight: selectedTab == index ? .medium : .regular))
+                            .globalTextStyle(config, size: 14, weight: selectedTab == index ? .medium : .regular)
                             .foregroundColor(selectedTab == index ? DesignTokens.Colors.primary : DesignTokens.Colors.mutedForeground)
                             .padding(.horizontal, 12 * config.spacingScale)
                             .padding(.vertical, 8 * config.spacingScale)
@@ -1134,12 +1067,12 @@ struct BreadcrumbView: View {
         HStack(spacing: 4 * config.spacingScale) {
             ForEach(0..<items.count, id: \.self) { index in
                 Text(items[index])
-                    .font(.system(size: 12 * config.fontScale))
+                    .globalTextStyle(config, size: 12)
                     .foregroundColor(index == items.count - 1 ? DesignTokens.Colors.foreground : DesignTokens.Colors.primary)
                 
                 if index < items.count - 1 {
                     Text("/")
-                        .font(.system(size: 12 * config.fontScale))
+                        .globalTextStyle(config, size: 12)
                         .foregroundColor(DesignTokens.Colors.mutedForeground)
                 }
             }
@@ -1165,7 +1098,7 @@ struct PaginationView: View {
         HStack(spacing: 4 * config.spacingScale) {
             Button(action: { if page > 1 { page -= 1 } }) {
                 Text("←")
-                    .font(.system(size: 12 * config.fontScale))
+                    .globalTextStyle(config, size: 12)
             }
             .buttonStyle(PageButtonStyle(config: config, isActive: false))
             
@@ -1178,7 +1111,7 @@ struct PaginationView: View {
             
             Button(action: { if page < totalPages { page += 1 } }) {
                 Text("→")
-                    .font(.system(size: 12 * config.fontScale))
+                    .globalTextStyle(config, size: 12)
             }
             .buttonStyle(PageButtonStyle(config: config, isActive: false))
         }
@@ -1191,7 +1124,7 @@ struct PageButtonStyle: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 12 * config.fontScale))
+            .globalTextStyle(config, size: 12)
             .foregroundColor(isActive ? .white : DesignTokens.Colors.foreground)
             .frame(minWidth: 28, minHeight: 28)
             .background(isActive ? DesignTokens.Colors.primary : DesignTokens.Colors.background)
@@ -1212,10 +1145,10 @@ struct TableView: View {
             // Header
             HStack {
                 Text("Name")
-                    .font(.system(size: 12 * config.fontScale, weight: .semibold))
+                    .globalTextStyle(config, size: 12, weight: .semibold)
                 Spacer()
                 Text("Value")
-                    .font(.system(size: 12 * config.fontScale, weight: .semibold))
+                    .globalTextStyle(config, size: 12, weight: .semibold)
             }
             .padding(8 * config.spacingScale)
             .background(DesignTokens.Colors.muted)
@@ -1224,10 +1157,10 @@ struct TableView: View {
             ForEach(0..<3) { index in
                 HStack {
                     Text("Item \(index + 1)")
-                        .font(.system(size: 12 * config.fontScale))
+                        .globalTextStyle(config, size: 12)
                     Spacer()
                     Text("\(index + 1)00")
-                        .font(.system(size: 12 * config.fontScale))
+                        .globalTextStyle(config, size: 12)
                 }
                 .padding(8 * config.spacingScale)
                 .background(index % 2 == 0 ? Color.clear : DesignTokens.Colors.muted.opacity(0.3))
@@ -1250,10 +1183,10 @@ struct ListView: View {
             ForEach(items, id: \.self) { item in
                 HStack(spacing: 8 * config.spacingScale) {
                     Text("•")
-                        .font(.system(size: 14 * config.fontScale))
+                        .globalTextStyle(config, size: 14)
                         .foregroundColor(DesignTokens.Colors.mutedForeground)
                     Text(item)
-                        .font(.system(size: 14 * config.fontScale))
+                        .globalTextStyle(config, size: 14)
                         .foregroundColor(DesignTokens.Colors.foreground)
                 }
             }

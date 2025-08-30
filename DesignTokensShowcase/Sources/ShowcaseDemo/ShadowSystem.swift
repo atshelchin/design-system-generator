@@ -11,15 +11,6 @@ struct ShadowSystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "6. 阴影系统" : "6. Shadow System")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "多层次的阴影效果" : "Multi-level shadow effects")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 阴影展示网格
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 Text(language == "zh" ? "阴影层级" : "Shadow Levels")
@@ -49,7 +40,7 @@ struct ShadowSystemView: View {
                                 // 标签
                                 VStack(spacing: 2 * config.spacingScale) {
                                     Text(shadow.name)
-                                        .font(.system(size: 11 * config.fontScale, design: .monospaced))
+                                        .monoTextStyle(config, size: 11)
                                         .foregroundColor(DesignTokens.Colors.primary)
                                     
                                     if shadow.name != "shadow-none" {

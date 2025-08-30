@@ -11,21 +11,12 @@ struct AccessibilitySystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "7. 无障碍" : "7. Accessibility")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "提升可访问性的设计考虑" : "Design considerations for improved accessibility")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 控制说明
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 HStack {
                     Image(systemName: "info.circle.fill")
                         .foregroundColor(DesignTokens.Colors.info)
-                        .font(.system(size: 16))
+                        .font(.system(size: 16 * config.fontScale))
                     
                     Text(language == "zh" ? 
                          "所有无障碍控制现在都在右下角的悬浮面板中。您可以调整：" :
@@ -104,17 +95,17 @@ struct AccessibilitySystemView: View {
                             VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
                                 // 标题示例
                                 Text(language == "zh" ? "标题文字" : "Heading Text")
-                                    .font(.system(size: 16 * config.fontScale, weight: contrast.weight))
+                                    .globalTextStyleNoColor(config, size: 16, weight: contrast.weight)
                                     .foregroundColor(contrast.foreground)
                                 
                                 // 正文示例
                                 Text(language == "zh" ? "正文内容示例" : "Body text example")
-                                    .font(.system(size: 14 * config.fontScale, weight: contrast.bodyWeight))
+                                    .globalTextStyleNoColor(config, size: 14, weight: contrast.bodyWeight)
                                     .foregroundColor(contrast.bodyColor)
                                 
                                 // 按钮示例
                                 Button(language == "zh" ? "按钮" : "Button") {}
-                                    .font(.system(size: 13 * config.fontScale, weight: contrast.weight))
+                                    .globalTextStyleNoColor(config, size: 13, weight: contrast.weight)
                                     .foregroundColor(contrast.buttonForeground)
                                     .padding(.horizontal, 12 * config.spacingScale)
                                     .padding(.vertical, 6 * config.spacingScale)
@@ -158,7 +149,7 @@ struct AccessibilitySystemView: View {
                                 let scale = scaleForSize(size)
                                 VStack(spacing: 4 * config.spacingScale) {
                                     Text(size)
-                                        .font(.system(size: 16 * scale, weight: .medium))
+                                        .globalTextStyle(config, size: 16, weight: .medium)
                                     Text("\(Int(scale * 100))%")
                                         .globalTextStyle(config, size: 10)
                                         .foregroundColor(DesignTokens.Colors.mutedForeground)
@@ -190,7 +181,7 @@ struct AccessibilitySystemView: View {
                                         .frame(width: 60, alignment: .leading)
                                     
                                     Text("The quick brown fox jumps over the lazy dog")
-                                        .font(.system(size: 13 * config.fontScale))
+                                        .globalTextStyle(config, size: 13)
                                         .tracking(spacing.value * 13 * config.fontScale)
                                 }
                                 .padding(8 * config.spacingScale)
@@ -217,8 +208,7 @@ struct AccessibilitySystemView: View {
                                     Text(language == "zh" ? 
                                          "这是一段测试文本。\n用于展示不同的行高设置。\n行高会影响阅读体验。" :
                                          "This is test text.\nTo demonstrate different line heights.\nLine height affects reading experience.")
-                                        .font(.system(size: 12 * config.fontScale))
-                                        .lineSpacing((height.value - 1.0) * 12 * config.fontScale)
+                                        .globalTextStyle(config, size: 12)
                                         .padding(8 * config.spacingScale)
                                         .background(config.lineHeight == height.mode ? DesignTokens.Colors.primary.opacity(0.05) : Color.clear)
                                         .cornerRadius(4 * config.radiusScale)

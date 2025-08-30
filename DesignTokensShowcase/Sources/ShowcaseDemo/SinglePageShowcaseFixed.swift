@@ -125,6 +125,11 @@ struct SinglePageShowcaseView: View {
                                     .id(config.spacingScale)
                                     .id(config.radiusScale)
                                     .id(config.isDarkMode)
+                                    .id(config.brandHue)
+                                    .id(config.brandSaturation)
+                                    .id(config.lineHeight)
+                                    .id(config.letterSpacing)
+                                    .id(config.contrast)
                             }
                             
                             // 底部留白
@@ -195,7 +200,7 @@ struct FixedNavigationBar: View {
                         .foregroundColor(DesignTokens.Colors.primary)
                     
                     Text("Design Tokens Showcase")
-                        .font(.system(size: 20, weight: .bold))
+                        .globalTextStyle(config, size: 20, weight: .bold)
                         .foregroundColor(DesignTokens.Colors.foreground)
                 }
                 
@@ -211,7 +216,7 @@ struct FixedNavigationBar: View {
                             Image(systemName: config.isDarkMode ? "moon.fill" : "sun.max.fill")
                                 .font(.system(size: 14))
                             Text(config.isDarkMode ? "Dark" : "Light")
-                                .font(.system(size: 12, weight: .medium))
+                                .globalTextStyle(config, size: 12, weight: .medium)
                         }
                         .foregroundColor(DesignTokens.Colors.foreground)
                         .padding(.horizontal, 12)
@@ -228,7 +233,7 @@ struct FixedNavigationBar: View {
                     HStack(spacing: 4) {
                         Button(action: { language = "zh" }) {
                             Text("中文")
-                                .font(.system(size: 12, weight: .medium))
+                                .globalTextStyle(config, size: 12, weight: .medium)
                                 .foregroundColor(language == "zh" ? .white : DesignTokens.Colors.foreground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -239,7 +244,7 @@ struct FixedNavigationBar: View {
                         
                         Button(action: { language = "en" }) {
                             Text("English")
-                                .font(.system(size: 12, weight: .medium))
+                                .globalTextStyle(config, size: 12, weight: .medium)
                                 .foregroundColor(language == "en" ? .white : DesignTokens.Colors.foreground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -264,7 +269,7 @@ struct FixedNavigationBar: View {
                         }
                     }) {
                         Text(language == "zh" ? section.1 : section.2)
-                            .font(.system(size: 14, weight: .medium))
+                            .globalTextStyle(config, size: 14, weight: .medium)
                             .foregroundColor(DesignTokens.Colors.primary)
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -295,12 +300,19 @@ struct SystemContentView<Content: View>: View {
         VStack(alignment: .leading, spacing: 24 * config.spacingScale) {
             // 系统标题
             Text(title)
-                .font(.system(size: 28 * config.fontScale, weight: .bold))
-                .foregroundColor(DesignTokens.Colors.foreground)
-                .padding(.top, 20)
+                .globalTextStyle(config, size: 28, weight: .bold)
+                .padding(.bottom, 8)
             
-            // 系统内容
+            // 系统内容 - 包裹在面板中
             content
+                .padding(32 * config.spacingScale)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+            .background(DesignTokens.Colors.card)
+            .cornerRadius(12 * config.radiusScale)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12 * config.radiusScale)
+                    .stroke(DesignTokens.Colors.border, lineWidth: 1)
+            )
         }
         .id(id)
     }

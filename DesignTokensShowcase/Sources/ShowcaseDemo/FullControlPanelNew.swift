@@ -69,7 +69,8 @@ struct FullControlPanelNew: View {
                                 value: $config.brandHue,
                                 range: 0...360,
                                 format: "%.0f°",
-                                brandColor: brandColor
+                                brandColor: brandColor,
+                                config: config
                             )
                             
                             // 饱和度 - 使用品牌色
@@ -79,7 +80,8 @@ struct FullControlPanelNew: View {
                                 value: $config.brandSaturation,
                                 range: 0...100,
                                 format: "%.0f%%",
-                                brandColor: brandColor
+                                brandColor: brandColor,
+                                config: config
                             )
                             
                             // 圆角
@@ -89,7 +91,8 @@ struct FullControlPanelNew: View {
                                 value: $config.radiusScale,
                                 range: 0...3,
                                 format: "%.1fx",
-                                brandColor: brandColor
+                                brandColor: brandColor,
+                                config: config
                             )
                             
                             // 间距
@@ -99,7 +102,8 @@ struct FullControlPanelNew: View {
                                 value: $config.spacingScale,
                                 range: 0.5...2,
                                 format: "%.1fx",
-                                brandColor: brandColor
+                                brandColor: brandColor,
+                                config: config
                             )
                         }
                         .padding(.horizontal, 16)
@@ -183,7 +187,8 @@ struct FullControlPanelNew: View {
                                 case "A++": config.fontScale = 1.25
                                 default: break
                                 }
-                            }
+                            },
+                            config: config
                         )
                         
                         // 对比度 - 使用品牌色
@@ -199,7 +204,8 @@ struct FullControlPanelNew: View {
                                 case "超高", "Ultra": config.contrast = .ultra
                                 default: config.contrast = .normal
                                 }
-                            }
+                            },
+                            config: config
                         )
                         
                         // 文字间距 - 使用品牌色
@@ -215,7 +221,8 @@ struct FullControlPanelNew: View {
                                 case "更宽", "Wider": config.letterSpacing = .wider
                                 default: config.letterSpacing = .normal
                                 }
-                            }
+                            },
+                            config: config
                         )
                         
                         // 行高 - 使用品牌色
@@ -231,7 +238,8 @@ struct FullControlPanelNew: View {
                                 case "宽松", "Loose": config.lineHeight = .loose
                                 default: config.lineHeight = .normal
                                 }
-                            }
+                            },
+                            config: config
                         )
                         
                         // 重置所有按钮 - 使用secondary色
@@ -282,6 +290,7 @@ struct BrandColorSlider: View {
     let range: ClosedRange<Double>
     let format: String
     let brandColor: Color
+    let config: DesignTokensConfig
     
     var body: some View {
         HStack(spacing: 10) {
@@ -313,6 +322,7 @@ struct BrandButtonGroup: View {
     @Binding var selected: String
     let brandColor: Color
     let action: (String) -> Void
+    let config: DesignTokensConfig
     
     // 根据主题和对比度模式选择合适的前景色
     private func selectedForegroundColor(isSelected: Bool) -> Color {

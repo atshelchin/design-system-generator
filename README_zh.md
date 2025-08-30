@@ -114,24 +114,46 @@ document.documentElement.setAttribute('data-theme', 'dark');
 <html data-line-height="loose">   <!-- 2.2 -->
 ```
 
-## SwiftUI 兼容性
+## SwiftUI 版本
 
-这个设计系统100%兼容 SwiftUI。令牌值可以轻松映射到 SwiftUI 的设计系统：
+包含完整的 SwiftUI 实现，提供一个镜像 Web 展示的原生 macOS 应用程序：
+
+- 🎨 完整的设计令牌系统
+- 🌍 双语支持（中文/英文）
+- 🌓 深色模式支持
+- ♿ 完整的无障碍功能
+- 🧩 54个组件示例
+
+### 如何运行 SwiftUI 展示
+
+```bash
+# 导航到 SwiftUI 包目录
+cd DesignTokensShowcase
+
+# 运行展示演示应用
+swift run ShowcaseDemo
+
+# 或在 Xcode 中打开
+open Package.swift
+# 然后选择 "ShowcaseDemo" scheme 并点击运行 (⌘R)
+```
+
+**系统要求：**
+- macOS 13.0 或更高版本
+- Xcode 14.0 或更高版本
+- Swift 5.7 或更高版本
+
+### SwiftUI 集成
+
+设计令牌作为 Swift Package 提供：
 
 ```swift
-// SwiftUI 颜色映射示例
-extension Color {
-    static let brand600 = Color(hue: 217/360, saturation: 0.91, brightness: 0.4)
-    static let primaryColor = brand600
-    static let backgroundColor = Color.white
-    static let foregroundColor = Color(white: 0.1)
-}
+import DesignTokensKit
 
-// 间距映射示例
-extension CGFloat {
-    static let space4 = 16.0  // --space-4
-    static let space8 = 32.0  // --space-8
-}
+// 在 SwiftUI 视图中使用设计令牌
+Text("你好世界")
+    .foregroundColor(DesignTokens.Colors.primary)
+    .padding(DesignTokens.Spacing.space4)
 ```
 
 ## 交互式展示

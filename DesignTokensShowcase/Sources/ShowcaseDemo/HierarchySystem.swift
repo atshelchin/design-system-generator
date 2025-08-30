@@ -11,15 +11,6 @@ struct HierarchySystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "3. 层级系统" : "3. Hierarchy System")
-                    .globalTextStyleNoColor(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "完整的层级系统，包含 9 大类别" : "Complete hierarchy system with 9 categories")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 1. 标题层级
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 Text(language == "zh" ? "1. 标题层级" : "1. Heading Hierarchy")
@@ -287,7 +278,7 @@ struct HierarchySystemView: View {
                                         .globalTextStyleNoColor(config, size: 14)
                                         .foregroundColor(DesignTokens.Colors.mutedForeground)
                                     Text("0x1F4A9")
-                                        .font(.system(size: 18 * config.fontScale, design: .monospaced))
+                                        .monoTextStyle(config, size: 18)
                                         .fontWeight(.semibold)
                                         .foregroundColor(DesignTokens.Colors.valueCode)
                                 }

@@ -71,16 +71,7 @@ struct GlobalTextStyle: ViewModifier {
         // 实际行高 = fontSize * lineHeight倍数
         // SwiftUI lineSpacing = 实际行高 - fontSize
         let actualFontSize = baseSize * config.fontScale
-        let lineHeightMultiplier: CGFloat
-        
-        switch config.lineHeight {
-        case .relaxed:
-            lineHeightMultiplier = 1.8  // CSS: line-height: 1.8
-        case .loose:
-            lineHeightMultiplier = 2.2  // CSS: line-height: 2.2
-        default:
-            lineHeightMultiplier = 1.6  // CSS: line-height: 1.6 (normal)
-        }
+        let lineHeightMultiplier = config.lineHeight.value
         
         let totalLineHeight = actualFontSize * lineHeightMultiplier
         return max(0, totalLineHeight - actualFontSize)  // 返回额外间距
@@ -192,16 +183,7 @@ struct GlobalTextStyleNoColor: ViewModifier {
         // 实际行高 = fontSize * lineHeight倍数
         // SwiftUI lineSpacing = 实际行高 - fontSize
         let actualFontSize = baseSize * config.fontScale
-        let lineHeightMultiplier: CGFloat
-        
-        switch config.lineHeight {
-        case .relaxed:
-            lineHeightMultiplier = 1.8  // CSS: line-height: 1.8
-        case .loose:
-            lineHeightMultiplier = 2.2  // CSS: line-height: 2.2
-        default:
-            lineHeightMultiplier = 1.6  // CSS: line-height: 1.6 (normal)
-        }
+        let lineHeightMultiplier = config.lineHeight.value
         
         let totalLineHeight = actualFontSize * lineHeightMultiplier
         return max(0, totalLineHeight - actualFontSize)  // 返回额外间距
@@ -220,5 +202,14 @@ public extension View {
     
     func secondaryTextStyle(_ config: DesignTokensConfig, size: CGFloat = 14) -> some View {
         self.modifier(SecondaryTextStyle(config: config, baseSize: size))
+    }
+    
+    // 等宽字体样式（用于代码显示）
+    func monoTextStyle(_ config: DesignTokensConfig, size: CGFloat = 14) -> some View {
+        self
+            .font(.system(size: size * config.fontScale, design: .monospaced))
+            .tracking(config.letterSpacing.emValue * size * config.fontScale)
+            .lineSpacing((config.lineHeight.value - 1.0) * size * config.fontScale)
+            .foregroundColor(DesignTokens.Colors.foreground)
     }
 }

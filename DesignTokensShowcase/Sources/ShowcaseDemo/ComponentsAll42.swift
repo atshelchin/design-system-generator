@@ -16,13 +16,12 @@ struct DrawerPreview: View {
                 Image(systemName: "sidebar.left")
                     .font(.system(size: 16 * config.fontScale))
                 Text("Drawer Preview")
-                    .font(.system(size: 12 * config.fontScale))
+                    .globalTextStyle(config, size: 12)
             }
             .foregroundColor(DesignTokens.Colors.foreground)
             
             Text("Click to open drawer")
-                .font(.system(size: 10 * config.fontScale))
-                .foregroundColor(DesignTokens.Colors.mutedForeground)
+                .secondaryTextStyle(config, size: 10)
         }
         .padding(12 * config.spacingScale)
         .background(DesignTokens.Colors.secondary)
@@ -36,7 +35,7 @@ struct PopoverPreview: View {
     var body: some View {
         HStack(spacing: 8 * config.spacingScale) {
             Button("Hover me") {}
-                .font(.system(size: 12 * config.fontScale))
+                .globalTextStyle(config, size: 12)
                 .padding(.horizontal, 12 * config.spacingScale)
                 .padding(.vertical, 6 * config.spacingScale)
                 .background(DesignTokens.Colors.secondary)
@@ -44,8 +43,7 @@ struct PopoverPreview: View {
                 .cornerRadius(4 * config.radiusScale)
             
             Text("→ Popover")
-                .font(.system(size: 10 * config.fontScale))
-                .foregroundColor(DesignTokens.Colors.mutedForeground)
+                .secondaryTextStyle(config, size: 10)
         }
     }
 }
@@ -56,17 +54,6 @@ struct ComponentsAll42View: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "8. 组件示例" : "8. Component Examples")
-                    .font(.system(size: 24 * config.fontScale, weight: .bold))
-                    .foregroundColor(DesignTokens.Colors.foreground)
-                
-                Text(language == "zh" ? "使用设计令牌构建的常用UI组件" : "Common UI components built with design tokens")
-                    .font(.system(size: 14 * config.fontScale))
-                    .foregroundColor(DesignTokens.Colors.mutedForeground)
-            }
-            
             // 组件网格 - 使用ScrollView包裹以确保所有组件可见
             ScrollView {
                 LazyVGrid(
@@ -355,40 +342,21 @@ struct ComponentCardAll42<Content: View>: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
+        VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
             Text(title)
-                .font(.system(size: 14 * config.fontScale, weight: fontWeight))
-                .tracking(letterSpacing)
-                .foregroundColor(DesignTokens.Colors.foreground)
+                .globalTextStyle(config, size: 14, weight: .semibold)
             
             content
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, minHeight: 60, alignment: .leading)
         }
-        .padding(16 * config.spacingScale)
+        .padding(20 * config.spacingScale)
+        .frame(maxWidth: .infinity)
         .background(DesignTokens.Colors.card)
         .cornerRadius(8 * config.radiusScale)
         .overlay(
             RoundedRectangle(cornerRadius: 8 * config.radiusScale)
                 .stroke(borderColor, lineWidth: borderWidth)
         )
-    }
-    
-    private var fontWeight: Font.Weight {
-        switch config.contrast {
-        case .high: return .semibold
-        case .ultra: return .bold
-        default: return .medium
-        }
-    }
-    
-    private var letterSpacing: CGFloat {
-        let fontSize = 14 * config.fontScale
-        switch config.letterSpacing {
-        case .wide: return fontSize * 0.025
-        case .wider: return fontSize * 0.05
-        case .widest: return fontSize * 0.1
-        default: return 0
-        }
     }
     
     private var borderColor: Color {

@@ -11,15 +11,6 @@ struct SpacingSystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "4. 间距系统" : "4. Spacing System")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "统一的间距规范" : "Unified spacing specifications")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 间距展示
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 Text(language == "zh" ? "间距值" : "Spacing Values")
@@ -30,7 +21,7 @@ struct SpacingSystemView: View {
                         HStack(spacing: 16 * config.spacingScale) {
                             // 变量名
                             Text(spacing.name)
-                                .font(.system(size: 11 * config.fontScale, design: .monospaced))
+                                .monoTextStyle(config, size: 11)
                                 .foregroundColor(DesignTokens.Colors.primary)
                                 .frame(width: 80, alignment: .leading)
                             

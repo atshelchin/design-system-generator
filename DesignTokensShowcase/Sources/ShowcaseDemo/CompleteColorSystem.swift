@@ -11,15 +11,6 @@ struct CompleteColorSystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题 - 使用间距缩放
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "1. 色彩系统" : "1. Color System")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "品牌色、中性色和语义色" : "Brand, neutral, and semantic colors")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 品牌色 - 左对齐标题，响应式网格布局
             VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
                 Text(language == "zh" ? "品牌色" : "Brand Colors")

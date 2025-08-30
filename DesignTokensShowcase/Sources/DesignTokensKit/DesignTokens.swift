@@ -87,7 +87,7 @@ public enum LetterSpacingMode: String, CaseIterable {
     case wider = "wider"    // 0.05em
     case widest = "widest"  // 0.1em
     
-    var emValue: Double {
+    public var emValue: Double {
         switch self {
         case .normal: return 0
         case .wide: return 0.025
@@ -103,7 +103,7 @@ public enum LineHeightMode: String, CaseIterable {
     case relaxed = "relaxed"  // 1.8
     case loose = "loose"      // 2.2
     
-    var value: Double {
+    public var value: Double {
         switch self {
         case .tight: return 1.25
         case .normal: return 1.6

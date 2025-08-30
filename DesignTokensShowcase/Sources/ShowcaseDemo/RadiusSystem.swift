@@ -11,15 +11,6 @@ struct RadiusSystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "5. 圆角系统" : "5. Radius System")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "统一的圆角规范" : "Unified radius specifications")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             // 圆角展示网格
             VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                 Text(language == "zh" ? "圆角值" : "Radius Values")
@@ -57,7 +48,7 @@ struct RadiusSystemView: View {
                                 // 标签
                                 VStack(spacing: 2 * config.spacingScale) {
                                     Text(radius.name)
-                                        .font(.system(size: 10 * config.fontScale, design: .monospaced))
+                                        .monoTextStyle(config, size: 10)
                                         .foregroundColor(DesignTokens.Colors.primary)
                                     
                                     Text(radius.name == "radius-full" ? "9999px" : "\(Int(radius.value))px")

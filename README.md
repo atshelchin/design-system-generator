@@ -114,24 +114,46 @@ document.documentElement.setAttribute('data-theme', 'dark');
 <html data-line-height="loose">   <!-- 2.2 -->
 ```
 
-## SwiftUI Compatibility
+## SwiftUI Version
 
-This design system is 100% compatible with SwiftUI. The token values can be easily mapped to SwiftUI's design system:
+A complete SwiftUI implementation is included, providing a native macOS application that mirrors the web showcase:
+
+- 🎨 Complete design token system
+- 🌍 Bilingual support (Chinese/English)
+- 🌓 Dark mode support
+- ♿ Full accessibility features
+- 🧩 54 component examples
+
+### How to Run SwiftUI Showcase
+
+```bash
+# Navigate to the SwiftUI package directory
+cd DesignTokensShowcase
+
+# Run the showcase demo app
+swift run ShowcaseDemo
+
+# Or open in Xcode
+open Package.swift
+# Then select "ShowcaseDemo" scheme and click Run (⌘R)
+```
+
+**Requirements:**
+- macOS 13.0 or later
+- Xcode 14.0 or later
+- Swift 5.7 or later
+
+### SwiftUI Integration
+
+The design tokens are available as a Swift Package:
 
 ```swift
-// Example SwiftUI color mapping
-extension Color {
-    static let brand600 = Color(hue: 217/360, saturation: 0.91, brightness: 0.4)
-    static let primaryColor = brand600
-    static let backgroundColor = Color.white
-    static let foregroundColor = Color(white: 0.1)
-}
+import DesignTokensKit
 
-// Example spacing mapping
-extension CGFloat {
-    static let space4 = 16.0  // --space-4
-    static let space8 = 32.0  // --space-8
-}
+// Use design tokens in your SwiftUI views
+Text("Hello World")
+    .foregroundColor(DesignTokens.Colors.primary)
+    .padding(DesignTokens.Spacing.space4)
 ```
 
 ## Interactive Showcase

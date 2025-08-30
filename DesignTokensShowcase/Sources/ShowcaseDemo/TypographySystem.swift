@@ -11,15 +11,6 @@ struct TypographySystemView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 48 * config.spacingScale) {
-            // 标题
-            VStack(alignment: .leading, spacing: 6 * config.spacingScale) {
-                Text(language == "zh" ? "2. 文字系统" : "2. Typography System")
-                    .globalTextStyle(config, size: 24, weight: .bold)
-                
-                Text(language == "zh" ? "字体大小、字重和字体族" : "Font sizes, weights, and families")
-                    .secondaryTextStyle(config, size: 14)
-            }
-            
             GeometryReader { geometry in
                 let screenSize = ScreenSize.from(width: geometry.size.width)
                 let columnCount = screenSize == .compact ? 1 : 2
@@ -84,14 +75,10 @@ struct TypographySystemView: View {
                                     .foregroundColor(DesignTokens.Colors.mutedForeground)
                                 
                                 Text("The quick brown fox jumps over the lazy dog")
-                                    .font(.system(size: 16 * config.fontScale))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .globalTextStyle(config, size: 16)
                                 
                                 Text(language == "zh" ? "快速的棕色狐狸跳过懒狗" : "1234567890")
-                                    .font(.system(size: 16 * config.fontScale))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .globalTextStyle(config, size: 16)
                             }
                             
                             Divider()
@@ -104,13 +91,13 @@ struct TypographySystemView: View {
                                 
                                 Text("The quick brown fox jumps over the lazy dog")
                                     .font(.system(size: 16 * config.fontScale, design: .serif))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
+                                    .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
                                 
                                 Text(language == "zh" ? "快速的棕色狐狸跳过懒狗" : "1234567890")
                                     .font(.system(size: 16 * config.fontScale, design: .serif))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
+                                    .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
                             }
                             
                             Divider()
@@ -122,14 +109,10 @@ struct TypographySystemView: View {
                                     .foregroundColor(DesignTokens.Colors.mutedForeground)
                                 
                                 Text("The quick brown fox jumps over the lazy dog")
-                                    .font(.system(size: 16 * config.fontScale, design: .monospaced))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .monoTextStyle(config, size: 16)
                                 
                                 Text("1234567890 !@#$%^&*()")
-                                    .font(.system(size: 16 * config.fontScale, design: .monospaced))
-                                    .tracking(DesignTokens.Typography.letterSpacing(for: 16 * config.fontScale))
-                                    .lineSpacing(DesignTokens.Typography.lineSpacing(for: 16 * config.fontScale))
+                                    .monoTextStyle(config, size: 16)
                             }
                         }
                         .padding(16 * config.spacingScale)

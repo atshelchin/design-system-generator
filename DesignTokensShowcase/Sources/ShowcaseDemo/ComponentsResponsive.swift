@@ -17,23 +17,16 @@ struct ComponentsResponsiveView: View {
                 // 标题部分 - 响应所有设置
                 VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
                     Text("响应式组件测试")
-                        .font(.system(size: 24 * config.fontScale, weight: contrastWeight(.bold)))
-                        .tracking(letterSpacing(24))
-                        .lineSpacing(lineHeight(24))
-                        .foregroundColor(DesignTokens.Colors.foreground)
+                        .globalTextStyle(config, size: 24, weight: contrastWeight(.bold))
                     
                     Text("所有组件都会响应控制面板的实时调整")
-                        .font(.system(size: 14 * config.fontScale, weight: contrastWeight(.regular)))
-                        .tracking(letterSpacing(14))
-                        .lineSpacing(lineHeight(14))
-                        .foregroundColor(DesignTokens.Colors.mutedForeground)
+                        .secondaryTextStyle(config, size: 14)
                 }
                 
                 // 测试卡片
                 VStack(alignment: .leading, spacing: 16 * config.spacingScale) {
                     Text("实时响应测试")
-                        .font(.system(size: 16 * config.fontScale, weight: contrastWeight(.semibold)))
-                        .foregroundColor(DesignTokens.Colors.foreground)
+                        .globalTextStyle(config, size: 16, weight: contrastWeight(.semibold))
                     
                     // 显示当前设置
                     VStack(alignment: .leading, spacing: 8 * config.spacingScale) {
@@ -59,7 +52,7 @@ struct ComponentsResponsiveView: View {
                 // 按钮测试组
                 VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
                     Text("按钮响应测试")
-                        .font(.system(size: 14 * config.fontScale, weight: contrastWeight(.medium)))
+                        .globalTextStyle(config, size: 14, weight: contrastWeight(.medium))
                         .foregroundColor(DesignTokens.Colors.foreground)
                     
                     HStack(spacing: 12 * config.spacingScale) {
@@ -72,7 +65,7 @@ struct ComponentsResponsiveView: View {
                 // 输入框测试
                 VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
                     Text("输入框响应测试")
-                        .font(.system(size: 14 * config.fontScale, weight: contrastWeight(.medium)))
+                        .globalTextStyle(config, size: 14, weight: contrastWeight(.medium))
                         .foregroundColor(DesignTokens.Colors.foreground)
                     
                     ResponsiveTextField(placeholder: "输入文本查看响应效果...", config: config)
@@ -81,7 +74,7 @@ struct ComponentsResponsiveView: View {
                 // 颜色测试
                 VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
                     Text("颜色响应测试")
-                        .font(.system(size: 14 * config.fontScale, weight: contrastWeight(.medium)))
+                        .globalTextStyle(config, size: 14, weight: contrastWeight(.medium))
                         .foregroundColor(DesignTokens.Colors.foreground)
                     
                     HStack(spacing: 8 * config.spacingScale) {
@@ -158,24 +151,12 @@ struct ComponentsResponsiveView: View {
     }
     
     private func letterSpacing(_ fontSize: CGFloat) -> CGFloat {
-        let actualSize = fontSize * config.fontScale
-        switch config.letterSpacing {
-        case .wide: return actualSize * 0.025
-        case .wider: return actualSize * 0.05
-        case .widest: return actualSize * 0.1
-        default: return 0
-        }
+        return config.letterSpacing.emValue * fontSize * config.fontScale
     }
     
     private func lineHeight(_ fontSize: CGFloat) -> CGFloat {
         let actualSize = fontSize * config.fontScale
-        let multiplier: CGFloat = {
-            switch config.lineHeight {
-            case .relaxed: return 1.8
-            case .loose: return 2.2
-            default: return 1.6
-            }
-        }()
+        let multiplier = config.lineHeight.value
         return actualSize * (multiplier - 1)
     }
 }
@@ -190,14 +171,14 @@ struct ResponsiveInfoRow: View {
     var body: some View {
         HStack {
             Text(label)
-                .font(.system(size: 12 * config.fontScale, weight: fontWeight))
+                .globalTextStyle(config, size: 12, weight: fontWeight)
                 .tracking(letterSpacing)
                 .foregroundColor(DesignTokens.Colors.mutedForeground)
             
             Spacer()
             
             Text(value)
-                .font(.system(size: 12 * config.fontScale, weight: .medium))
+                .globalTextStyle(config, size: 12, weight: .medium)
                 .tracking(letterSpacing)
                 .foregroundColor(DesignTokens.Colors.foreground)
         }
@@ -233,7 +214,7 @@ struct ResponsiveButton: View {
     
     var body: some View {
         Button(title) {}
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .foregroundColor(foregroundColor)
             .padding(.horizontal, 16 * config.spacingScale)
@@ -306,7 +287,7 @@ struct ResponsiveTextField: View {
     var body: some View {
         TextField(placeholder, text: $text)
             .textFieldStyle(PlainTextFieldStyle())
-            .font(.system(size: 14 * config.fontScale, weight: fontWeight))
+            .globalTextStyle(config, size: 14, weight: fontWeight)
             .tracking(letterSpacing)
             .padding(.horizontal, 12 * config.spacingScale)
             .padding(.vertical, 10 * config.spacingScale)
@@ -362,7 +343,7 @@ struct ColorBox: View {
                 )
             
             Text(label)
-                .font(.system(size: 10 * config.fontScale, weight: fontWeight))
+                .globalTextStyle(config, size: 10, weight: fontWeight)
                 .tracking(letterSpacing)
                 .foregroundColor(DesignTokens.Colors.mutedForeground)
         }
