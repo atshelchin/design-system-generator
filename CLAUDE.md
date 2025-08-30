@@ -109,3 +109,14 @@ bun --hot ./index.ts
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.md`.
+
+# SwiftUI Responsiveness Requirements
+When creating SwiftUI components:
+- ALWAYS use @ObservedObject for config parameters to ensure real-time updates
+- ALL visual properties (colors, spacing, fonts, radius) MUST use config properties
+- Component containers MUST use DesignTokens.Colors.card for backgrounds to respond to theme changes
+- NEVER hardcode colors, sizes, or spacing values - always derive from config
+- Ensure all components respond immediately to control panel changes without requiring interaction
+- Use config.fontScale, config.spacingScale, config.radiusScale for all sizing
+- Use config.contrast, config.letterSpacing, config.lineHeight for typography
+- Always check config.isDarkMode for theme-aware colors

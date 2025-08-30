@@ -105,13 +105,13 @@ struct ComponentsExactView: View {
                 ComponentBox(title: language == "zh" ? "徽章" : "Badge", config: config) {
                     VStack(spacing: 8 * config.spacingScale) {
                         HStack(spacing: 8 * config.spacingScale) {
-                            Badge(text: "Default", type: .default, config: config)
-                            Badge(text: "Primary", type: .primary, config: config)
-                            Badge(text: "Success", type: .success, config: config)
+                            BadgeView(text: "Default", type: .default, config: config)
+                            BadgeView(text: "Primary", type: .primary, config: config)
+                            BadgeView(text: "Success", type: .success, config: config)
                         }
                         HStack(spacing: 8 * config.spacingScale) {
-                            Badge(text: "Warning", type: .warning, config: config)
-                            Badge(text: "Error", type: .error, config: config)
+                            BadgeView(text: "Warning", type: .warning, config: config)
+                            BadgeView(text: "Error", type: .error, config: config)
                         }
                     }
                 }
@@ -829,7 +829,7 @@ enum BadgeVariant {
     }
 }
 
-struct Badge: View {
+struct BadgeView: View {
     let text: String
     let type: BadgeVariant
     let config: DesignTokensConfig
@@ -929,8 +929,51 @@ struct SliderField: View {
     }
     
     var body: some View {
-        Slider(value: $sliderValue, in: 0...1)
-            .accentColor(DesignTokens.Colors.primary)
+        VStack(spacing: 12 * config.spacingScale) {
+            // Slider with custom styling
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    // Track background
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(config.isDarkMode ? Color(white: 0.3) : Color(white: 0.9))
+                        .frame(height: 6)
+                    
+                    // Track fill
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(DesignTokens.Colors.primary)
+                        .frame(width: geometry.size.width * sliderValue, height: 6)
+                    
+                    // Thumb
+                    Circle()
+                        .fill(DesignTokens.Colors.primary)
+                        .frame(width: 20, height: 20)
+                        .overlay(
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 8, height: 8)
+                        )
+                        .shadow(color: Color.black.opacity(0.2), radius: 2, y: 1)
+                        .offset(x: geometry.size.width * sliderValue - 10)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    let newValue = value.location.x / geometry.size.width
+                                    sliderValue = min(max(0, newValue), 1)
+                                }
+                        )
+                }
+                .frame(height: 20)
+            }
+            .frame(height: 20)
+            
+            // Show value
+            HStack {
+                Spacer()
+                Text("\(Int(sliderValue * 100))%")
+                    .font(.system(size: 11 * config.fontScale))
+                    .foregroundColor(DesignTokens.Colors.mutedForeground)
+            }
+        }
     }
 }
 

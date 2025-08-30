@@ -189,7 +189,7 @@ struct ContentViewFinal: View {
                                 AccessibilitySystemView(language: language, config: config)
                                     .id("accessibility")
                             case "components":
-                                ComponentsExactView(language: language, config: config)
+                                ComponentsAll42View(language: language, config: config)
                                     .id("components")
                             default:
                                 CompleteColorSystemView(language: language, config: config)
