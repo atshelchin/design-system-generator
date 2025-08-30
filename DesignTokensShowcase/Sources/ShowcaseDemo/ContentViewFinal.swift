@@ -91,22 +91,22 @@ struct ContentViewFinal: View {
                         
                         Button(action: { language = "zh" }) {
                             Text("中文")
-                                .font(.system(size: 12, weight: language == "zh" ? .medium : .regular))
-                                .foregroundColor(language == "zh" ? .white : Color(NSColor.labelColor))
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(language == "zh" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
-                                .padding(.vertical, 5)
-                                .background(language == "zh" ? DesignTokens.Colors.brandColor(for: 500) : Color.clear)
+                                .padding(.vertical, 6)
+                                .background(language == "zh" ? DesignTokens.Colors.primary : DesignTokens.Colors.secondary)
                                 .cornerRadius(4)
                         }
                         .buttonStyle(PlainButtonStyle())
                         
                         Button(action: { language = "en" }) {
                             Text("English")
-                                .font(.system(size: 12, weight: language == "en" ? .medium : .regular))
-                                .foregroundColor(language == "en" ? .white : Color(NSColor.labelColor))
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(language == "en" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
-                                .padding(.vertical, 5)
-                                .background(language == "en" ? DesignTokens.Colors.brandColor(for: 500) : Color.clear)
+                                .padding(.vertical, 6)
+                                .background(language == "en" ? DesignTokens.Colors.primary : DesignTokens.Colors.secondary)
                                 .cornerRadius(4)
                         }
                         .buttonStyle(PlainButtonStyle())

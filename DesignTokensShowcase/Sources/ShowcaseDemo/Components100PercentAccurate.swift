@@ -462,7 +462,7 @@ struct SelectComponent100: View {
                     .globalTextStyle(config, size: 14)
                 Spacer()
                 Text("▼")
-                    .font(.system(size: 10))
+                    .globalTextStyle(config, size: 10)
             }
             .foregroundColor(DesignTokens.Colors.foreground)
             .padding(.horizontal, 12 * config.spacingScale)
@@ -907,7 +907,7 @@ struct AccordionComponent100: View {
                             .globalTextStyle(config, size: 14, weight: .medium)
                         Spacer()
                         Text(isExpanded ? "▼" : "▶")
-                            .font(.system(size: 12))
+                            .globalTextStyle(config, size: 12)
                     }
                     .foregroundColor(DesignTokens.Colors.foreground)
                     .padding(12 * config.spacingScale)
@@ -1009,7 +1009,7 @@ struct DropdownComponent100: View {
                     Text("Options")
                         .globalTextStyle(config, size: 14)
                     Text("▼")
-                        .font(.system(size: 10))
+                        .globalTextStyle(config, size: 10)
                 }
                 .foregroundColor(DesignTokens.Colors.foreground)
                 .padding(.horizontal, 12 * config.spacingScale)
@@ -1132,7 +1132,7 @@ struct SearchComponent100: View {
             
             Button(action: {}) {
                 Image(systemName: "magnifyingglass")
-                    .font(.system(size: 14))
+                    .globalTextStyle(config, size: 14)
                     .foregroundColor(DesignTokens.Colors.mutedForeground)
                     .padding(8 * config.spacingScale)
             }
@@ -1151,7 +1151,7 @@ struct FileUploadComponent100: View {
     var body: some View {
         VStack(spacing: 8 * config.spacingScale) {
             Image(systemName: "folder")
-                .font(.system(size: 32))
+                .globalTextStyle(config, size: 32, weight: .bold)
                 .foregroundColor(DesignTokens.Colors.mutedForeground)
             
             Text("Drop files here or click to browse")
@@ -1186,7 +1186,7 @@ struct NotificationComponent100: View {
     var body: some View {
         HStack(spacing: 12 * config.spacingScale) {
             Text("ℹ")
-                .font(.system(size: 20))
+                .globalTextStyle(config, size: 20)
                 .foregroundColor(DesignTokens.Colors.primary)
             
             VStack(alignment: .leading, spacing: 2 * config.spacingScale) {
@@ -1200,7 +1200,7 @@ struct NotificationComponent100: View {
             Spacer()
             
             Button("×") {}
-                .font(.system(size: 20))
+                .globalTextStyle(config, size: 20)
                 .foregroundColor(DesignTokens.Colors.mutedForeground)
         }
         .padding(12 * config.spacingScale)
@@ -1260,7 +1260,7 @@ struct CommandPaletteComponent100: View {
         VStack(spacing: 0) {
             HStack(spacing: 8 * config.spacingScale) {
                 Text("⌘")
-                    .font(.system(size: 14))
+                    .globalTextStyle(config, size: 14)
                     .foregroundColor(DesignTokens.Colors.mutedForeground)
                 
                 TextField("Type a command...", text: $commandText)
@@ -1303,7 +1303,7 @@ struct ProfileCardComponent100: View {
         VStack(spacing: 16 * config.spacingScale) {
             HStack(spacing: 12 * config.spacingScale) {
                 Text("JD")
-                    .font(.system(size: 20, weight: .semibold))
+                    .globalTextStyle(config, size: 20, weight: .semibold)
                     .foregroundColor(.white)
                     .frame(width: 48, height: 48)
                     .background(DesignTokens.Colors.primary)
@@ -1481,7 +1481,7 @@ struct InfoWidgetComponent100: View {
         VStack(alignment: .leading, spacing: 12 * config.spacingScale) {
             HStack(spacing: 8 * config.spacingScale) {
                 Text("☀️")
-                    .font(.system(size: 20))
+                    .globalTextStyle(config, size: 20)
                 Text("Today's Weather")
                     .globalTextStyle(config, size: 14, weight: .semibold)
             }
@@ -1947,7 +1947,7 @@ struct RatingStars100: View {
         HStack(spacing: 2) {
             ForEach(1...5, id: \.self) { index in
                 Text("★")
-                    .font(.system(size: 20))
+                    .globalTextStyle(config, size: 20)
                     .foregroundColor(index <= rating ? Color.orange : DesignTokens.Colors.muted)
             }
         }

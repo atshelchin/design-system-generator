@@ -233,7 +233,7 @@ struct FixedNavigationBar: View {
                     HStack(spacing: 4) {
                         Button(action: { language = "zh" }) {
                             Text("中文")
-                                .globalTextStyle(config, size: 12, weight: .medium)
+                                .globalTextStyleNoColor(config, size: 12, weight: .medium)
                                 .foregroundColor(language == "zh" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
@@ -244,7 +244,7 @@ struct FixedNavigationBar: View {
                         
                         Button(action: { language = "en" }) {
                             Text("English")
-                                .globalTextStyle(config, size: 12, weight: .medium)
+                                .globalTextStyleNoColor(config, size: 12, weight: .medium)
                                 .foregroundColor(language == "en" ? Color.white : DesignTokens.Colors.secondaryForeground)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)

@@ -90,12 +90,12 @@ struct TypographySystemView: View {
                                     .foregroundColor(DesignTokens.Colors.mutedForeground)
                                 
                                 Text("The quick brown fox jumps over the lazy dog")
-                                    .font(.system(size: 16 * config.fontScale, design: .serif))
+                                    .font(.custom("Georgia", size: 16 * config.fontScale))
                                     .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
                                     .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
                                 
                                 Text(language == "zh" ? "快速的棕色狐狸跳过懒狗" : "1234567890")
-                                    .font(.system(size: 16 * config.fontScale, design: .serif))
+                                    .font(.custom("Georgia", size: 16 * config.fontScale))
                                     .tracking(config.letterSpacing.emValue * 16 * config.fontScale)
                                     .lineSpacing((config.lineHeight.value - 1.0) * 16 * config.fontScale)
                             }

@@ -31,27 +31,37 @@ struct FullControlPanelNew: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // 标题栏 - 更紧凑
-            HStack {
-                Text(language == "zh" ? "设计系统控制" : "Design System Controls")
-                    .font(.system(size: 13, weight: .semibold))
-                
-                Spacer()
-                
-                Button(action: { 
-                    withAnimation(.easeInOut(duration: 0.2)) { 
-                        controlsExpanded.toggle() 
-                    }
-                }) {
+            // 标题栏 - 整个区域可点击
+            Button(action: { 
+                withAnimation(.easeInOut(duration: 0.2)) { 
+                    controlsExpanded.toggle() 
+                }
+            }) {
+                HStack {
+                    Text(language == "zh" ? "设计系统控制" : "Design System Controls")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(DesignTokens.Colors.foreground)
+                    
+                    Spacer()
+                    
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10))
+                        .foregroundColor(DesignTokens.Colors.mutedForeground)
                         .rotationEffect(.degrees(controlsExpanded ? 0 : -90))
                 }
-                .buttonStyle(PlainButtonStyle())
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .contentShape(Rectangle()) // 确保整个区域可点击
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .buttonStyle(PlainButtonStyle())
             .background(DesignTokens.Colors.panel2)
+            .onHover { hovering in
+                if hovering {
+                    NSCursor.pointingHand.push()
+                } else {
+                    NSCursor.pop()
+                }
+            }
             .overlay(
                 Rectangle()
                     .fill(Color(NSColor.separatorColor).opacity(0.3))
@@ -60,12 +70,11 @@ struct FullControlPanelNew: View {
             )
             
             if controlsExpanded {
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // 滑块控制组 - 更紧凑的间距
-                        VStack(spacing: 16) {
-                            // 色调微调 - 使用品牌色
-                            BrandColorSlider(
+                VStack(spacing: 16) {
+                    // 滑块控制组 - 更紧凑的间距
+                    VStack(spacing: 14) {
+                        // 色调微调 - 使用品牌色
+                        BrandColorSlider(
                                 icon: "🎯",
                                 label: language == "zh" ? "色调微调" : "Fine Tune",
                                 value: $config.brandHue,
@@ -73,10 +82,10 @@ struct FullControlPanelNew: View {
                                 format: "%.0f°",
                                 brandColor: brandColor,
                                 config: config
-                            )
-                            
-                            // 饱和度 - 使用品牌色
-                            BrandColorSlider(
+                        )
+                        
+                        // 饱和度 - 使用品牌色
+                        BrandColorSlider(
                                 icon: "💧",
                                 label: language == "zh" ? "饱和度" : "Saturation",
                                 value: $config.brandSaturation,
@@ -84,10 +93,10 @@ struct FullControlPanelNew: View {
                                 format: "%.0f%%",
                                 brandColor: brandColor,
                                 config: config
-                            )
-                            
-                            // 圆角
-                            BrandColorSlider(
+                        )
+                        
+                        // 圆角
+                        BrandColorSlider(
                                 icon: "⚪",
                                 label: language == "zh" ? "圆角" : "Radius",
                                 value: $config.radiusScale,
@@ -95,10 +104,10 @@ struct FullControlPanelNew: View {
                                 format: "%.1fx",
                                 brandColor: brandColor,
                                 config: config
-                            )
-                            
-                            // 间距
-                            BrandColorSlider(
+                        )
+                        
+                        // 间距
+                        BrandColorSlider(
                                 icon: "↔️",
                                 label: language == "zh" ? "间距" : "Spacing",
                                 value: $config.spacingScale,
@@ -106,14 +115,14 @@ struct FullControlPanelNew: View {
                                 format: "%.1fx",
                                 brandColor: brandColor,
                                 config: config
-                            )
-                        }
-                        .padding(.horizontal, 16)
-                        
-                        Divider()
-                            .padding(.horizontal, 12)
-                        
-                        // 字体选择区域 - 更紧凑
+                        )
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    Divider()
+                        .padding(.horizontal, 12)
+                    
+                    // 字体选择区域 - 更紧凑
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 4) {
                                 Text("🅰️")
@@ -270,25 +279,25 @@ struct FullControlPanelNew: View {
                             contrast = "标准"
                             letterSpacing = "标准"
                             lineHeight = "标准"
-                        }) {
-                            Text(language == "zh" ? "重置所有" : "Reset All")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(DesignTokens.Colors.secondaryForeground)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 8)
-                                .background(DesignTokens.Colors.secondary)
-                                .cornerRadius(6)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .padding(.horizontal, 16)
-                        .padding(.bottom, 16)
+                    }) {
+                        Text(language == "zh" ? "重置所有" : "Reset All")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(DesignTokens.Colors.secondaryForeground)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                            .background(DesignTokens.Colors.secondary)
+                            .cornerRadius(6)
                     }
-                    .padding(.top, 16)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
                 }
-                .frame(height: 500) // 固定高度
+                .padding(.top, 12)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
         .frame(width: 340) // 固定宽度
+        .fixedSize(horizontal: false, vertical: true) // 自动适应内容高度
         .background(DesignTokens.Colors.panel1)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
